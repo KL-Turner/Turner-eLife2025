@@ -1,4 +1,4 @@
-function [SleepData] = CreateSleepData_2P(NREMsleepTime,REMsleepTime,modelName,SleepData)
+function [SleepData] = CreateSleepData_2P_nNOS(NREMsleepTime,REMsleepTime,modelName,SleepData)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -15,7 +15,7 @@ for aa = 1:size(mergedDataFileIDs,1)
     clearvars -except aa mergedDataFileIDs sleepBins NREMsleepTime REMsleepTime modelName SleepData
     mergedDataFileID = mergedDataFileIDs(aa,:);
     load(mergedDataFileID);
-    [~,~,~,fileID,~,vesselID] = GetFileInfo2_2P(mergedDataFileID);
+    [~,~,~,fileID,~,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
     nremLogical = MergedData.sleep.logicals.(modelName).nremLogical;
     targetTime = ones(1,sleepBins);
     % find the periods of time where there are the desired number of consecutive bins
@@ -275,7 +275,7 @@ for kk = 1:size(mergedDataFileIDs,1)
     clearvars -except kk mergedDataFileIDs sleepBins NREMsleepTime REMsleepTime modelName SleepData
     mergedDataFileID = mergedDataFileIDs(kk,:);
     load(mergedDataFileID);
-    [~,~,~,fileID,~,vesselID] = GetFileInfo2_2P(mergedDataFileID);
+    [~,~,~,fileID,~,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
     remLogical = MergedData.sleep.logicals.(modelName).remLogical;
     targetTime = ones(1,sleepBins);
     % find the periods of time where there are the desired number of consecutive bins

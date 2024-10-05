@@ -1,4 +1,4 @@
-function [MScanData] = FWHM_MovieProjection_2P(MScanData,theFrames)
+function [MScanData] = FWHM_MovieProjection_2P_nNOS(MScanData,theFrames)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -12,7 +12,7 @@ function [MScanData] = FWHM_MovieProjection_2P(MScanData,theFrames)
 
 for f = min(theFrames):max(theFrames)
     % Add in a 5 pixel median filter
-    MScanData.data.rawVesselDiameter(f) = CalcFWHM_2P(medfilt1(MScanData.notes.vesselROI.projection(f,:),5));
+    MScanData.data.rawVesselDiameter(f) = CalcFWHM_2P_nNOS(medfilt1(MScanData.notes.vesselROI.projection(f,:),5));
 end
 MScanData.data.tempVesselDiameter = MScanData.data.rawVesselDiameter*MScanData.notes.xFactor;
 [holdHist,d] = hist(MScanData.data.tempVesselDiameter,0:.25:100); %#ok<HIST>

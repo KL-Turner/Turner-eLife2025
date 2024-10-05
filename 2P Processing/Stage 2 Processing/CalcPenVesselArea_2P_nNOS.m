@@ -1,4 +1,4 @@
-function [MScanData] = CalcPenVesselArea_2P(MScanData,fileID)
+function [MScanData] = CalcPenVesselArea_2P_nNOS(MScanData,fileID)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -35,7 +35,7 @@ fftFirstFrame = fft2(MScanData.notes.firstFrame); % *
 for f = 1:min(nframes,MScanData.notes.numberOfFrames)
     rawHoldImage = double(sum(imread(fileID,'tif','Index',f),3));
     fftRawHoldFrame = fft2(rawHoldImage); % *
-    [MScanData.notes.pixelShift(:,f),~] = DftRegistration_2P(fftFirstFrame,fftRawHoldFrame,1);
+    [MScanData.notes.pixelShift(:,f),~] = DftRegistration_2P_nNOS(fftFirstFrame,fftRawHoldFrame,1);
     holdImage = rawHoldImage(round(MScanData.notes.vesselROI.boxPosition.xy(2):MScanData.notes.vesselROI.boxPosition.xy(2) + MScanData.notes.vesselROI.boxPosition.xy(4)),...
         round(MScanData.notes.vesselROI.boxPosition.xy(1):MScanData.notes.vesselROI.boxPosition.xy(1)+MScanData.notes.vesselROI.boxPosition.xy(3)));
     holdImage = holdImage-mean(holdImage(:));

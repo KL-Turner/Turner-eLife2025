@@ -1,4 +1,4 @@
-function [] = AnalyzeEvokedResponses_2P_Handler(rootFolder,delim,runFromStart)
+function [] = AnalyzeEvokedResponses_2P_Handler_nNOS(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -37,7 +37,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_Evoked_2P.(groups{1,aa}),animalIDs{1,bb}) == false
-            [Results_Evoked_2P] = AnalyzeEvokedResponses_2P(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_Evoked_2P);
+            [Results_Evoked_2P] = AnalyzeEvokedResponses_2P_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_Evoked_2P);
         end
         multiWaitbar('Analyzing evoked responses for 2P','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

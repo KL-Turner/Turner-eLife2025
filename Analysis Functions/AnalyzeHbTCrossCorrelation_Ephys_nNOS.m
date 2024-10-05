@@ -1,4 +1,4 @@
-function [Results_HbTCrossCorr_Ephys] = AnalyzeHbTCrossCorrelation_Ephys(animalID,group,set,rootFolder,delim,Results_HbTCrossCorr_Ephys)
+function [Results_HbTCrossCorr_Ephys] = AnalyzeHbTCrossCorrelation_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_HbTCrossCorr_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -60,8 +60,8 @@ lagTime = 5;
 maxLag = lagTime*samplingRate;
 %% Rest
 clear restFiltHbT restFiltNeural
-[restLogical] = FilterEvents_IOS(RestData.HbT.LH,RestCriteria);
-[puffLogical] = FilterEvents_IOS(RestData.HbT.LH,RestPuffCriteria);
+[restLogical] = FilterEvents_IOS_nNOS(RestData.HbT.LH,RestCriteria);
+[puffLogical] = FilterEvents_IOS_nNOS(RestData.HbT.LH,RestPuffCriteria);
 combRestLogical = logical(restLogical.*puffLogical);
 restFileIDs = RestData.HbT.LH.fileIDs(combRestLogical,:);
 restDurations = RestData.HbT.LH.durations(combRestLogical,:);
@@ -69,8 +69,8 @@ restEventTimes = RestData.HbT.LH.eventTimes(combRestLogical,:);
 restingHbTData = RestData.HbT.LH.data(combRestLogical,:);
 restingNeuralData = RestData.HbT.RH.data(combRestLogical,:);
 % keep only the data that occurs within the manually-approved awake regions
-[restFinalRestHbTData,restFinalFileIDs,restFinalDurations,restFinalEventTimes] = RemoveInvalidData_IOS(restingHbTData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-[restFinalRestNeuralData,~,~,~] = RemoveInvalidData_IOS(restingNeuralData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+[restFinalRestHbTData,restFinalFileIDs,restFinalDurations,restFinalEventTimes] = RemoveInvalidData_IOS_nNOS(restingHbTData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+[restFinalRestNeuralData,~,~,~] = RemoveInvalidData_IOS_nNOS(restingNeuralData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
 % check whether the event occurs in the appropriate time frame
 for mm =  1:length(restFinalRestNeuralData)
     restFiltHbT{mm,1} = detrend(restFinalRestHbTData{mm,1},'constant');
@@ -94,7 +94,7 @@ clear restProcData
 zz = 1; alertHbT = []; alertNeural = []; alertFileIDs = []; alertProcData = [];
 for cc = 1:size(procDataFileIDs,1)
     procDataFileID = procDataFileIDs(cc,:);
-    [~,~,alertDataFileID] = GetFileInfo_IOS(procDataFileID);
+    [~,~,alertDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
     scoringLabels = [];
     for dd = 1:length(ScoringResults.fileIDs)
         if strcmp(alertDataFileID,ScoringResults.fileIDs{dd,1}) == true
@@ -165,7 +165,7 @@ zz = 1;
 asleepHbT = []; asleepNeural = []; asleepFileIDs = []; asleepProcData = [];
 for cc = 1:size(procDataFileIDs,1)
     procDataFileID = procDataFileIDs(cc,:);
-    [~,~,asleepDataFileID] = GetFileInfo_IOS(procDataFileID);
+    [~,~,asleepDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
     scoringLabels = [];
     for dd = 1:length(ScoringResults.fileIDs)
         if strcmp(asleepDataFileID,ScoringResults.fileIDs{dd,1}) == true
@@ -236,7 +236,7 @@ zz = 1;
 allHbT = []; allNeural = []; allFileIDs = []; allProcData = [];
 for cc = 1:size(procDataFileIDs,1)
     procDataFileID = procDataFileIDs(cc,:);
-    [~,~,allDataFileID] = GetFileInfo_IOS(procDataFileID);
+    [~,~,allDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
     load(procDataFileID,'-mat')
     puffs = ProcData.data.stimulations.LPadSol;
     % don't include trials with stimulation
@@ -272,8 +272,8 @@ else
     Results_HbTCrossCorr_Ephys.(group).(animalID).All.xcVals = [];
 end
 %% NREM
-[NREM_finalHbT,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.HbT.LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-[NREM_finalNeural,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.HbT.RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+[NREM_finalHbT,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.HbT.LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+[NREM_finalNeural,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.HbT.RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
 % adjust[HbT] and Neural events to match the edits made to the length of each spectrogram
 for mm = 1:length(NREM_finalHbT)
     NREM_finalHbTVals{mm,1} = filtfilt(sos,g,detrend(NREM_finalHbT{mm,1},'constant'));
@@ -290,8 +290,8 @@ NREM_meanHbTvNeuralxcVals = mean(NREM_HbTvNeuralxcVals,1);
 Results_HbTCrossCorr_Ephys.(group).(animalID).NREM.lags = NREM_Neural_lags;
 Results_HbTCrossCorr_Ephys.(group).(animalID).NREM.xcVals = NREM_meanHbTvNeuralxcVals;
 %% REM
-[REM_finalHbT,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.HbT.LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-[REM_finalNeural,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.HbT.RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+[REM_finalHbT,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.HbT.LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+[REM_finalNeural,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.HbT.RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
 % adjust[HbT] and Neural events to match the edits made to the length of each spectrogram
 for mm = 1:length(REM_finalHbT)
     REM_finalHbTVals{mm,1} = filtfilt(sos,g,detrend(REM_finalHbT{mm,1},'constant'));

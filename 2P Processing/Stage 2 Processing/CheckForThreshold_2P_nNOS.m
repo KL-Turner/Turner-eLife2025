@@ -1,4 +1,4 @@
-function [ok] = CheckForThreshold_2P(sfield,animal)
+function [ok] = CheckForThreshold_2P_nNOS(sfield,animal)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

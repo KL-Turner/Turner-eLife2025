@@ -1,4 +1,4 @@
-function [day_inds,day_logic] = GetDayInds_2P(DateList,Ind_Day)
+function [day_inds,day_logic] = GetDayInds_2P_nNOS(DateList,Ind_Day)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

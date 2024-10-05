@@ -1,4 +1,4 @@
-function [diamPerc,S,f] = DiamPercPower_2P(rawDiameter,baseDiameter,samplingRate)
+function [diamPerc,S,f] = DiamPercPower_2P_nNOS(rawDiameter,baseDiameter,samplingRate)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

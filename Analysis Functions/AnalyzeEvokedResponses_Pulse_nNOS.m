@@ -1,4 +1,4 @@
-function [Results_Evoked_Pulse] = AnalyzeEvokedResponses_Pulse(animalID,group,setName,rootFolder,delim,Results_Evoked_Pulse)
+function [Results_Evoked_Pulse] = AnalyzeEvokedResponses_Pulse_nNOS(animalID,group,setName,rootFolder,delim,Results_Evoked_Pulse)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -63,14 +63,14 @@ for bb = 1:length(WhiskCriteriaNames)
         WhiskCriteria = WhiskCriteriaC;
     end
     % pull data from EventData.mat structure
-    [whiskLogical] = FilterEvents_IOS(EventData.CBV_HbT.adjBarrels.whisk,WhiskCriteria);
+    [whiskLogical] = FilterEvents_IOS_nNOS(EventData.CBV_HbT.adjBarrels.whisk,WhiskCriteria);
     combWhiskLogical = logical(whiskLogical);
     [allWhiskHbTData] = EventData.CBV_HbT.adjBarrels.whisk.data(combWhiskLogical,:);
     [allWhiskFileIDs] = EventData.CBV_HbT.adjBarrels.whisk.fileIDs(combWhiskLogical,:);
     [allWhiskEventTimes] = EventData.CBV_HbT.adjBarrels.whisk.eventTime(combWhiskLogical,:);
     allWhiskDurations = EventData.CBV_HbT.adjBarrels.whisk.duration(combWhiskLogical,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalWhiskHbTData,~,~,finalWhiskFileEventTimes] = RemoveInvalidData_IOS(allWhiskHbTData,allWhiskFileIDs,allWhiskDurations,allWhiskEventTimes,ManualDecisions);
+    [finalWhiskHbTData,~,~,finalWhiskFileEventTimes] = RemoveInvalidData_IOS_nNOS(allWhiskHbTData,allWhiskFileIDs,allWhiskDurations,allWhiskEventTimes,ManualDecisions);
     % lowpass filter each whisking event and mean-subtract by the first 2 seconds
     clear procWhiskHbTData
     dd = 1;
@@ -104,13 +104,13 @@ for gg = 1:length(stimCriteriaNames)
         solenoid = 'AudSol';
     end
     % pull data from EventData.mat structure
-    allStimFilter = FilterEvents_IOS(EventData.CBV_HbT.adjBarrels.stim,StimCriteria);
+    allStimFilter = FilterEvents_IOS_nNOS(EventData.CBV_HbT.adjBarrels.stim,StimCriteria);
     [allStimHbTData] = EventData.CBV_HbT.adjBarrels.stim.data(allStimFilter,:);
     [allStimFileIDs] = EventData.CBV_HbT.adjBarrels.stim.fileIDs(allStimFilter,:);
     [allStimEventTimes] = EventData.CBV_HbT.adjBarrels.stim.eventTime(allStimFilter,:);
     allStimDurations = zeros(length(allStimEventTimes),1);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalStimHbTData,~,~,finalStimFileEventTimes] = RemoveInvalidData_IOS(allStimHbTData,allStimFileIDs,allStimDurations,allStimEventTimes,ManualDecisions);
+    [finalStimHbTData,~,~,finalStimFileEventTimes] = RemoveInvalidData_IOS_nNOS(allStimHbTData,allStimFileIDs,allStimDurations,allStimEventTimes,ManualDecisions);
     % lowpass filter each stim event and mean-subtract by the first 2 seconds
     clear procStimHbTData
     ii = 1;

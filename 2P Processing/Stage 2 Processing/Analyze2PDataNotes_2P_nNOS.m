@@ -1,4 +1,4 @@
-function [] = Analyze2PDataNotes_2P(msExcelFile)
+function [] = Analyze2PDataNotes_2P_nNOS(msExcelFile)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -32,13 +32,13 @@ for a = 2:size(alldata,1)   % Loop through all rows of the excel sheet except th
     if ~exist(currentFileID,'file')   % Only run analysis if the current file doesn't exist yet
         % Vessel diameter calculation    for surface vessels
         if strcmp(MScanData.notes.movieType,'MS') == true
-            [MScanData] = DiamCalcSurfaceVessel_2P(MScanData,[MScanData.notes.date '_' MScanData.notes.imageID]);
+            [MScanData] = DiamCalcSurfaceVessel_2P_nNOS(MScanData,[MScanData.notes.date '_' MScanData.notes.imageID]);
             % Vessel diameter (area) calculation for penetrating vessels
         elseif strcmp(MScanData.notes.movieType,'MP') == true
-            [MScanData] = AreaCalcPenVessel_2P(MScanData,[MScanData.notes.date '_' MScanData.notes.imageID]);
+            [MScanData] = AreaCalcPenVessel_2P_nNOS(MScanData,[MScanData.notes.date '_' MScanData.notes.imageID]);
             % Line scan calculation for capillaries
         elseif strcmp(MScanData.notes.movieType,'MC') == true
-            [MScanData] = CapLinesScan_2P(MScanData,[MScanData.notes.date '_' MScanData.notes.imageID]);
+            [MScanData] = CapLinesScan_2P_nNOS(MScanData,[MScanData.notes.date '_' MScanData.notes.imageID]);
         end
         % Checklist for analysis steps - debugging purposes
         MScanData.notes.checklist.analyzeVessel = false;

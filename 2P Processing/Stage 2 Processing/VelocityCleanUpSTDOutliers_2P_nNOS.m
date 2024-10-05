@@ -1,4 +1,4 @@
-function [fixedVelocity] = VelocityCleanUpSTDOutliers_2P(velocity,threshold)
+function [fixedVelocity] = VelocityCleanUpSTDOutliers_2P_nNOS(velocity,threshold)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

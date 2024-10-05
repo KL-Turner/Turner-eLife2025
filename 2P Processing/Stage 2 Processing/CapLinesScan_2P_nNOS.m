@@ -1,4 +1,4 @@
-function [MScanData] = CapLinesScan_2P(MScanData,imageID)
+function [MScanData] = CapLinesScan_2P_nNOS(MScanData,imageID)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -47,7 +47,7 @@ MScanData.notes.tFactor = MScanData.notes.lineRate;
 MScanData.notes.xFactor = MScanData.notes.micronsPerPixel/MScanData.notes.magnification;
 MScanData.notes.decimate = 1;
 % generate figure for drawing ROIs
-framesHold = LoadTiffConcatenate_2P([imageID '.TIF'],[1,5]);
+framesHold = LoadTiffConcatenate_2P_nNOS([imageID '.TIF'],[1,5]);
 yString = 'y';
 theInput = 'n';
 while strcmp(yString,theInput) == false

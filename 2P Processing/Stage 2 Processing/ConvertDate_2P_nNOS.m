@@ -1,4 +1,4 @@
-function [days] = ConvertDate_2P(dateTag)
+function [days] = ConvertDate_2P_nNOS(dateTag)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

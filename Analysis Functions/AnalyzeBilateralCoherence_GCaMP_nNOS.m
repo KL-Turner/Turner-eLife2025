@@ -1,4 +1,4 @@
-function [Results_BilatCoher_GCaMP] = AnalyzeBilateralCoherence_GCaMP(animalID,group,set,rootFolder,delim,Results_BilatCoher_GCaMP)
+function [Results_BilatCoher_GCaMP] = AnalyzeBilateralCoherence_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_BilatCoher_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -53,8 +53,8 @@ for aa = 1:length(dataTypes)
     clear LH_finalRestData RH_finalRestData LH_ProcRestData RH_ProcRestData LH_restData RH_restData
     clear fLH_finalRestData fRH_finalRestData fLH_ProcRestData fRH_ProcRestData fLH_restData fRH_restData
     samplingRate = RestData.(dataType).LH.samplingRate;
-    [restLogical] = FilterEvents_IOS(RestData.(dataType).LH,RestCriteria);
-    [stimLogical] = FilterEvents_IOS(RestData.(dataType).LH,RestStimCriteria);
+    [restLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).LH,RestCriteria);
+    [stimLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).LH,RestStimCriteria);
     combRestLogical = logical(restLogical.*stimLogical);
     restFileIDs = RestData.(dataType).LH.fileIDs(combRestLogical,:);
     restEventTimes = RestData.(dataType).LH.eventTimes(combRestLogical,:);
@@ -64,10 +64,10 @@ for aa = 1:length(dataTypes)
     fLH_RestingData = RestData.(dataType).fLH.data(combRestLogical,:);
     fRH_RestingData = RestData.(dataType).fRH.data(combRestLogical,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-    [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-    [fLH_finalRestData,~,~,~] = RemoveInvalidData_IOS(fLH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-    [fRH_finalRestData,~,~,~] = RemoveInvalidData_IOS(fRH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [fLH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(fLH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [fRH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(fRH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
     % detrend and truncate data to minimum length to match events
     for bb = 1:length(LH_finalRestData)
         if length(LH_finalRestData{bb,1}) < params.minTime.Rest*samplingRate
@@ -131,7 +131,7 @@ for aa = 1:length(dataTypes)
     zz = 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,~,allDataFileID] = GetFileInfo_IOS(procDataFileID);
+        [~,~,allDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
         for cc = 1:length(ScoringResults.fileIDs)
             if strcmp(allDataFileID,ScoringResults.fileIDs{cc,1}) == true
                 scoringLabels = ScoringResults.labels{cc,1};
@@ -236,7 +236,7 @@ for aa = 1:length(dataTypes)
     zz = 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,~,allDataFileID] = GetFileInfo_IOS(procDataFileID);
+        [~,~,allDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
         for cc = 1:length(ScoringResults.fileIDs)
             if strcmp(allDataFileID,ScoringResults.fileIDs{cc,1}) == true
                 scoringLabels = ScoringResults.labels{cc,1};
@@ -401,10 +401,10 @@ for aa = 1:length(dataTypes)
     clear LH_nremData LH_nrem RH_nremData RH_nrem
     clear fLH_nremData fLH_nrem fRH_nremData fRH_nrem
     % pull data from SleepData.mat structure
-    [LH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-    [RH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-    [fLH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).fLH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-    [fRH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).fRH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [LH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [RH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [fLH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).fLH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [fRH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).fRH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
     % detrend and truncate data to minimum length to match events
     for ee = 1:length(LH_nremData)
         LH_nremData{ee,1} = detrend(LH_nremData{ee,1}(1:(params.minTime.NREM*samplingRate)),'constant');
@@ -445,10 +445,10 @@ for aa = 1:length(dataTypes)
     clear LH_remData LH_rem RH_remData RH_rem
     clear fLH_remData fLH_rem fRH_remData fRH_rem
     % pull data from SleepData.mat structure
-    [LH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-    [RH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-    [fLH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).fLH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-    [fRH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).fRH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [LH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [RH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [fLH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).fLH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [fRH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).fRH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
     % detrend and truncate data to minimum length to match events
     for ee = 1:length(LH_remData)
         LH_remData{ee,1} = detrend(LH_remData{ee,1}(1:(params.minTime.REM*samplingRate)),'constant');

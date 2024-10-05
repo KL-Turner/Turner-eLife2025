@@ -1,4 +1,4 @@
-function [Results_GFP] = AnalyzeHemoGFPRelationship_EGFP(animalID,group,set,rootFolder,delim,Results_GFP)
+function [Results_GFP] = AnalyzeHemoGFPRelationship_EGFP_nNOS(animalID,group,set,rootFolder,delim,Results_GFP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -14,8 +14,8 @@ data.dummyCheck = 1;
 for aa = 1:size(procDataFileIDs,1)
     procDataFileID = procDataFileIDs(aa,:);
     load(procDataFileID)
-    [~,fileDate,~] = GetFileInfo_IOS(procDataFileID);
-    strDay = ConvertDate_IOS(fileDate);
+    [~,fileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
+    strDay = ConvertDate_IOS_nNOS(fileDate);
     LH_blueChannel = ProcData.data.GCaMP7s.LH;
     RH_blueChannel = ProcData.data.GCaMP7s.RH;
     LH_greenChannel = ProcData.data.CBV.LH;

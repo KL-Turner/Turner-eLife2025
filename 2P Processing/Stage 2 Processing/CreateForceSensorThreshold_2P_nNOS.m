@@ -1,4 +1,4 @@
-function [thresh] = CreateForceSensorThreshold_2P(forceSensor)
+function [thresh] = CreateForceSensorThreshold_2P_nNOS(forceSensor)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -18,7 +18,7 @@ while strcmp(isok,'y') == 0
     plot(force,'k');
     drawnow
     thresh = input('No Threshold to binarize pressure sensor found. Please enter a threshold: '); disp(' ')
-    binForceSensor = BinarizeForceSensor_2P(forceSensor,thresh);
+    binForceSensor = BinarizeForceSensor_2P_nNOS(forceSensor,thresh);
     subplot(3,1,1)
     plot(forceSensor,'k')
     axis tight

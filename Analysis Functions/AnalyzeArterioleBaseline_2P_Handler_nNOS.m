@@ -1,4 +1,4 @@
-function [] = AnalyzeArterioleBaseline_2P_Handler(rootFolder,delim,runFromStart)
+function [] = AnalyzeArterioleBaseline_2P_Handler_nNOS(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -37,7 +37,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_Baseline_2P.(groups{1,aa}),animalIDs{1,bb}) == false
-            [Results_Baseline_2P] = AnalyzeArterioleBaseline_2P(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_Baseline_2P);
+            [Results_Baseline_2P] = AnalyzeArterioleBaseline_2P_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_Baseline_2P);
         end
         multiWaitbar('Analyzing arteriole baseline for 2P','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

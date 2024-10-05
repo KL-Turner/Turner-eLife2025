@@ -1,4 +1,4 @@
-function [Results_ArousalStateProb_GCaMP] = AnalyzeArousalStateProbability_GCaMP(animalID,group,set,rootFolder,delim,Results_ArousalStateProb_GCaMP)
+function [Results_ArousalStateProb_GCaMP] = AnalyzeArousalStateProbability_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_ArousalStateProb_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -22,8 +22,8 @@ RestStimCriteria.Fieldname = {'stimDistances'};
 RestStimCriteria.Comparison = {'gt'};
 RestStimCriteria.Value = {5};
 % pull data from RestData structure
-[restLogical] = FilterEvents_IOS(RestData.HbT.LH,RestCriteria);
-[stimLogical] = FilterEvents_IOS(RestData.HbT.LH,RestStimCriteria);
+[restLogical] = FilterEvents_IOS_nNOS(RestData.HbT.LH,RestCriteria);
+[stimLogical] = FilterEvents_IOS_nNOS(RestData.HbT.LH,RestStimCriteria);
 combRestLogical = logical(restLogical.*stimLogical);
 restFileIDs = RestData.HbT.LH.fileIDs(combRestLogical,:);
 restEventTimes = RestData.HbT.LH.eventTimes(combRestLogical,:);
@@ -144,8 +144,8 @@ allScoringLabels = ScoringResults.alllabels;
 allFileIDs = ScoringResults.allfileIDs;
 uniqueFileIDs = unique(allFileIDs);
 for aa = 1:size(uniqueFileIDs,1)
-    [animalID,allFileDates{aa,1},~] = GetFileInfo_IOS(uniqueFileIDs{aa,1});
-    allFileDays{aa,1} = ConvertDate_IOS(allFileDates{aa,1});
+    [animalID,allFileDates{aa,1},~] = GetFileInfo_IOS_nNOS(uniqueFileIDs{aa,1});
+    allFileDays{aa,1} = ConvertDate_IOS_nNOS(allFileDates{aa,1});
 end
 data.uniqueDates = unique(allFileDates);
 data.uniqueDays = unique(allFileDays);
@@ -182,10 +182,10 @@ for ff = 1:size(data.uniqueDays,1)
     for gg = 2:size(uniqueDayFileIDs,1)
         leadFileID = uniqueDayFileIDs{gg - 1,1};
         lagFileID = uniqueDayFileIDs{gg,1};
-        [~,~,leadFileInfo] = GetFileInfo_IOS(leadFileID);
-        [~,~,lagFileInfo] = GetFileInfo_IOS(lagFileID);
-        leadFileStr = ConvertDateTime_IOS(leadFileInfo);
-        lagFileStr = ConvertDateTime_IOS(lagFileInfo);
+        [~,~,leadFileInfo] = GetFileInfo_IOS_nNOS(leadFileID);
+        [~,~,lagFileInfo] = GetFileInfo_IOS_nNOS(lagFileID);
+        leadFileStr = ConvertDateTime_IOS_nNOS(leadFileInfo);
+        lagFileStr = ConvertDateTime_IOS_nNOS(lagFileInfo);
         leadFileTime = datevec(leadFileStr);
         lagFileTime = datevec(lagFileStr);
         timeDifference = etime(lagFileTime,leadFileTime) - (trialDuration*60); % seconds

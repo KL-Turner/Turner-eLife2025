@@ -1,4 +1,4 @@
-function [MScanData] = DiamCalcSurfaceVessel_2P(MScanData,imageID)
+function [MScanData] = DiamCalcSurfaceVessel_2P_nNOS(MScanData,imageID)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

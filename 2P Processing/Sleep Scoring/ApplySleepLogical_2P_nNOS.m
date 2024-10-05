@@ -1,4 +1,4 @@
-function [] = ApplySleepLogical_2P(modelName)
+function [] = ApplySleepLogical_2P_nNOS(modelName)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

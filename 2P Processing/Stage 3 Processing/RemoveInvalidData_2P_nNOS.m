@@ -1,4 +1,4 @@
-function [decData,decFileIDs,decVesselIDs,decDurations,decEventTimes] = RemoveInvalidData_2P(data,fileIDs,vesselIDs,durations,eventTimes,ManualDecisions)
+function [decData,decFileIDs,decVesselIDs,decDurations,decEventTimes] = RemoveInvalidData_2P_nNOS(data,fileIDs,vesselIDs,durations,eventTimes,ManualDecisions)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -17,7 +17,7 @@ for a = 1:size(data,1)
     manualStartTime = [];
     manualEndTime = [];
     for b = 1:length(ManualDecisions.fileIDs)
-        [~,~,~,manualFileID,~,~] = GetFileInfo2_2P(ManualDecisions.fileIDs{b,1});
+        [~,~,~,manualFileID,~,~] = GetFileInfo2_2P_nNOS(ManualDecisions.fileIDs{b,1});
         if strcmp(fileID,manualFileID) == true
             manualStartTime = ManualDecisions.startTimes{b,1};
             manualEndTime = ManualDecisions.endTimes{b,1};

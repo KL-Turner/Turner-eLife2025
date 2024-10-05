@@ -1,4 +1,4 @@
-function [Results_PupilEvoked_Ephys] = AnalyzePupilEvokedResponses_Ephys(animalID,group,set,rootFolder,delim,Results_PupilEvoked_Ephys)
+function [Results_PupilEvoked_Ephys] = AnalyzePupilEvokedResponses_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_PupilEvoked_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -70,14 +70,14 @@ for aa = 1:length(dataTypes)
             WhiskCriteria = WhiskCriteriaD;
         end
         % pull data from EventData.mat structure
-        [whiskLogical] = FilterEvents_IOS(EventData.Pupil.(dataType).whisk,WhiskCriteria);
+        [whiskLogical] = FilterEvents_IOS_nNOS(EventData.Pupil.(dataType).whisk,WhiskCriteria);
         combWhiskLogical = logical(whiskLogical);
         [allWhiskData] = EventData.Pupil.(dataType).whisk.data(combWhiskLogical,:);
         [allWhiskFileIDs] = EventData.Pupil.(dataType).whisk.fileIDs(combWhiskLogical,:);
         [allWhiskEventTimes] = EventData.Pupil.(dataType).whisk.eventTime(combWhiskLogical,:);
         allWhiskDurations = EventData.Pupil.(dataType).whisk.duration(combWhiskLogical,:);
         % keep only the data that occurs within the manually-approved awake regions
-        [finalWhiskData,~,~,~] = RemoveInvalidData_IOS(allWhiskData,allWhiskFileIDs,allWhiskDurations,allWhiskEventTimes,ManualDecisions);
+        [finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(allWhiskData,allWhiskFileIDs,allWhiskDurations,allWhiskEventTimes,ManualDecisions);
         % lowpass filter each whisking event and nanmean-subtract by the first 2 seconds
         procWhiskData = [];
         for cc = 1:size(finalWhiskData,1)
@@ -105,13 +105,13 @@ for aa = 1:length(dataTypes)
             solenoid = 'AudSol';
         end
         % pull data from EventData.mat structure
-        allStimFilter = FilterEvents_IOS(EventData.Pupil.(dataType).stim,StimCriteria);
+        allStimFilter = FilterEvents_IOS_nNOS(EventData.Pupil.(dataType).stim,StimCriteria);
         [allStimData] = EventData.Pupil.(dataType).stim.data(allStimFilter,:);
         [allStimFileIDs] = EventData.Pupil.(dataType).stim.fileIDs(allStimFilter,:);
         [allStimEventTimes] = EventData.Pupil.(dataType).stim.eventTime(allStimFilter,:);
         allStimDurations = zeros(length(allStimEventTimes),1);
         % keep only the data that occurs within the manually-approved awake regions
-        [finalStimData,~,~,~] = RemoveInvalidData_IOS(allStimData,allStimFileIDs,allStimDurations,allStimEventTimes,ManualDecisions);
+        [finalStimData,~,~,~] = RemoveInvalidData_IOS_nNOS(allStimData,allStimFileIDs,allStimDurations,allStimEventTimes,ManualDecisions);
         % lowpass filter each stim event and nanmean-subtract by the first 2 seconds
         procStimData = [];
         for kk = 1:size(finalStimData,1)

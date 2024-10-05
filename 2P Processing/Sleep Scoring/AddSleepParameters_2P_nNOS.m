@@ -1,4 +1,4 @@
-function [] = AddSleepParameters_2P(mergedDataFileIDs,RestingBaselines,baselineType)
+function [] = AddSleepParameters_2P_nNOS(mergedDataFileIDs,RestingBaselines,baselineType)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -7,8 +7,8 @@ function [] = AddSleepParameters_2P(mergedDataFileIDs,RestingBaselines,baselineT
 for a = 1:size(mergedDataFileIDs,1)
     mergedDataFileID = mergedDataFileIDs(a,:);
     disp(['Adding sleep scoring parameters to ' mergedDataFileID '... (' num2str(a) '/' num2str(size(mergedDataFileIDs,1)) ')']); disp(' ')
-    [~,~,fileDate,~,~,vesselID] = GetFileInfo2_2P(mergedDataFileID);
-    strDay = ConvertDate_2P(fileDate);
+    [~,~,fileDate,~,~,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
+    strDay = ConvertDate_2P_nNOS(fileDate);
     load(mergedDataFileID)
     specDataFileID = [mergedDataFileID(1:end - 14) 'SpecData.mat'];
     load(specDataFileID)

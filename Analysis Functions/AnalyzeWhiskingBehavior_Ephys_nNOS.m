@@ -1,4 +1,4 @@
-function [Results_WhiskBehav_Ephys] = AnalyzeWhiskingBehavior_Ephys(animalID,group,set,rootFolder,delim,Results_WhiskBehav_Ephys)
+function [Results_WhiskBehav_Ephys] = AnalyzeWhiskingBehavior_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_WhiskBehav_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

@@ -1,4 +1,4 @@
-function [MScanData] = ExtractTiffAnalogData_2P(MScanData, fileID)
+function [MScanData] = ExtractTiffAnalogData_2P_nNOS(MScanData, fileID)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -20,9 +20,9 @@ MScanData.data.hippocampalNeural = analogData(:,4);
 MScanData.data.forceSensor = analogData(:,5);
 MScanData.notes.analogSamplingRate = 20000;
 disp('Analyzing vessel projections from defined polygons...'); disp(' ');
-[MScanData] = GetDiameterFromMovie_2P(MScanData,fileID);
+[MScanData] = GetDiameterFromMovie_2P_nNOS(MScanData,fileID);
 try
-    [MScanData] = FWHM_MovieProjection_2P(MScanData,[MScanData.notes.startframe,MScanData.notes.endframe]);
+    [MScanData] = FWHM_MovieProjection_2P_nNOS(MScanData,[MScanData.notes.startframe,MScanData.notes.endframe]);
 catch
     disp([MScanData.notes.imageID ' FWHM calculation failed!']); disp(' ')
     keyboard
@@ -31,11 +31,11 @@ try
     % 1 dural/vein, >40% changes spline, artery: >60% spline
     % 2 dural/vein, >30% changes interpolate, artery: >50% interpolate
     if strcmp(MScanData.notes.vesselType,'D') || strcmp(MScanData.notes.vesselType,'V')
-        MScanData.data.vesselDiameter = RemoveMotion_2P(MScanData.data.tempVesselDiameter,MScanData.notes.vesselROI.modalFixedDiameter,2,0.3);
+        MScanData.data.vesselDiameter = RemoveMotion_2P_nNOS(MScanData.data.tempVesselDiameter,MScanData.notes.vesselROI.modalFixedDiameter,2,0.3);
     else
-        MScanData.data.vesselDiameter = RemoveMotion_2P(MScanData.data.tempVesselDiameter,MScanData.notes.vesselROI.modalFixedDiameter,2,0.5);
+        MScanData.data.vesselDiameter = RemoveMotion_2P_nNOS(MScanData.data.tempVesselDiameter,MScanData.notes.vesselROI.modalFixedDiameter,2,0.5);
     end
-    [diamPerc,S,f] = DiamPercPower_2P(MScanData.data.vesselDiameter,MScanData.notes.vesselROI.modalFixedDiameter,MScanData.notes.frameRate);
+    [diamPerc,S,f] = DiamPercPower_2P_nNOS(MScanData.data.vesselDiameter,MScanData.notes.vesselROI.modalFixedDiameter,MScanData.notes.frameRate);
     MScanData.notes.vessel.diamPerc = diamPerc;
     MScanData.notes.vessel.power_f = f;
     MScanData.notes.vessel.power_S = S;

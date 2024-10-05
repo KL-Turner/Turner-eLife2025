@@ -1,4 +1,4 @@
-function [EventData] = ExtractEventTriggeredData_2P(mergedDataFileIDs,dataTypes)
+function [EventData] = ExtractEventTriggeredData_2P_nNOS(mergedDataFileIDs,dataTypes)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % Ph.D. Candidate, Department of Bioengineering
@@ -32,7 +32,7 @@ for dT = 1:length(dataTypes)
         mergedDataFileID = mergedDataFileIDs(f,:);
         load(mergedDataFileID);
         % Get the date and file ID to include in the EventData structure
-        [animalID,~,fileDate,fileID,imageID,vesselID] = GetFileInfo2_2P(mergedDataFileIDs(f,:));
+        [animalID,~,fileDate,fileID,imageID,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFileIDs(f,:));
         % Get the types of behaviors present in the file (stim,whisk,rest)
         holdData = fieldnames(MergedData.flags);
         behaviorFields = holdData([1,2],1);      
@@ -69,21 +69,21 @@ for dT = 1:length(dataTypes)
                 data.notes = MergedData.notes;
                 % Extract the data from the epoch surrounding the event
                 disp(['Extracting event-triggered ' dataType ' ' sDT ' ' behaviorFields{bF} ' data from file ' num2str(f) ' of ' num2str(size(mergedDataFileIDs,1)) '...']); disp(' ');
-                [chunkData,evFilter] = ExtractBehavioralData_2P(data,epoch,sDT,samplingRate,behaviorFields{bF});
+                [chunkData,evFilter] = ExtractBehavioralData_2P_nNOS(data,epoch,sDT,samplingRate,behaviorFields{bF});
                 % Add epoch details to temp struct
-                [temp] = AddEpochInfo_2P(data,sDT,behaviorFields{bF},temp,fileID,fileDate,imageID,vesselID,evFilter,f);
+                [temp] = AddEpochInfo_2P_nNOS(data,sDT,behaviorFields{bF},temp,fileID,fileDate,imageID,vesselID,evFilter,f);
                 temp.(sDT).(behaviorFields{bF}).data{f} = chunkData;
             end
         end
     end
     % Convert the temporary stuct into a final structure
-    [EventData] = ProcessTempStruct_2P(EventData,dataType,temp,epoch);
+    [EventData] = ProcessTempStruct_2P_nNOS(EventData,dataType,temp,epoch);
 end
 save([animalID '_EventData.mat'],'EventData');
 
 end
 
-function [chunkData,evFilter] = ExtractBehavioralData_2P(data,epoch,dataType,samplingRate,behavior)
+function [chunkData,evFilter] = ExtractBehavioralData_2P_nNOS(data,epoch,dataType,samplingRate,behavior)
 % Setup variables
 eventTimes = data.flags.(behavior).eventTime;
 trialDuration = data.notes.trialDuration_Sec;
@@ -113,7 +113,7 @@ end
 
 end
 
-function [temp] = AddEpochInfo_2P(data,dataType,behavior,temp,fileID,fileDate,imageID,vesselID,evFilter,f)
+function [temp] = AddEpochInfo_2P_nNOS(data,dataType,behavior,temp,fileID,fileDate,imageID,vesselID,evFilter,f)
 % Get the field names for each behavior
 fields = fieldnames(data.flags.(behavior));
 % Filter out the events which are too close to the trial edge
@@ -130,7 +130,7 @@ temp.(dataType).(behavior).vesselIDs{f} = repmat({vesselID},1,sum(evFilter));
 
 end
 
-function [EventData] = ProcessTempStruct_2P(EventData,dataType,temp,epoch)
+function [EventData] = ProcessTempStruct_2P_nNOS(EventData,dataType,temp,epoch)
 % Get the dataTypes from temp
 dTs = fieldnames(temp);
 for a = 1:length(dTs)

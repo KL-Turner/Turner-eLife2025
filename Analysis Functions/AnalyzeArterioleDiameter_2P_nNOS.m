@@ -1,4 +1,4 @@
-function [Results_Diameter_2P] = AnalyzeArterioleDiameter_2P(animalID,group,set,rootFolder,delim,Results_Diameter_2P)
+function [Results_Diameter_2P] = AnalyzeArterioleDiameter_2P_nNOS(animalID,group,set,rootFolder,delim,Results_Diameter_2P)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -45,7 +45,7 @@ samplingRate = RestData.vesselDiameter.data.samplingRate;
 [z,p,k] = butter(4,1/(samplingRate/2),'low');
 [sos,g] = zp2sos(z,p,k);
 %% Rest
-[restLogical] = FilterEvents_2P(RestData.vesselDiameter.data,RestCriteria);
+[restLogical] = FilterEvents_2P_nNOS(RestData.vesselDiameter.data,RestCriteria);
 combRestLogical = logical(restLogical);
 restVesselData = RestData.vesselDiameter.data.data(combRestLogical,:);
 restFileIDs = RestData.vesselDiameter.data.fileIDs(combRestLogical,:);
@@ -53,14 +53,14 @@ restVesselIDs = RestData.vesselDiameter.data.vesselIDs(combRestLogical,:);
 restDurations = RestData.vesselDiameter.data.durations(combRestLogical,:);
 restEventTimes = RestData.vesselDiameter.data.eventTimes(combRestLogical,:);
 % keep only the data that occurs within the manually-approved awake regions
-[finalRestVesselData,finalRestFileIDs,finalRestVesselIDs,~,~] = RemoveInvalidData_2P(restVesselData,restFileIDs,restVesselIDs,restDurations,restEventTimes,ManualDecisions);
+[finalRestVesselData,finalRestFileIDs,finalRestVesselIDs,~,~] = RemoveInvalidData_2P_nNOS(restVesselData,restFileIDs,restVesselIDs,restDurations,restEventTimes,ManualDecisions);
 % go through the data and normalize + filter each rest epoch based on individual vessels
 uniqueRestVesselIDs = unique(finalRestVesselIDs);
 for aa = 1:length(uniqueRestVesselIDs)
     cc = 1;
     for bb = 1:length(finalRestVesselIDs)
         if strcmp(uniqueRestVesselIDs{aa,1},finalRestVesselIDs{bb,1})
-            strDay = ConvertDate_2P(finalRestFileIDs{bb,1}(1:6));
+            strDay = ConvertDate_2P_nNOS(finalRestFileIDs{bb,1}(1:6));
             tempRestData.(uniqueRestVesselIDs{aa,1}){cc,1} = filtfilt(sos,g,((finalRestVesselData{bb,1} - RestingBaselines.manualSelection.vesselDiameter.data.(uniqueRestVesselIDs{aa,1}).(strDay))/RestingBaselines.manualSelection.vesselDiameter.data.(uniqueRestVesselIDs{aa,1}).(strDay)));
             tempRestFileIDs.(uniqueRestVesselIDs{aa,1}){cc,1} = finalRestFileIDs{bb,1};
             cc = cc + 1;
@@ -84,7 +84,7 @@ for ff = 1:length(uniqueRestVesselIDs)
     Results_Diameter_2P.(group).(animalID).(uniqueRestVesselIDs{ff,1}).Rest.fileIDs = tempRestFileIDs.(uniqueRestVesselIDs{ff,1});
 end
 %% Whisk
-[whiskLogical] = FilterEvents_2P(EventData.vesselDiameter.data.whisk,WhiskCriteria);
+[whiskLogical] = FilterEvents_2P_nNOS(EventData.vesselDiameter.data.whisk,WhiskCriteria);
 combWhiskLogical = logical(whiskLogical);
 whiskVesselData = EventData.vesselDiameter.data.whisk.data(combWhiskLogical,:);
 whiskFileIDs = EventData.vesselDiameter.data.whisk.fileIDs(combWhiskLogical,:);
@@ -92,14 +92,14 @@ whiskVesselIDs = EventData.vesselDiameter.data.whisk.vesselIDs(combWhiskLogical,
 whiskDurations = EventData.vesselDiameter.data.whisk.duration(combWhiskLogical,:);
 whiskEventTimes = EventData.vesselDiameter.data.whisk.eventTime(combWhiskLogical,:);
 % keep only the data that occurs within the manually-approved awake regions
-[finalWhiskVesselData,finalWhiskFileIDs,finalWhiskVesselIDs,~,~] = RemoveInvalidData_2P(whiskVesselData,whiskFileIDs,whiskVesselIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+[finalWhiskVesselData,finalWhiskFileIDs,finalWhiskVesselIDs,~,~] = RemoveInvalidData_2P_nNOS(whiskVesselData,whiskFileIDs,whiskVesselIDs,whiskDurations,whiskEventTimes,ManualDecisions);
 % go through the data and normalize + filter each whisk event based on individual vessels
 uniqueWhiskVesselIDs = unique(finalWhiskVesselIDs);
 for aa = 1:length(uniqueWhiskVesselIDs)
     cc = 1;
     for bb = 1:length(finalWhiskVesselIDs)
         if strcmp(uniqueWhiskVesselIDs{aa,1},finalWhiskVesselIDs{bb,1})
-            strDay = ConvertDate_2P(finalWhiskFileIDs{bb,1}(1:6));
+            strDay = ConvertDate_2P_nNOS(finalWhiskFileIDs{bb,1}(1:6));
             tempWhiskData.(uniqueWhiskVesselIDs{aa,1}){cc,1} = filtfilt(sos,g,((finalWhiskVesselData(bb,:) - RestingBaselines.manualSelection.vesselDiameter.data.(uniqueWhiskVesselIDs{aa,1}).(strDay))/RestingBaselines.manualSelection.vesselDiameter.data.(uniqueWhiskVesselIDs{aa,1}).(strDay)));
             tempWhiskFileIDs.(uniqueWhiskVesselIDs{aa,1}){cc,1} = finalWhiskFileIDs{bb,1};
             cc = cc + 1;

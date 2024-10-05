@@ -1,4 +1,4 @@
-function [] = AnalyzePupilCrossCorrelation_Ephys_Handler(rootFolder,delim,runFromStart)
+function [] = AnalyzePupilCrossCorrelation_Ephys_Handler_nNOS(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -39,7 +39,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_PupilCrossCorr_Ephys.(groups{1,aa}),(animalIDs{1,bb})) == false
-            [Results_PupilCrossCorr_Ephys] = AnalyzePupilCrossCorrelation_Ephys(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_PupilCrossCorr_Ephys);
+            [Results_PupilCrossCorr_Ephys] = AnalyzePupilCrossCorrelation_Ephys_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_PupilCrossCorr_Ephys);
         end
         multiWaitbar('Analyzing pupil cross correlation for Ephys','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

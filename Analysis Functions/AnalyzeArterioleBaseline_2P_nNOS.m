@@ -1,4 +1,4 @@
-function [Results_Baseline_2P] = AnalyzeArterioleBaseline_2P(animalID,group,set,rootFolder,delim,Results_Baseline_2P)
+function [Results_Baseline_2P] = AnalyzeArterioleBaseline_2P_nNOS(animalID,group,set,rootFolder,delim,Results_Baseline_2P)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -22,8 +22,8 @@ samplingRate = 5;
 for aa = 1:size(mergedDataFileIDs,1)
     mergedDataFileID = mergedDataFileIDs(aa,:);
     load(mergedDataFileID)
-    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P(mergedDataFileID);
-    strDay = ConvertDate_2P(fileDate);
+    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
+    strDay = ConvertDate_2P_nNOS(fileDate);
     % save results
     Results_Baseline_2P.(group).(animalID).(vID).diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
     Results_Baseline_2P.(group).(animalID).(vID).baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);

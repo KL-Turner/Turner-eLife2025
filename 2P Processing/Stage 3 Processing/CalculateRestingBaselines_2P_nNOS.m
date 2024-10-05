@@ -1,4 +1,4 @@
-function [RestingBaselines] = CalculateRestingBaselines_2P(animalID,targetMinutes,trialDuration_sec,RestData)
+function [RestingBaselines] = CalculateRestingBaselines_2P_nNOS(animalID,targetMinutes,trialDuration_sec,RestData)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -25,8 +25,8 @@ for aa = 1:length(dataTypes)
         % Loop through each hemisphere dataType (LH, RH) because they are subfields and will have unique baselines
         for bb = 1:length(subDataTypes)
             subDataType = char(subDataTypes(bb));   % Load each loop iteration's hemisphere fieldname as a character string
-            [restLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),RestCriteria);
-            [puffLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),PuffCriteria);
+            [restLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),RestCriteria);
+            [puffLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),PuffCriteria);
             combRestLogical = logical(restLogical.*puffLogical);
             allRestData = RestData.(dataType).(subDataType).data(combRestLogical,:);
             allRestFileIDs = RestData.(dataType).(subDataType).fileIDs(combRestLogical,:);
@@ -39,13 +39,13 @@ for aa = 1:length(dataTypes)
             mergedDataFiles = char(mergedDataFiles);
             for cc = 1:size(mergedDataFiles)
                 mergedDataFile = mergedDataFiles(cc,:);
-                [animalID,~,~,fileID,~,vesselID] = GetFileInfo2_2P(mergedDataFile);
+                [animalID,~,~,fileID,~,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFile);
                 allFileDates{cc,1} = fileID; %#ok<*AGROW>
                 allVesselIDs{cc,1} = vesselID;
             end
-            uniqueDates = GetUniqueDays_2P(allFileDates);
+            uniqueDates = GetUniqueDays_2P_nNOS(allFileDates);
             for dd = 1:length(uniqueDates)
-                uniqueDays{dd,1} = ConvertDate_2P(uniqueDates{dd,1});
+                uniqueDays{dd,1} = ConvertDate_2P_nNOS(uniqueDates{dd,1});
             end
             tempBaseFileIDs = {};
             tempBaseEventTimes = [];
@@ -149,8 +149,8 @@ for aa = 1:length(dataTypes)
         % Loop through each hemisphere dataType (LH, RH) because they are subfields and will have unique baselines
         for oo = 1:length(subDataTypes)
             subDataType = char(subDataTypes(oo));   % Load each loop iteration's hemisphere fieldname as a character string
-            [restLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),RestCriteria);
-            [puffLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),PuffCriteria);
+            [restLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),RestCriteria);
+            [puffLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),PuffCriteria);
             combRestLogical = logical(restLogical.*puffLogical);
             allRestFiles = RestData.(dataType).(subDataType).fileIDs(combRestLogical,:);
             allRestDurations = RestData.(dataType).(subDataType).durations(combRestLogical,:);
@@ -200,7 +200,7 @@ for aa = 1:length(dataTypes)
                 vv = 1;
                 for uu = 1:length(finalFileIDs)
                     fileID = finalFileIDs{uu,1}(1:6);
-                    date{tt,1} = ConvertDate_2P(uniqueDays{tt,1});
+                    date{tt,1} = ConvertDate_2P_nNOS(uniqueDays{tt,1});
                     if strcmp(fileID, uniqueDays{tt,1}) == 1
                         tempData.(date{tt,1}){vv,1} = finalRestData{uu,1};
                         vv = vv + 1;

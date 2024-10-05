@@ -1,4 +1,4 @@
-function [Results_Transitions_GCaMP] = AnalyzeArousalTransitions_GCaMP(animalID,group,set,rootFolder,delim,Results_Transitions_GCaMP)
+function [Results_Transitions_GCaMP] = AnalyzeArousalTransitions_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_Transitions_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -7,7 +7,7 @@ function [Results_Transitions_GCaMP] = AnalyzeArousalTransitions_GCaMP(animalID,
 dataLocation = [rootFolder delim 'Data' delim group delim set delim animalID delim 'Imaging'];
 cd(dataLocation)
 transitions = {'AWAKEtoNREM','NREMtoAWAKE','NREMtoREM','REMtoAWAKE'};
-modelName = [animalID '_IOS_RF_SleepScoringModel.mat'];
+modelName = [animalID '_IOS_nNOS_RF_SleepScoringModel.mat'];
 load(modelName)
 modelDataFileStruct = dir('*_ModelData.mat');
 modelDataFile = {modelDataFileStruct.name}';
@@ -49,7 +49,7 @@ patchedREMindex = [];
 % patch missing REM indeces due to theta band falling off
 for bb = 1:size(reshapedREMindex,2)
     remArray = reshapedREMindex(:,bb);
-    patchedREMarray = LinkBinaryEvents_IOS(remArray',[5,0]);
+    patchedREMarray = LinkBinaryEvents_IOS_nNOS(remArray',[5,0]);
     patchedREMindex = vertcat(patchedREMindex,patchedREMarray');
 end
 % change labels for each event
@@ -131,8 +131,8 @@ for hh = 1:length(transitions)
         file = data.(transition).files{ii,1};
         startBin = data.(transition).startInd(ii,1);
         if startBin > 1 && startBin < (180 - 12)
-            [animalID,fileDate,fileID] = GetFileInfo_IOS(file);
-            strDay = ConvertDate_IOS(fileDate);
+            [animalID,fileDate,fileID] = GetFileInfo_IOS_nNOS(file);
+            strDay = ConvertDate_IOS_nNOS(fileDate);
             procDataFileID = [animalID '_' fileID '_ProcData.mat'];
             load(procDataFileID)
             specDataFileID = [animalID '_' fileID '_SpecDataB.mat'];

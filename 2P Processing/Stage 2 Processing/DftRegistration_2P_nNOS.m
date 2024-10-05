@@ -1,4 +1,4 @@
-function [output,Greg] = DftRegistration_2P(buf1ft,buf2ft,usfac)
+function [output,Greg] = DftRegistration_2P_nNOS(buf1ft,buf2ft,usfac)
 %________________________________________________________________________________________________________________________
 % Utilized in analysis by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

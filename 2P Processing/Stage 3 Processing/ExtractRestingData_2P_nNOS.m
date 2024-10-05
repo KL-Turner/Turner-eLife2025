@@ -1,4 +1,4 @@
-function [RestData] = ExtractRestingData_2P(mergedDataFileIDs,dataTypes)
+function [RestData] = ExtractRestingData_2P_nNOS(mergedDataFileIDs,dataTypes)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % Ph.D. Candidate, Department of Bioengineering
@@ -38,7 +38,7 @@ for dT = 1:length(dataTypes)
             mergedDataFileID = mergedDataFileIDs(f,:);
             load(mergedDataFileID);
             % Get the date and file identifier for the data to be saved with each resting event
-            [animalID,~,fileDate,fileID,~,vesselID] = GetFileInfo2_2P(mergedDataFileID);
+            [animalID,~,fileDate,fileID,~,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
             % Sampling frequency for element of dataTypes
             if strcmp(dataType,'vesselDiameter')
                 Fs = floor(MergedData.notes.p2Fs);

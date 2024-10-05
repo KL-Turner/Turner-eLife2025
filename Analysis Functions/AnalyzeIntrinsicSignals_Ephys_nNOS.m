@@ -1,4 +1,4 @@
-function [Results_IntSig_Ephys] = AnalyzeIntrinsicSignals_Ephys(animalID,group,set,rootFolder,delim,Results_IntSig_Ephys)
+function [Results_IntSig_Ephys] = AnalyzeIntrinsicSignals_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_IntSig_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -69,15 +69,15 @@ for aa = 1:length(hemispheres)
     [z,p,k] = butter(4,1/(samplingRate/2),'low');
     [sos,g] = zp2sos(z,p,k);
     %% Rest
-    [restLogical] = FilterEvents_IOS(RestData.HbT.(hemisphere),RestCriteria);
-    [stimLogical] = FilterEvents_IOS(RestData.HbT.(hemisphere),RestStimCriteria);
+    [restLogical] = FilterEvents_IOS_nNOS(RestData.HbT.(hemisphere),RestCriteria);
+    [stimLogical] = FilterEvents_IOS_nNOS(RestData.HbT.(hemisphere),RestStimCriteria);
     combRestLogical = logical(restLogical.*stimLogical);
     restFileIDs = RestData.HbT.(hemisphere).fileIDs(combRestLogical,:);
     restEventTimes = RestData.HbT.(hemisphere).eventTimes(combRestLogical,:);
     restDurations = RestData.HbT.(hemisphere).durations(combRestLogical,:);
     restData = RestData.HbT.(hemisphere).data(combRestLogical,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalRestData,finalRestFileIDs,finalRestDurations,finalRestEventTimes] = RemoveInvalidData_IOS(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [finalRestData,finalRestFileIDs,finalRestDurations,finalRestEventTimes] = RemoveInvalidData_IOS_nNOS(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
     % filter and average
     for gg = 1:length(finalRestData)
         procRestData{gg,1} = filtfilt(sos,g,finalRestData{gg,1});
@@ -88,15 +88,15 @@ for aa = 1:length(hemispheres)
     Results_IntSig_Ephys.(group).(animalID).(hemisphere).Rest.indHbT = procRestData;
     Results_IntSig_Ephys.(group).(animalID).(hemisphere).Rest.HbT = restMean;
     %% Whisk
-    [whiskLogical] = FilterEvents_IOS(EventData.HbT.(hemisphere).whisk,WhiskCriteria);
-    [stimLogical] = FilterEvents_IOS(EventData.HbT.(hemisphere).whisk,WhiskStimCriteria);
+    [whiskLogical] = FilterEvents_IOS_nNOS(EventData.HbT.(hemisphere).whisk,WhiskCriteria);
+    [stimLogical] = FilterEvents_IOS_nNOS(EventData.HbT.(hemisphere).whisk,WhiskStimCriteria);
     combWhiskLogical = logical(whiskLogical.*stimLogical);
     whiskFileIDs = EventData.HbT.(hemisphere).whisk.fileIDs(combWhiskLogical,:);
     whiskEventTimes = EventData.HbT.(hemisphere).whisk.eventTime(combWhiskLogical,:);
     whiskDurations = EventData.HbT.(hemisphere).whisk.duration(combWhiskLogical,:);
     whiskData = EventData.HbT.(hemisphere).whisk.data(combWhiskLogical,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalWhiskData,~,~,~] = RemoveInvalidData_IOS(whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+    [finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
     % filter and average
     for gg = 1:size(finalWhiskData,1)
         procWhiskData_temp = filtfilt(sos,g,finalWhiskData(gg,:));
@@ -113,13 +113,13 @@ for aa = 1:length(hemispheres)
     elseif any(strcmp(hemisphere,{'RH'})) == true
         StimCriteria = StimCriteriaB;
     end
-    stimFilter = FilterEvents_IOS(EventData.HbT.(hemisphere).stim,StimCriteria);
+    stimFilter = FilterEvents_IOS_nNOS(EventData.HbT.(hemisphere).stim,StimCriteria);
     [stimFileIDs] = EventData.HbT.(hemisphere).stim.fileIDs(stimFilter,:);
     [stimEventTimes] = EventData.HbT.(hemisphere).stim.eventTime(stimFilter,:);
     stimDurations = zeros(length(stimEventTimes),1);
     [stimData] = EventData.HbT.(hemisphere).stim.data(stimFilter,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalStimData,~,~,~] = RemoveInvalidData_IOS(stimData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
+    [finalStimData,~,~,~] = RemoveInvalidData_IOS_nNOS(stimData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
     % filter and average
     for gg = 1:size(finalStimData,1)
         procStimData_temp = filtfilt(sos,g,finalStimData(gg,:));
@@ -131,7 +131,7 @@ for aa = 1:length(hemispheres)
     Results_IntSig_Ephys.(group).(animalID).(hemisphere).Stim.indHbT = indStim;
     Results_IntSig_Ephys.(group).(animalID).(hemisphere).Stim.HbT = cell2mat(stimMean);
     %% NREM
-    [nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.HbT.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.HbT.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
     % filter and average
     for nn = 1:length(nremData)
         indNREM{nn,1} = filtfilt(sos,g,nremData{nn,1});
@@ -141,7 +141,7 @@ for aa = 1:length(hemispheres)
     Results_IntSig_Ephys.(group).(animalID).(hemisphere).NREM.indHbT = indNREM;
     Results_IntSig_Ephys.(group).(animalID).(hemisphere).NREM.HbT = nremMean;
     %% REM
-    [remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.HbT.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.HbT.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
     % filter and average
     for nn = 1:length(remData)
         indREM{nn,1} = filtfilt(sos,g,remData{nn,1});

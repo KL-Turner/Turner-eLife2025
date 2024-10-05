@@ -1,4 +1,4 @@
-function [patchedWhiskerAngle] = PatchWhiskerAngle_2P(whiskerAngle,fs,expectedDuration_Sec,droppedFrameIndex)
+function [patchedWhiskerAngle] = PatchWhiskerAngle_2P_nNOS(whiskerAngle,fs,expectedDuration_Sec,droppedFrameIndex)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

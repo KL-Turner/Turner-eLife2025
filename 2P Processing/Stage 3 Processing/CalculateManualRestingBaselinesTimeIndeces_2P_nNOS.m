@@ -1,4 +1,4 @@
-function [RestingBaselines] = CalculateManualRestingBaselinesTimeIndeces_2P
+function [RestingBaselines] = CalculateManualRestingBaselinesTimeIndeces_2P_nNOS
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -48,7 +48,7 @@ for aa = 1:size(mergedDataFileIDs,1)
         while bb == false
             % load a figure with the data to visualize which periods are rest. Note that this data is, by default, normalized
             % by the first 30 minutes of data which may or may not reflect accurate normalizations
-            [singleTrialFig] = GenerateSingleFigures_2P(mergedDataFileID,baselineType,saveFigs,RestingBaselines);
+            [singleTrialFig] = GenerateSingleFigures_2P_nNOS(mergedDataFileID,baselineType,saveFigs,RestingBaselines);
             fileDecision = input(['Use data from ' mergedDataFileID ' for resting baseline calculation? (y/n): '], 's'); disp(' ')
             if strcmp(fileDecision,'y') || strcmp(fileDecision,'n')
                 bb = true;
@@ -112,15 +112,15 @@ for ee = 1:length(dataTypes)
         for ff = 1:length(subDataTypes)
             subDataType = char(subDataTypes(ff));
             % use the criteria we specified earlier to find all resting events that are greater than the criteria
-            [restLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),RestCriteria);
-            [puffLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),PuffCriteria);
+            [restLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),RestCriteria);
+            [puffLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),PuffCriteria);
             combRestLogical = logical(restLogical.*puffLogical);
             allRestFileIDs = RestData.(dataType).(subDataType).fileIDs(combRestLogical,:);
             allRestDurations = RestData.(dataType).(subDataType).durations(combRestLogical,:);
             allRestEventTimes = RestData.(dataType).(subDataType).eventTimes(combRestLogical,:);
             allRestingData = RestData.(dataType).(subDataType).data(combRestLogical,:);
             % find the unique days and unique file IDs
-            uniqueDays = GetUniqueDays_2P(RestData.(dataType).(subDataType).fileIDs);
+            uniqueDays = GetUniqueDays_2P_nNOS(RestData.(dataType).(subDataType).fileIDs);
             uniqueFiles = unique(RestData.(dataType).(subDataType).fileIDs);
             numberOfFiles = length(unique(RestData.(dataType).(subDataType).fileIDs));
             % loop through each unique day in order to create a logical to filter the file list
@@ -194,7 +194,7 @@ for ee = 1:length(dataTypes)
                 oo = 1;
                 for pp = 1:length(finalEventFileIDs)
                     uniqueFileID_short = finalEventFileIDs{pp,1}(1:6);
-                    uniqueDate{nn,1} = ConvertDate_2P(uniqueDays{nn,1});
+                    uniqueDate{nn,1} = ConvertDate_2P_nNOS(uniqueDays{nn,1});
                     if strcmp(uniqueFileID_short,uniqueDays{nn,1}) == 1
                         tempData.(uniqueDate{nn,1}){oo,1} = finalEventRestData{pp,1};
                         oo = oo + 1;
@@ -216,15 +216,15 @@ for ee = 1:length(dataTypes)
         for ss = 1:length(subDataTypes)
             subDataType = char(subDataTypes(ss));
             % use the criteria we specified earlier to find all resting events that are greater than the criteria
-            [restLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),RestCriteria);
-            [puffLogical] = FilterEvents_2P(RestData.(dataType).(subDataType),PuffCriteria);
+            [restLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),RestCriteria);
+            [puffLogical] = FilterEvents_2P_nNOS(RestData.(dataType).(subDataType),PuffCriteria);
             combRestLogical = logical(restLogical.*puffLogical);
             allRestFileIDs = RestData.(dataType).(subDataType).fileIDs(combRestLogical,:);
             allRestDurations = RestData.(dataType).(subDataType).durations(combRestLogical,:);
             allRestEventTimes = RestData.(dataType).(subDataType).eventTimes(combRestLogical,:);
             allRestingData = RestData.(dataType).(subDataType).data(combRestLogical,:);
             % find the unique days and unique file IDs
-            uniqueDays = GetUniqueDays_2P(RestData.(dataType).(subDataType).fileIDs);
+            uniqueDays = GetUniqueDays_2P_nNOS(RestData.(dataType).(subDataType).fileIDs);
             uniqueFiles = unique(RestData.(dataType).(subDataType).fileIDs);
             numberOfFiles = length(unique(RestData.(dataType).(subDataType).fileIDs));
             % loop through each unique day in order to create a logical to filter the file list
@@ -298,7 +298,7 @@ for ee = 1:length(dataTypes)
                 ccc = 1;
                 for bbb = 1:length(finalEventFileIDs)
                     uniqueFileID_short = finalEventFileIDs{bbb,1}(1:6);
-                    uniqueDate{aaa,1} = ConvertDate_2P(uniqueDays{aaa,1});
+                    uniqueDate{aaa,1} = ConvertDate_2P_nNOS(uniqueDays{aaa,1});
                     if strcmp(uniqueFileID_short,uniqueDays{aaa,1}) == 1
                         tempData.(uniqueDate{aaa,1}).data{ccc,1} = finalEventRestData{bbb,1};
                         tempData.(uniqueDate{aaa,1}).fileIDs{ccc,1} = finalEventFileIDs{bbb,1};
@@ -308,9 +308,9 @@ for ee = 1:length(dataTypes)
             end
             % determine the vessel IDs per date
             for ddd = 1:length(uniqueDays)
-                uniqueDate{ddd,1} = ConvertDate_2P(uniqueDays{ddd,1});
+                uniqueDate{ddd,1} = ConvertDate_2P_nNOS(uniqueDays{ddd,1});
                 for eee = 1:length(subFilterFileList_B)
-                    [~,~,fileDate,~,~,~] = GetFileInfo2_2P(subFilterFileList_B{eee,1});
+                    [~,~,fileDate,~,~,~] = GetFileInfo2_2P_nNOS(subFilterFileList_B{eee,1});
                     if strcmp(fileDate,uniqueDays{ddd,1}) == true
                         fileListFilter(eee,1) = 1;
                     else
@@ -320,14 +320,14 @@ for ee = 1:length(dataTypes)
                 fileListFilter = logical(fileListFilter);
                 validFileList = subFilterFileList_B(fileListFilter,:);
                 for fff = 1:length(validFileList)
-                    [~,~,~,vesselFileIDs{fff,1},~,vesselIDs{fff,1}] = GetFileInfo2_2P(validFileList{fff,1});
+                    [~,~,~,vesselFileIDs{fff,1},~,vesselIDs{fff,1}] = GetFileInfo2_2P_nNOS(validFileList{fff,1});
                 end
                 tempData.(uniqueDate{ddd,1}).vesselIDs = vesselIDs;
                 tempData.(uniqueDate{ddd,1}).vesselFileIDs = vesselFileIDs;
             end
             %
             for ggg = 1:length(uniqueDays)
-                uniqueDate{ggg,1} = ConvertDate_2P(uniqueDays{ggg,1});
+                uniqueDate{ggg,1} = ConvertDate_2P_nNOS(uniqueDays{ggg,1});
                 for hhh = 1:length(tempData.(uniqueDate{ggg,1}).vesselIDs)
                     vID = tempData.(uniqueDate{ggg,1}).vesselIDs{hhh,1};
                     vFile = tempData.(uniqueDate{ggg,1}).vesselFileIDs{hhh,1};
@@ -352,7 +352,7 @@ for ee = 1:length(dataTypes)
             end
             %
             for nnn = 1:length(subFilterFileList_B)
-                [~,~,~,~,~,vessels{nnn,1}] = GetFileInfo2_2P(subFilterFileList_B{nnn,1});
+                [~,~,~,~,~,vessels{nnn,1}] = GetFileInfo2_2P_nNOS(subFilterFileList_B{nnn,1});
             end
             vIDs = unique(vessels);
             % find the means of each unique day

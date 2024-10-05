@@ -1,4 +1,4 @@
-function [Results_PearsonCorr_GCaMP] = AnalyzePearsonCorrelation_GCaMP(animalID,group,set,rootFolder,delim,Results_PearsonCorr_GCaMP)
+function [Results_PearsonCorr_GCaMP] = AnalyzePearsonCorrelation_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_PearsonCorr_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -65,8 +65,8 @@ for aa = 1:length(dataTypes)
     %% Rest
     clear LH_finalRestData RH_finalRestData fLH_finalRestData fRH_finalRestData LH_ProcRestData RH_ProcRestData fLH_ProcRestData fRH_ProcRestData rest_R rest_fR
     samplingRate = RestData.(dataType).LH.samplingRate;
-    [restLogical] = FilterEvents_IOS(RestData.(dataType).LH,RestCriteria);
-    [stimLogical] = FilterEvents_IOS(RestData.(dataType).LH,RestStimCriteria);
+    [restLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).LH,RestCriteria);
+    [stimLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).LH,RestStimCriteria);
     combRestLogical = logical(restLogical.*stimLogical);
     restFileIDs = RestData.(dataType).LH.fileIDs(combRestLogical,:);
     restEventTimes = RestData.(dataType).LH.eventTimes(combRestLogical,:);
@@ -74,13 +74,13 @@ for aa = 1:length(dataTypes)
     LH_RestingData = RestData.(dataType).LH.data(combRestLogical,:);
     RH_RestingData = RestData.(dataType).RH.data(combRestLogical,:);
     % keep only the data that occurs within the manually-approved alert regions
-    [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-    [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
     fLH_RestingData = RestData.(dataType).fLH.data(combRestLogical,:);
     fRH_RestingData = RestData.(dataType).fRH.data(combRestLogical,:);
     % keep only the data that occurs within the manually-approved alert regions
-    [fLH_finalRestData,~,~,~] = RemoveInvalidData_IOS(fLH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-    [fRH_finalRestData,~,~,~] = RemoveInvalidData_IOS(fRH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [fLH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(fLH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [fRH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(fRH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
     % lowpass filter
     [z,p,k] = butter(4,0.5/(samplingRate/2),'low');
     [sos,g] = zp2sos(z,p,k);
@@ -103,8 +103,8 @@ for aa = 1:length(dataTypes)
     Results_PearsonCorr_GCaMP.(group).(animalID).(dataType).Rest.fR = rest_fR;
     %% Whisk
     clear LH_finalWhiskData RH_finalWhiskData fLH_finalWhiskData fRH_finalWhiskData LH_ProcWhiskData RH_ProcWhiskData fLH_ProcWhiskData fRH_ProcWhiskData whisk_R whisk_fR
-    [whiskLogical] = FilterEvents_IOS(EventData.(dataType).LH.whisk,WhiskCriteria);
-    [stimLogical] = FilterEvents_IOS(EventData.(dataType).LH.whisk,WhiskStimCriteria);
+    [whiskLogical] = FilterEvents_IOS_nNOS(EventData.(dataType).LH.whisk,WhiskCriteria);
+    [stimLogical] = FilterEvents_IOS_nNOS(EventData.(dataType).LH.whisk,WhiskStimCriteria);
     combWhiskLogical = logical(whiskLogical.*stimLogical);
     whiskFileIDs = EventData.(dataType).LH.whisk.fileIDs(combWhiskLogical,:);
     whiskEventTimes = EventData.(dataType).LH.whisk.eventTime(combWhiskLogical,:);
@@ -112,13 +112,13 @@ for aa = 1:length(dataTypes)
     LH_whiskData = EventData.(dataType).LH.whisk.data(combWhiskLogical,:);
     RH_whiskData = EventData.(dataType).RH.whisk.data(combWhiskLogical,:);
     % keep only the data that occurs within the manually-approved alert regions
-    [LH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS(LH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-    [RH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS(RH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+    [LH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(LH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+    [RH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(RH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
     fLH_whiskData = EventData.(dataType).fLH.whisk.data(combWhiskLogical,:);
     fRH_whiskData = EventData.(dataType).fRH.whisk.data(combWhiskLogical,:);
     % keep only the data that occurs within the manually-approved alert regions
-    [fLH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS(fLH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-    [fRH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS(fRH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+    [fLH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(fLH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+    [fRH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(fRH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
     % filter, detrend, and take data from whisk onset through 5 seconds
     for bb = 1:size(LH_finalWhiskData,1)
         LH_ProcWhiskData(bb,:) = detrend(filtfilt(sos,g,LH_finalWhiskData(bb,2*samplingRate:params.minTime.Whisk*samplingRate)),'constant');
@@ -142,7 +142,7 @@ for aa = 1:length(dataTypes)
     zz = 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,~,fileID] = GetFileInfo_IOS(procDataFileID);
+        [~,~,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
         for cc = 1:length(ScoringResults.fileIDs)
             if strcmp(fileID,ScoringResults.fileIDs{cc,1}) == true
                 scoringLabels = ScoringResults.labels{cc,1};
@@ -220,7 +220,7 @@ for aa = 1:length(dataTypes)
     zz = 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,~,fileID] = GetFileInfo_IOS(procDataFileID);
+        [~,~,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
         for cc = 1:length(ScoringResults.fileIDs)
             if strcmp(fileID,ScoringResults.fileIDs{cc,1}) == true
                 scoringLabels = ScoringResults.labels{cc,1};
@@ -337,10 +337,10 @@ for aa = 1:length(dataTypes)
     Results_PearsonCorr_GCaMP.(group).(animalID).(dataType).All.fR = all_fR;
     %% NREM
     clear LH_nremData RH_nremData fLH_nremData fRH_nremData nrem_R nrem_fR
-    [LH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-    [RH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-    [fLH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).fLH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-    [fRH_nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).fRH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [LH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [RH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [fLH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).fLH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+    [fRH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).fRH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
     % filter, detrend, and truncate data to data to minimum length to match events
     for j = 1:length(LH_nremData)
         LH_nremData{j,1} = detrend(filtfilt(sos,g,LH_nremData{j,1}(1:params.minTime.NREM*samplingRate)),'constant');
@@ -360,10 +360,10 @@ for aa = 1:length(dataTypes)
     Results_PearsonCorr_GCaMP.(group).(animalID).(dataType).NREM.fR = nrem_fR;
     %% REM
     clear LH_remData RH_remData fLH_remData fRH_remData rem_R rem_fR
-    [LH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-    [RH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-    [fLH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).fLH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-    [fRH_remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).fRH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [LH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [RH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [fLH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).fLH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+    [fRH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).fRH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
     % filter, detrend, and truncate data to data to minimum length to match events
     for m = 1:length(LH_remData)
         LH_remData{m,1} = detrend(filtfilt(sos,g,LH_remData{m,1}(1:params.minTime.REM*samplingRate)),'constant');

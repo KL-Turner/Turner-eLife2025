@@ -1,4 +1,4 @@
-function [theCode]=GetFunctionCode_2P(filename)
+function [theCode]=GetFunctionCode_2P_nNOS(filename)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

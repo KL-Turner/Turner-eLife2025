@@ -1,4 +1,4 @@
-function [MScanData] = GetVelocityRadon_2P(fileID,angleSpan,angleResolution,maxVelocity,interleaved,MScanData)
+function [MScanData] = GetVelocityRadon_2P_nNOS(fileID,angleSpan,angleResolution,maxVelocity,interleaved,MScanData)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -37,7 +37,7 @@ baselineVar = zeros(2,nSteps,length(anglesBaseline));
 spreadMatrixFine = zeros(2,nSteps,length(anglesFine));
 thetas = zeros(2,nSteps); % the angle of the lines
 % data caching
-dataTemp = LoadTiffConcatenate_2P([fileID '.TIF'],frames);
+dataTemp = LoadTiffConcatenate_2P_nNOS([fileID '.TIF'],frames);
 dataCache = dataTemp(:,theX(1):MScanData.notes.decimate:theX(2) - 1);
 MScanData.data.bloodFlow.mean_BG = (mean(dataCache));
 useLines = 1:windowSize;
@@ -143,9 +143,9 @@ if interleaved == 1
         MScanData.data.bloodFlow.v(1,:) = MScanData.notes.decimate*MScanData.notes.tFactor*MScanData.notes.xFactor*(cotd(thetas(1,:) - 90));
         MScanData.data.bloodFlow.v(2,:) = MScanData.notes.decimate*MScanData.notes.tFactor*MScanData.notes.xFactor*(cotd(thetas(1,:) - 90));
     end
-    MScanData.data.bloodFlow.velocity2(1,:) = VelocityCleanUp_2P(MScanData.data.bloodFlow.v(1,:),maxVelocity);
+    MScanData.data.bloodFlow.velocity2(1,:) = VelocityCleanUp_2P_nNOS(MScanData.data.bloodFlow.v(1,:),maxVelocity);
     if interleaved == 1
-        MScanData.data.bloodFlow.velocity2(2,:) = VelocityCleanUp_2P(MScanData.data.bloodFlow.v(2,:),maxVelocity);
+        MScanData.data.bloodFlow.velocity2(2,:) = VelocityCleanUp_2P_nNOS(MScanData.data.bloodFlow.v(2,:),maxVelocity);
     else
         MScanData.data.bloodFlow.velocity2(2,:) = -(MScanData.data.bloodFlow.velocity2(1,:));
     end
@@ -154,7 +154,7 @@ if interleaved == 1
     MScanData.data.bloodFlow.vOut = vOut;
     MScanData.data.bloodFlow.theT = theT/(MScanData.notes.lineRate);
     MScanData.data.bloodFlow.Fs = 4/MScanData.notes.frameTime;
-    [MScanData.data.bloodFlow.fixedVelocity] = VelocityCleanUpSTDOutliers_2P(MScanData.data.bloodFlow.vOut,3); % clear outliers > 3 standard deviations
+    [MScanData.data.bloodFlow.fixedVelocity] = VelocityCleanUpSTDOutliers_2P_nNOS(MScanData.data.bloodFlow.vOut,3); % clear outliers > 3 standard deviations
     try
         MScanData.data.bloodFlow.Image = dataCache;
     catch

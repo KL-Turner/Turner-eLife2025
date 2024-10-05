@@ -1,4 +1,4 @@
-function [Results_PowerSpec_2P] = AnalyzePowerSpectrum_2P(animalID,group,set,rootFolder,delim,Results_PowerSpec_2P)
+function [Results_PowerSpec_2P] = AnalyzePowerSpectrum_2P_nNOS(animalID,group,set,rootFolder,delim,Results_PowerSpec_2P)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -28,7 +28,7 @@ samplingRate = 5;
 allData = [];
 for aa = 1:size(mergedDataFileIDs,1)
     mergedDataFileID = mergedDataFileIDs(aa,:);
-    [~,~,fileDate,~,~,vesselID] = GetFileInfo2_2P(mergedDataFileID);
+    [~,~,fileDate,~,~,vesselID] = GetFileInfo2_IOS_nNOS(mergedDataFileID);
     if strcmp(vesselID(1),'V') == false
         load(mergedDataFileID,'-mat')
         strDay = ConvertDate_2P(fileDate);
@@ -41,7 +41,7 @@ for aa = 1:size(mergedDataFileIDs,1)
         normVesselDiam = detrend((vesselDiam - RestingBaselines.manualSelection.vesselDiameter.data.(vesselID).(strDay))./ RestingBaselines.manualSelection.vesselDiameter.data.(vesselID).(strDay),'constant');
         allData.(vesselID) = horzcat(allData.(vesselID),normVesselDiam');
         binWhisk = MergedData.data.binWhiskerAngle;
-        [linkedBinarizedWhiskers] = LinkBinaryEvents_2P(gt(binWhisk,0),[round(30/3),0]);
+        [linkedBinarizedWhiskers] = LinkBinaryEvents_IOS_nNOS(gt(binWhisk,0),[round(30/3),0]);
         binWhiskingPercent = sum(linkedBinarizedWhiskers)/length(linkedBinarizedWhiskers)*100 ;
         binWhisking.(vesselID) = horzcat(binWhisking.(vesselID),binWhiskingPercent);
     end

@@ -1,4 +1,4 @@
-function [] = AnalyzeIntrinsicSignals_GCaMP_Handler(rootFolder,delim,runFromStart)
+function [] = AnalyzeIntrinsicSignals_GCaMP_Handler_nNOS(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -37,7 +37,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_IntSig_GCaMP.(groups{1,aa}),animalIDs{1,bb}) == false
-            [Results_IntSig_GCaMP] = AnalyzeIntrinsicSignals_GCaMP(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_IntSig_GCaMP);
+            [Results_IntSig_GCaMP] = AnalyzeIntrinsicSignals_GCaMP_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_IntSig_GCaMP);
         end
         multiWaitbar('Analyzing intrinsic signals for GCaMP','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

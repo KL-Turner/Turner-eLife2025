@@ -1,5 +1,5 @@
 
-function [data]=gaussian2d_2P(xstd,ystd,xsize,ysize)
+function [data]=gaussian2d_2P_nNOS(xstd,ystd,xsize,ysize)
 %2-d gaussian kernel for filtering
 data=zeros(xsize-1,ysize-1);
 x0=xsize/2;

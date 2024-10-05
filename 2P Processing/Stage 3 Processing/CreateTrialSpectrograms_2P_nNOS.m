@@ -1,4 +1,4 @@
-function CreateTrialSpectrograms_2P(mergedDataFileIDs,specNeuralDataTypes)
+function CreateTrialSpectrograms_2P_nNOS(mergedDataFileIDs,specNeuralDataTypes)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

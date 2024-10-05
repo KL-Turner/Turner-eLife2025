@@ -1,4 +1,4 @@
-function [procNeuro,neuroFs] = ProcessNeuro_2P(MScanData,expectedLength,neurType,neuralFieldName)
+function [procNeuro,neuroFs] = ProcessNeuro_2P_nNOS(MScanData,expectedLength,neurType,neuralFieldName)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

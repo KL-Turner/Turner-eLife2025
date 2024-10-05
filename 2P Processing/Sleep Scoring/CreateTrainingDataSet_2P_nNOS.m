@@ -1,4 +1,4 @@
-function [] = CreateTrainingDataSet_2P(mergedDataFileIDs,RestingBaselines,baselineType)
+function [] = CreateTrainingDataSet_2P_nNOS(mergedDataFileIDs,RestingBaselines,baselineType)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -11,7 +11,7 @@ for a = 1:size(mergedDataFileIDs,1)
         disp(['Loading ' mergedDataFileID ' for manual sleep scoring.' ]); disp(' ')
         load(mergedDataFileID)
         saveFigs = 'n';
-        [figHandle] = GenerateSingleFigures_2P(mergedDataFileID,baselineType,saveFigs,RestingBaselines);
+        [figHandle] = GenerateSingleFigures_2P_nNOS(mergedDataFileID,baselineType,saveFigs,RestingBaselines);
         trialDuration = MergedData.notes.trialDuration_Sec;
         numBins = trialDuration/5;
         behavioralState = cell(180,1);

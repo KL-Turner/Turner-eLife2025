@@ -25,9 +25,9 @@ for aa = 1:size(animalIDs,2)
     mergedDataFiles = {mergedDataFileStruct.name}';
     mergedDataFileIDs = char(mergedDataFiles);
     % add sleep parameters (each behavior we care about during sleep)
-    AddSleepParameters_2P(mergedDataFileIDs,RestingBaselines,baselineType)
+    AddSleepParameters_2P_nNOS(mergedDataFileIDs,RestingBaselines,baselineType)
     % create manual decisions for each 5 second bin
-    CreateTrainingDataSet_2P(mergedDataFileIDs,RestingBaselines,baselineType)
+    CreateTrainingDataSet_2P_nNOS(mergedDataFileIDs,RestingBaselines,baselineType)
     cd(startingDirectory)
 end
 
@@ -41,9 +41,9 @@ for bb = 1:length(animalIDs)
     NREMsleepTime = 30;   % seconds
     REMsleepTime = 60;   % seconds
     % apply sleep logicals for sleep scoring
-    ApplySleepLogical_2P(modelName)
+    ApplySleepLogical_2P_nNOS(modelName)
     % create SleepData.mat structure
-    [SleepData] = CreateSleepData_2P(NREMsleepTime,REMsleepTime,modelName,SleepData);
+    [SleepData] = CreateSleepData_2P_nNOS(NREMsleepTime,REMsleepTime,modelName,SleepData);
     save([animalIDs{1,bb} '_SleepData.mat'],'SleepData')
     cd(startingDirectory)
 end

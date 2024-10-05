@@ -1,4 +1,4 @@
-function [] = AnalyzePupilArea_Ephys_Handler(rootFolder,delim,runFromStart)
+function [] = AnalyzePupilArea_Ephys_Handler_nNOS(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -39,7 +39,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_PupilArea_Ephys.(groups{1,aa}),(animalIDs{1,bb})) == false
-            [Results_PupilArea_Ephys] = AnalyzePupilArea_Ephys(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_PupilArea_Ephys);
+            [Results_PupilArea_Ephys] = AnalyzePupilArea_Ephys_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_PupilArea_Ephys);
         end
         multiWaitbar('Analyzing pupil area for Ephys','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

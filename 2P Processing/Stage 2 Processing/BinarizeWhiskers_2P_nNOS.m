@@ -1,4 +1,4 @@
-function [bin_wwf] = BinarizeWhiskers_2P(angle,fs,thresh1,thresh2)
+function [bin_wwf] = BinarizeWhiskers_2P_nNOS(angle,fs,thresh1,thresh2)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

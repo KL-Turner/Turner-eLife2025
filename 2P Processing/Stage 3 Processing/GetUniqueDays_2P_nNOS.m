@@ -1,4 +1,4 @@
-function [UniqueDays, dayIndex, dayID] = GetUniqueDays_2P(DateList)
+function [UniqueDays, dayIndex, dayID] = GetUniqueDays_2P_nNOS(DateList)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

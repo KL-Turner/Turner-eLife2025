@@ -1,4 +1,4 @@
-function [] = AnalyzePreWhitenedPowerSpectrum_GCaMP_Handler(rootFolder,delim,runFromStart)
+function [] = AnalyzePreWhitenedPowerSpectrum_GCaMP_Handler_nNOS(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -37,7 +37,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_PreWhitenedPowerSpec_GCaMP.(groups{1,aa}),(animalIDs{1,bb})) == false
-            [Results_PreWhitenedPowerSpec_GCaMP] = AnalyzePreWhitenedPowerSpectrum_GCaMP(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_PreWhitenedPowerSpec_GCaMP);
+            [Results_PreWhitenedPowerSpec_GCaMP] = AnalyzePreWhitenedPowerSpectrum_GCaMP_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_PreWhitenedPowerSpec_GCaMP);
         end
         multiWaitbar('Analyzing pre-whitened power spectrum for GCaMP','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

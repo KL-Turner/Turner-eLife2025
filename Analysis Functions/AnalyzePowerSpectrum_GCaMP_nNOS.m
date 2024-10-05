@@ -1,4 +1,4 @@
-function [Results_PowerSpec_GCaMP] = AnalyzePowerSpectrum_GCaMP(animalID,group,set,rootFolder,delim,Results_PowerSpec_GCaMP)
+function [Results_PowerSpec_GCaMP] = AnalyzePowerSpectrum_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_PowerSpec_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -55,15 +55,15 @@ for aa = 1:length(hemispheres)
         %% Rest
         clear restingData procRestData restData finalRestData
         samplingRate = RestData.(dataType).(hemisphere).samplingRate;
-        [restLogical] = FilterEvents_IOS(RestData.(dataType).(hemisphere),RestCriteria);
-        [stimLogical] = FilterEvents_IOS(RestData.(dataType).(hemisphere),RestStimCriteria);
+        [restLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).(hemisphere),RestCriteria);
+        [stimLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).(hemisphere),RestStimCriteria);
         combRestLogical = logical(restLogical.*stimLogical);
         restFileIDs = RestData.(dataType).(hemisphere).fileIDs(combRestLogical,:);
         restEventTimes = RestData.(dataType).(hemisphere).eventTimes(combRestLogical,:);
         restDurations = RestData.(dataType).(hemisphere).durations(combRestLogical,:);
         restingData = RestData.(dataType).(hemisphere).data(combRestLogical,:);
         % keep only the data that occurs within the manually-approved awake regions
-        [restData,~,~,~] = RemoveInvalidData_IOS(restingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [restData,~,~,~] = RemoveInvalidData_IOS_nNOS(restingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
         % detrend and truncate data to minimum length to match events
         for cc = 1:length(restData)
             if length(restData{cc,1}) < params.minTime.Rest*samplingRate
@@ -96,7 +96,7 @@ for aa = 1:length(hemispheres)
         zz = 1;
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,fileID] = GetFileInfo_IOS(procDataFileID);
+            [~,~,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(fileID,ScoringResults.fileIDs{dd,1}) == true
                     scoringLabels = ScoringResults.labels{dd,1};
@@ -138,7 +138,7 @@ for aa = 1:length(hemispheres)
         zz = 1;
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,fileID] = GetFileInfo_IOS(procDataFileID);
+            [~,~,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(fileID,ScoringResults.fileIDs{dd,1}) == true
                     scoringLabels = ScoringResults.labels{dd,1};
@@ -201,7 +201,7 @@ for aa = 1:length(hemispheres)
         Results_PowerSpec_GCaMP.(group).(animalID).(hemisphere).(dataType).All.sErr = allsErr;
         %% NREM
         clear nremData procNREMData finalNREMData
-        [nremData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).NREM.data.(dataType).(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
         % detrend and truncate data to minimum length to match events
         for ee = 1:length(nremData)
             procNREMData{ee,1} = detrend(nremData{ee,1}(1:(params.minTime.NREM*samplingRate)),'constant');
@@ -216,7 +216,7 @@ for aa = 1:length(hemispheres)
         Results_PowerSpec_GCaMP.(group).(animalID).(hemisphere).(dataType).NREM.sErr = nremsErr;
         %% REM
         clear remData procREMData finalREMData
-        [remData,~,~] = RemoveStimSleepData_IOS(animalID,SleepData.(modelType).REM.data.(dataType).(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
         % detrend and truncate data to minimum length to match events
         for ee = 1:length(remData)
             procREMData{ee,1} = detrend(remData{ee,1}(1:(params.minTime.REM*samplingRate)),'constant');

@@ -1,4 +1,4 @@
-function [Header]=ReadMCSTiffInfo_2P(fname)
+function [Header]=ReadMCSTiffInfo_2P_nNOS(fname)
 %extract header information from a MCS file saved as a *tiff using
 %mpview tiff exporter
 %PJD 5/2017

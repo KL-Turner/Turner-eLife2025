@@ -1,4 +1,4 @@
-function [animalID,hem,fileDate,fileID] = GetFileInfo_2P(fileName)
+function [animalID,hem,fileDate,fileID] = GetFileInfo_2P_nNOS(fileName)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

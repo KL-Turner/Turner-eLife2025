@@ -1,4 +1,4 @@
-function [images] = LoadTiffConcatenate_2P(filename,frameIndeces)
+function [images] = LoadTiffConcatenate_2P_nNOS(filename,frameIndeces)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

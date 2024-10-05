@@ -1,4 +1,4 @@
-function [linkedWF] = LinkBinaryEvents_2P(binWF,dCrit)
+function [linkedWF] = LinkBinaryEvents_2P_nNOS(binWF,dCrit)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

@@ -1,4 +1,4 @@
-function MScanData = AreaCalcPenVessel_2P(MScanData,imageID)
+function MScanData = AreaCalcPenVessel_2P_nNOS(MScanData,imageID)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

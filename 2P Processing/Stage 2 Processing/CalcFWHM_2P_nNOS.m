@@ -1,4 +1,4 @@
-function width = CalcFWHM_2P(data,smoothing,threshold)
+function width = CalcFWHM_2P_nNOS(data,smoothing,threshold)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

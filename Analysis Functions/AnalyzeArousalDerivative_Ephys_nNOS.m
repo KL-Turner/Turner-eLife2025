@@ -1,4 +1,4 @@
-function [Results_Derivative_Ephys] = AnalyzeArousalDerivative_Ephys(animalID,group,set,rootFolder,delim,Results_Derivative_Ephys)
+function [Results_Derivative_Ephys] = AnalyzeArousalDerivative_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_Derivative_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -29,7 +29,7 @@ for aa = 1:length(hemispheres)
         zz = 1;
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,allDataFileID] = GetFileInfo_IOS(procDataFileID);
+            [~,~,allDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(allDataFileID,ScoringResults.fileIDs{dd,1}) == true
                     scoringLabels = ScoringResults.labels{dd,1};
@@ -52,7 +52,7 @@ for aa = 1:length(hemispheres)
         zz = 1;
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,asleepDataFileID] = GetFileInfo_IOS(procDataFileID);
+            [~,~,asleepDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(asleepDataFileID,ScoringResults.fileIDs{dd,1}) == true
                     scoringLabels = ScoringResults.labels{dd,1};
