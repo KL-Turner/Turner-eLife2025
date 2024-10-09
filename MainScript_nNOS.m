@@ -24,23 +24,23 @@ end
 % analysis subfunctions
 disp('Loading analysis results and generating figures...'); disp(' ')
 
-% main figure panels
-Fig1_nNOS(rootFolder,saveState,delim)
-Fig2_nNOS(rootFolder,saveState,delim)
-Fig3_nNOS(rootFolder,saveState,delim)
-Fig4_nNOS(rootFolder,saveState,delim)
-Fig5_nNOS(rootFolder,saveState,delim)
+% % main figure panels
+% Fig1_nNOS(rootFolder,saveState,delim)
+% Fig2_nNOS(rootFolder,saveState,delim)
+% Fig3_nNOS(rootFolder,saveState,delim)
+% Fig4_nNOS(rootFolder,saveState,delim)
+% Fig5_nNOS(rootFolder,saveState,delim)
 Fig6_nNOS(rootFolder,saveState,delim)
-Fig7_nNOS(rootFolder,saveState,delim)
-
-% supplemental figure panels
-FigS1_nNOS(rootFolder,saveState,delim)
-FigS2_nNOS(rootFolder,saveState,delim)
-FigS3_nNOS(rootFolder,saveState,delim)
-FigS4_nNOS(rootFolder,saveState,delim)
-FigS5_nNOS(rootFolder,saveState,delim)
-FigS6_nNOS(rootFolder,saveState,delim)
-FigS7_nNOS(rootFolder,saveState,delim)
+% Fig7_nNOS(rootFolder,saveState,delim)
+% 
+% % supplemental figure panels
+% FigS1_nNOS(rootFolder,saveState,delim)
+% FigS2_nNOS(rootFolder,saveState,delim)
+% FigS3_nNOS(rootFolder,saveState,delim)
+% FigS4_nNOS(rootFolder,saveState,delim)
+% FigS5_nNOS(rootFolder,saveState,delim)
+% FigS6_nNOS(rootFolder,saveState,delim)
+% FigS7_nNOS(rootFolder,saveState,delim)
 
 % go back to original directory
 cd(currentFolder)
