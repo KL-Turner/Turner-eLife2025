@@ -30,8 +30,8 @@ disp('Loading analysis results and generating figures...'); disp(' ')
 % Fig3_nNOS(rootFolder,saveState,delim)
 % Fig4_nNOS(rootFolder,saveState,delim)
 % Fig5_nNOS(rootFolder,saveState,delim)
-Fig6_nNOS(rootFolder,saveState,delim)
-% Fig7_nNOS(rootFolder,saveState,delim)
+% Fig6_nNOS(rootFolder,saveState,delim)
+Fig7_nNOS(rootFolder,saveState,delim)
 % 
 % % supplemental figure panels
 % FigS1_nNOS(rootFolder,saveState,delim)
