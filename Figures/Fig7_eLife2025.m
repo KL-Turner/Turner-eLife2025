@@ -560,6 +560,7 @@ for ee = 1:length(groups)
     diameterShiftData.(group).meanDiameter = mean(diameterShiftData.(group).diameter,1);
     diameterShiftData.(group).stdDiameter = std(diameterShiftData.(group).diameter,0,1);
     diameterShiftData.(group).meanBaseline = mean(diameterShiftData.(group).baseline,1);
+    diameterShiftData.(group).stdBaseline = std(diameterShiftData.(group).baseline,0,1);
 end
 [TwoPIsoStats.h,TwoPIsoStats.p] = ttest2(diameterShiftData.Blank_SAP.diameter,diameterShiftData.SSP_SAP.diameter);
 
@@ -752,8 +753,8 @@ if saveState == true
         % isoflurane shift 2P diameter
     disp('======================================================================================================================')
     disp('isoflurane diameter shift, n = 9 mice per group, mean +/- StD'); disp(' ')
-    disp(['Blank-SAP Rest: ' num2str(diameterShiftData.Blank_SAP.meanDiameter) ' +/- ' num2str(diameterShiftData.Blank_SAP.stdDiameter) ' baseline diameter: ' num2str(diameterShiftData.Blank_SAP.meanBaseline) ' \muM']); disp(' ')
-    disp(['SSP-SAP Rest: ' num2str(diameterShiftData.SSP_SAP.meanDiameter) ' +/- ' num2str(diameterShiftData.SSP_SAP.stdDiameter) ' baseline diameter: ' num2str(diameterShiftData.SSP_SAP.meanBaseline) ' \muM']); disp(' ')
+    disp(['Blank-SAP Rest: ' num2str(diameterShiftData.Blank_SAP.meanDiameter) ' +/- ' num2str(diameterShiftData.Blank_SAP.stdDiameter) ' baseline diameter: ' num2str(diameterShiftData.Blank_SAP.meanBaseline) '+/-' num2str(diameterShiftData.Blank_SAP.stdBaseline) ' \muM']); disp(' ')
+    disp(['SSP-SAP Rest: ' num2str(diameterShiftData.SSP_SAP.meanDiameter) ' +/- ' num2str(diameterShiftData.SSP_SAP.stdDiameter) ' baseline diameter: ' num2str(diameterShiftData.SSP_SAP.meanBaseline) '+/-' num2str(diameterShiftData.SSP_SAP.stdBaseline) ' /muM']); disp(' ')
     disp(['Blank vs. SAP Rest ttest p = ' num2str(TwoPIsoStats.p)]); disp(' ')
 
 
