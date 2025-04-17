@@ -24,23 +24,23 @@ end
 % analysis subfunctions
 disp('Loading analysis results and generating figures...'); disp(' ')
 
-% % main figure panels
-% Fig1_eLife2025(rootFolder,saveState,delim)
-% Fig2_eLife2025(rootFolder,saveState,delim)
+% main figure panels
+Fig1_eLife2025(rootFolder,saveState,delim)
+Fig2_eLife2025(rootFolder,saveState,delim)
 Fig3_eLife2025(rootFolder,saveState,delim)
-% Fig4_eLife2025(rootFolder,saveState,delim)
-% Fig5_eLife2025(rootFolder,saveState,delim)
-% Fig6_eLife2025(rootFolder,saveState,delim)
-% Fig7_eLife2025(rootFolder,saveState,delim)
-% 
-% % supplemental figure panels
-% FigS1_eLife2025(rootFolder,saveState,delim)
-% FigS2_eLife2025(rootFolder,saveState,delim)
-% FigS3_eLife2025(rootFolder,saveState,delim)
-% FigS4_eLife2025(rootFolder,saveState,delim)
-% FigS5_eLife2025(rootFolder,saveState,delim)
-% FigS6_eLife2025(rootFolder,saveState,delim)
-% FigS7_eLife2025(rootFolder,saveState,delim)
+Fig4_eLife2025(rootFolder,saveState,delim)
+Fig5_eLife2025(rootFolder,saveState,delim)
+Fig6_eLife2025(rootFolder,saveState,delim)
+Fig7_eLife2025(rootFolder,saveState,delim)
+
+% supplemental figure panels
+FigS1_eLife2025(rootFolder,saveState,delim)
+FigS2_eLife2025(rootFolder,saveState,delim)
+FigS3_eLife2025(rootFolder,saveState,delim)
+FigS4_eLife2025(rootFolder,saveState,delim)
+FigS5_eLife2025(rootFolder,saveState,delim)
+FigS6_eLife2025(rootFolder,saveState,delim)
+FigS7_eLife2025(rootFolder,saveState,delim)
 
 % go back to original directory
 cd(currentFolder)
