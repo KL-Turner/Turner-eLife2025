@@ -47,7 +47,7 @@ cd(currentFolder)
 
 function [] = RunAnalysis_eLife2025(rootFolder,delim)
 % evoked responses
-AnalyzeEvokedResponses_Ephys_Handler_eLife2025_eLife2025(rootFolder,delim,false)
+AnalyzeEvokedResponses_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeEvokedResponses_GCaMP_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeEvokedResponses_2P_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeEvokedResponses_Pulse_Handler_eLife2025(rootFolder,delim,false)

@@ -1,4 +1,4 @@
-function [] = AnalyzeEvokedResponses_Ephys_Handler_nNOS(rootFolder,delim,runFromStart)
+function [] = AnalyzeEvokedResponses_Ephys_Handler_eLife2025(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

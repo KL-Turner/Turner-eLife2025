@@ -1,4 +1,4 @@
-function [Results_Baseline_2P] = AnalyzeArterioleBaseline_2P_nNOS(animalID,group,set,rootFolder,delim,Results_Baseline_2P)
+function [Results_Baseline_2P] = AnalyzeArterioleBaseline_2P_eLife2025(animalID,group,set,rootFolder,delim,Results_Baseline_2P)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -11,6 +11,20 @@ baselineDataFileStruct = dir('*_RestingBaselines.mat');
 baselineDataFile = {baselineDataFileStruct.name}';
 baselineDataFileID = char(baselineDataFile);
 load(baselineDataFileID)
+% character list of all MergedData files
+mergedDirectory = dir('*_MergedData.mat');
+mergedDataFiles = {mergedDirectory.name}';
+mergedDataFileIDs = char(mergedDataFiles);
+samplingRate = 5;
+for aa = 1:size(mergedDataFileIDs,1)
+    mergedDataFileID = mergedDataFileIDs(aa,:);
+    load(mergedDataFileID)
+    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
+    strDay = ConvertDate_2P_nNOS(fileDate);
+    % save results
+    Results_Baseline_2P.(group).(animalID).(vID).all.diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
+    Results_Baseline_2P.(group).(animalID).(vID).all.baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);
+end
 % cd to data location
 dataLocation = [rootFolder delim 'Data' delim group delim set delim animalID delim 'Isoflurane'];
 cd(dataLocation)
@@ -25,8 +39,8 @@ for aa = 1:size(mergedDataFileIDs,1)
     [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
     strDay = ConvertDate_2P_nNOS(fileDate);
     % save results
-    Results_Baseline_2P.(group).(animalID).(vID).diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
-    Results_Baseline_2P.(group).(animalID).(vID).baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);
+    Results_Baseline_2P.(group).(animalID).(vID).iso.diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
+    Results_Baseline_2P.(group).(animalID).(vID).iso.baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);
 end
 % save data
 cd([rootFolder delim 'Results_Turner'])
