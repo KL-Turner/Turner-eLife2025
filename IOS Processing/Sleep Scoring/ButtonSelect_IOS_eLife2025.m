@@ -1,4 +1,4 @@
-function [] = ButtonSelect_IOS_nNOS()
+function [] = ButtonSelect_IOS_eLife2025()
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

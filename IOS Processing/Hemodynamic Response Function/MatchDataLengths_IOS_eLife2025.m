@@ -1,4 +1,4 @@
-function [res_data1,res_data2] = MatchDataLengths_IOS_nNOS(data1,data2)
+function [res_data1,res_data2] = MatchDataLengths_IOS_eLife2025(data1,data2)
 %
 %   Author: Aaron Winder
 %   Affiliation: Engineering Science and Mechanics, Penn State University

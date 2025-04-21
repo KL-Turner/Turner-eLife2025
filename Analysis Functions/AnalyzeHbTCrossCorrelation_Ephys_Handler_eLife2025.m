@@ -1,4 +1,4 @@
-function [] = AnalyzeHbTCrossCorrelation_Ephys_Handler_nNOS(rootFolder,delim,runFromStart)
+function [] = AnalyzeHbTCrossCorrelation_Ephys_Handler_eLife2025(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -39,7 +39,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_HbTCrossCorr_Ephys.(groups{1,aa}),(animalIDs{1,bb})) == false
-            [Results_HbTCrossCorr_Ephys] = AnalyzeHbTCrossCorrelation_Ephys_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_HbTCrossCorr_Ephys);
+            [Results_HbTCrossCorr_Ephys] = AnalyzeHbTCrossCorrelation_Ephys_eLife2025(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_HbTCrossCorr_Ephys);
         end
         multiWaitbar('Analyzing cross correlation for Ephys','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

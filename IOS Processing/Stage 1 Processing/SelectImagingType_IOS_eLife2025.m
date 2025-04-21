@@ -1,4 +1,4 @@
-function [imagingType] = SelectImagingType_IOS_nNOS(imagingOptions)
+function [imagingType] = SelectImagingType_IOS_eLife2025(imagingOptions)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

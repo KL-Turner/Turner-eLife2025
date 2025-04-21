@@ -1,4 +1,4 @@
-function [singleTrialFig] = GenerateSingleFigures_2P_nNOS(mergedDataFileID,baselineType,saveFigs,RestingBaselines)
+function [singleTrialFig] = GenerateSingleFigures_2P_eLife2025(mergedDataFileID,baselineType,saveFigs,RestingBaselines)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -10,8 +10,8 @@ function [singleTrialFig] = GenerateSingleFigures_2P_nNOS(mergedDataFileID,basel
 
 % load file and gather information
 load(mergedDataFileID,'-mat')
-[animalID,hem,fileDate,fileID,imageID,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
-strDay = ConvertDate_2P_nNOS(fileDate);
+[animalID,hem,fileDate,fileID,imageID,vesselID] = GetFileInfo2_2P_eLife2025(mergedDataFileID);
+strDay = ConvertDate_2P_eLife2025(fileDate);
 % setup butterworth filter coefficients for a 1 Hz and 10 Hz lowpass based on the sampling rate
 [z1,p1,k1] = butter(4,10/(MergedData.notes.dsFs/2),'low');
 [sos1,g1] = zp2sos(z1,p1,k1);

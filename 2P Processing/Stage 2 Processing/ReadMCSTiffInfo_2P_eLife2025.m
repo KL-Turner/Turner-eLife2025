@@ -1,4 +1,4 @@
-function [Header]=ReadMCSTiffInfo_2P_nNOS(fname)
+function [Header]=ReadMCSTiffInfo_2P_eLife2025(fname)
 %extract header information from a MCS file saved as a *tiff using
 %mpview tiff exporter
 %PJD 5/2017

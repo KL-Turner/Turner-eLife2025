@@ -1,4 +1,4 @@
-function [binForceSensor] = BinarizeForceSensor_IOS_nNOS(forceSensor,thresh)
+function [binForceSensor] = BinarizeForceSensor_IOS_eLife2025(forceSensor,thresh)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

@@ -1,4 +1,4 @@
-function [] = CorrectLabVIEWOffset_2P_nNOS(mscanDataFiles,trimTime)
+function [] = CorrectLabVIEWOffset_2P_eLife2025(mscanDataFiles,trimTime)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -19,7 +19,7 @@ for a = 1:size(mscanDataFiles,1)
     load(labviewDataFile)
 %     if MScanData.notes.checklist.offsetCorrect == false
         disp(['Correcting offset in file number ' num2str(a) ' of ' num2str(size(mscanDataFiles, 1)) '...']); disp(' ');
-        [animalID,hem,fileDate,fileID] = GetFileInfo_2P_nNOS(labviewDataFile);
+        [animalID,hem,fileDate,fileID] = GetFileInfo_2P_eLife2025(labviewDataFile);
         imageID = MScanData.notes.imageID;
         vesselID = MScanData.notes.vesselID;
         analogSamplingRate = LabVIEWData.notes.analogSamplingRate_Hz;

@@ -1,11 +1,11 @@
-function [imagefig,xstart,xstop,frames_hold,nframes,scan_type] = DisplayFramesMultiVesselTIFF_2P_nNOS(fname,MScanData)
+function [imagefig,xstart,xstop,frames_hold,nframes,scan_type] = DisplayFramesMultiVesselTIFF_2P_eLife2025(fname,MScanData)
 
     nframes = MScanData.notes.frameCount;
     MScanData.xsize = str2double(MScanData.notes.frameWidth);
     MScanData.ysize = str2double(MScanData.notes.frameHeight);
     frame_height = MScanData.ysize;
  
-    frames_hold = LoadTiffConcatenate_2P_nNOS(fname,[1,5]);%
+    frames_hold = LoadTiffConcatenate_2P_eLife2025(fname,[1,5]);%
     imagefig = figure(2);
     colormap gray
     %plot the data

@@ -1,4 +1,4 @@
-function [RestingBaselines] = CalculateSpectrogramBaselines_2P_nNOS(animal,neuralDataTypes,trialDuration_sec,specDataFiles,RestingBaselines,baselineType)
+function [RestingBaselines] = CalculateSpectrogramBaselines_2P_eLife2025(animal,neuralDataTypes,trialDuration_sec,specDataFiles,RestingBaselines,baselineType)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -20,7 +20,7 @@ for a = 1:length(neuralDataTypes)
         fileID = restFileList{b,1};   % FileID of currently loaded file
         % Load in neural data from current file
         for c = 1:size(specDataFiles,1)
-            [~,~,~,specDataFile,~,~] = GetFileInfo2_2P_nNOS(specDataFiles(c,:));
+            [~,~,~,specDataFile,~,~] = GetFileInfo2_2P_eLife2025(specDataFiles(c,:));
             if strcmp(fileID,specDataFile)
                 load(specDataFiles(c,:),'-mat')
                 S1 = SpecData.(neuralDataType).oneSec.S;
@@ -34,7 +34,7 @@ for a = 1:length(neuralDataTypes)
     end
     for d = 1:length(restFileList)
         fileID = restFileList{d,1};
-        strDay = ConvertDate_2P_nNOS(fileID(1:6));
+        strDay = ConvertDate_2P_eLife2025(fileID(1:6));
         S1_data = restS1{d,1};
         S5_data = restS5{d,1};
         binSize1 = 30;
@@ -72,12 +72,12 @@ for a = 1:length(neuralDataTypes)
         trialRestData.([strDay '_' fileID]).fiveSec.S_avg = S_trialAvg5;
     end
     fields = fieldnames(trialRestData);
-    uniqueDays = GetUniqueDays_2P_nNOS(RestingBaselines.(baselineType).baselineFileInfo.fileIDs);
+    uniqueDays = GetUniqueDays_2P_eLife2025(RestingBaselines.(baselineType).baselineFileInfo.fileIDs);
     for f = 1:length(uniqueDays)
         g = 1;
         for field = 1:length(fields)
             if strcmp(fields{field}(7:12), uniqueDays{f})
-                stringDay = ConvertDate_2P_nNOS(uniqueDays{f});
+                stringDay = ConvertDate_2P_eLife2025(uniqueDays{f});
                 S_avgs.oneSec.(stringDay){g,1} = trialRestData.(fields{field}).oneSec.S_avg;
                 S_avgs.fiveSec.(stringDay){g,1} = trialRestData.(fields{field}).fiveSec.S_avg;
                 g = g + 1;

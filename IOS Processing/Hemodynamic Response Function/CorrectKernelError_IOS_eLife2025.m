@@ -1,4 +1,4 @@
-function [correctedTestData,FitParams] = CorrectKernelError_IOS_nNOS(FitData,TestData,behavior)
+function [correctedTestData,FitParams] = CorrectKernelError_IOS_eLife2025(FitData,TestData,behavior)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner - originally written By Kyle Gheres
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -39,7 +39,7 @@ elseif strcmp(behavior,'Contra') == true || strcmp(behavior,'Whisk') == true
     testPredArray = reshape(testPred,numel(testPred),1);
 end
 % Correct non-linearity between predicted and actual HbT with respect to predicted HbT
-[correctedTestPredArray,FitParams] = CorrectExpError_IOS_nNOS(fitActualArray,fitPredArray,testActualArray,testPredArray);
+[correctedTestPredArray,FitParams] = CorrectExpError_IOS_eLife2025(fitActualArray,fitPredArray,testActualArray,testPredArray);
 % reshape data back to orignial form
 if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(behavior,'REM') == true
     startPoint = 1;

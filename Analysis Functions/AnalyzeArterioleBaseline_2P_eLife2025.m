@@ -19,8 +19,8 @@ samplingRate = 5;
 for aa = 1:size(mergedDataFileIDs,1)
     mergedDataFileID = mergedDataFileIDs(aa,:);
     load(mergedDataFileID)
-    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
-    strDay = ConvertDate_2P_nNOS(fileDate);
+    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_eLife2025(mergedDataFileID);
+    strDay = ConvertDate_2P_eLife2025(fileDate);
     % save results
     Results_Baseline_2P.(group).(animalID).(vID).all.diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
     Results_Baseline_2P.(group).(animalID).(vID).all.baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);
@@ -36,8 +36,8 @@ samplingRate = 5;
 for aa = 1:size(mergedDataFileIDs,1)
     mergedDataFileID = mergedDataFileIDs(aa,:);
     load(mergedDataFileID)
-    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
-    strDay = ConvertDate_2P_nNOS(fileDate);
+    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_eLife2025(mergedDataFileID);
+    strDay = ConvertDate_2P_eLife2025(fileDate);
     % save results
     Results_Baseline_2P.(group).(animalID).(vID).iso.diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
     Results_Baseline_2P.(group).(animalID).(vID).iso.baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);

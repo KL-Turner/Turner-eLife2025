@@ -1,4 +1,4 @@
-function [Results_CrossCorr_Ephys] = AnalyzeCrossCorrelation_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_CrossCorr_Ephys)
+function [Results_CrossCorr_Ephys] = AnalyzeCrossCorrelation_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_CrossCorr_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -68,8 +68,8 @@ for aa = 1:length(hemispheres)
         maxLag = lagTime*samplingRate;
         %% Rest
         clear restFiltHbT restFiltNeural
-        [restLogical] = FilterEvents_IOS_nNOS(RestData.HbT.(hemisphere),RestCriteria);
-        [puffLogical] = FilterEvents_IOS_nNOS(RestData.HbT.(hemisphere),RestPuffCriteria);
+        [restLogical] = FilterEvents_IOS_eLife2025(RestData.HbT.(hemisphere),RestCriteria);
+        [puffLogical] = FilterEvents_IOS_eLife2025(RestData.HbT.(hemisphere),RestPuffCriteria);
         combRestLogical = logical(restLogical.*puffLogical);
         restFileIDs = RestData.HbT.(hemisphere).fileIDs(combRestLogical,:);
         restDurations = RestData.HbT.(hemisphere).durations(combRestLogical,:);
@@ -77,8 +77,8 @@ for aa = 1:length(hemispheres)
         restingHbTData = RestData.HbT.(hemisphere).data(combRestLogical,:);
         restingNeuralData = RestData.(neuralDataType).(dataType).NormData(combRestLogical,:);
         % keep only the data that occurs within the manually-approved awake regions
-        [restFinalRestHbTData,restFinalFileIDs,restFinalDurations,restFinalEventTimes] = RemoveInvalidData_IOS_nNOS(restingHbTData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-        [restFinalRestNeuralData,~,~,~] = RemoveInvalidData_IOS_nNOS(restingNeuralData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [restFinalRestHbTData,restFinalFileIDs,restFinalDurations,restFinalEventTimes] = RemoveInvalidData_IOS_eLife2025(restingHbTData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [restFinalRestNeuralData,~,~,~] = RemoveInvalidData_IOS_eLife2025(restingNeuralData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
         % check whether the event occurs in the appropriate time frame
         for mm =  1:length(restFinalRestNeuralData)
             restFiltHbT{mm,1} = detrend(restFinalRestHbTData{mm,1},'constant');
@@ -169,7 +169,7 @@ for aa = 1:length(hemispheres)
         zz = 1; alertHbT = []; alertNeural = []; alertFileIDs = []; alertProcData = [];
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,alertDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,alertDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
             scoringLabels = [];
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(alertDataFileID,ScoringResults.fileIDs{dd,1}) == true
@@ -283,7 +283,7 @@ for aa = 1:length(hemispheres)
         asleepHbT = []; asleepNeural = []; asleepFileIDs = []; asleepProcData = [];
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,asleepDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,asleepDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
             scoringLabels = [];
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(asleepDataFileID,ScoringResults.fileIDs{dd,1}) == true
@@ -401,7 +401,7 @@ for aa = 1:length(hemispheres)
         allHbT = []; allNeural = []; allFileIDs = []; allProcData = [];
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,allDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,allDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
             load(procDataFileID,'-mat')
             puffs = ProcData.data.stimulations.LPadSol;
             % don't include trials with stimulation
@@ -480,8 +480,8 @@ for aa = 1:length(hemispheres)
             end
         end
         %% NREM
-        [NREM_finalHbT,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.HbT.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-        [NREM_finalNeural,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(neuralDataType).(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [NREM_finalHbT,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.HbT.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [NREM_finalNeural,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.(neuralDataType).(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
         % adjust[HbT] and Neural events to match the edits made to the length of each spectrogram
         for mm = 1:length(NREM_finalHbT)
             NREM_finalHbTVals{mm,1} = filtfilt(sos,g,detrend(NREM_finalHbT{mm,1},'constant'));
@@ -500,7 +500,7 @@ for aa = 1:length(hemispheres)
         clear NREM_finalHbTVals NREM_sleepNeuralVals NREM_finalSleepNeuralVals
         if qq == 1
             NREM_sleepTime = params.minTime.NREM;   % seconds
-            [NREM_finalHbT,NREM_allSleepFileIDs,NREM_finalBinTimes] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.HbT.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+            [NREM_finalHbT,NREM_allSleepFileIDs,NREM_finalBinTimes] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.HbT.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
             NREM_uniqueSleepFileIDs = unique(NREM_allSleepFileIDs);
             jj = 1;
             for ff = 1:length(NREM_uniqueSleepFileIDs)
@@ -606,8 +606,8 @@ for aa = 1:length(hemispheres)
             Results_CrossCorr_Ephys.(group).(animalID).(hemisphere).LFP.NREM.xcVals = NREM_meanHbTvLFPxcVals;
         end
         %% REM
-        [REM_finalHbT,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.HbT.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-        [REM_finalNeural,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(neuralDataType).(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [REM_finalHbT,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.HbT.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [REM_finalNeural,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.(neuralDataType).(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
         % adjust[HbT] and Neural events to match the edits made to the length of each spectrogram
         for mm = 1:length(REM_finalHbT)
             REM_finalHbTVals{mm,1} = filtfilt(sos,g,detrend(REM_finalHbT{mm,1},'constant'));
@@ -626,7 +626,7 @@ for aa = 1:length(hemispheres)
         clear REM_finalHbTVals REM_sleepNeuralVals REM_finalSleepNeuralVals
         if qq == 1
             REM_sleepTime = params.minTime.REM;   % seconds
-            [REM_finalHbT,REM_allSleepFileIDs,REM_finalBinTimes] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.HbT.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+            [REM_finalHbT,REM_allSleepFileIDs,REM_finalBinTimes] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.HbT.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
             REM_uniqueSleepFileIDs = unique(REM_allSleepFileIDs);
             jj = 1;
             for ff = 1:length(REM_uniqueSleepFileIDs)

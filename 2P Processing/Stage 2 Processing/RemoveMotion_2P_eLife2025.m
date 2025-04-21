@@ -1,4 +1,4 @@
-function [newVesselDiameter] = RemoveMotion_2P_nNOS(vesselDiameter,baseline,diffThresh,rawThresh)
+function [newVesselDiameter] = RemoveMotion_2P_eLife2025(vesselDiameter,baseline,diffThresh,rawThresh)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

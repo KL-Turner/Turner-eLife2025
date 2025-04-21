@@ -1,4 +1,4 @@
-function [] = FigS7_nNOS(rootFolder,saveFigs,delim)
+function [] = FigS7_eLife2025(rootFolder,saveFigs,delim)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

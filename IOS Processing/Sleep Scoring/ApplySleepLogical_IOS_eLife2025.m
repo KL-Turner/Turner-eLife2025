@@ -1,4 +1,4 @@
-function [] = ApplySleepLogical_IOS_nNOS(modelName,TrainingFiles,ScoringResults)
+function [] = ApplySleepLogical_IOS_eLife2025(modelName,TrainingFiles,ScoringResults)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -56,7 +56,7 @@ else
     % reduce file list to those with the training dates
     for aa = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(aa,:);
-        [~,fileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
+        [~,fileDate,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
         if strcmp(fileDate,TrainingFiles.day1) == true || strcmp(fileDate,TrainingFiles.day2) == true
             trainingFileList(cc,:) = procDataFileID;
             cc = cc + 1;

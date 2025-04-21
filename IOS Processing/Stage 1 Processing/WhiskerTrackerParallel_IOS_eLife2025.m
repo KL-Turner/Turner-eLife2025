@@ -1,4 +1,4 @@
-function [angle] = WhiskerTrackerParallel_IOS_nNOS(fileName,trialData)
+function [angle] = WhiskerTrackerParallel_IOS_eLife2025(fileName,trialData)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

@@ -1,4 +1,4 @@
-function [Results_ModelAccuracy_GCaMP] = AnalyzeModelAccuracy_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_ModelAccuracy_GCaMP)
+function [Results_ModelAccuracy_GCaMP] = AnalyzeModelAccuracy_GCaMP_eLife2025(animalID,group,set,rootFolder,delim,Results_ModelAccuracy_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

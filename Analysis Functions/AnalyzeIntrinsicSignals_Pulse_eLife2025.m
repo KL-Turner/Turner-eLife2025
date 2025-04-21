@@ -1,4 +1,4 @@
-function [Results_IntSig_Pulse] = AnalyzeIntrinsicSignals_Pulse_nNOS(animalID,group,set,rootFolder,delim,Results_IntSig_Pulse)
+function [Results_IntSig_Pulse] = AnalyzeIntrinsicSignals_Pulse_eLife2025(animalID,group,set,rootFolder,delim,Results_IntSig_Pulse)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -31,8 +31,8 @@ samplingRate = RestData.CBV_HbT.adjBarrels.CBVCamSamplingRate;
 [z,p,k] = butter(4,1/(samplingRate/2),'low');
 [sos,g] = zp2sos(z,p,k);
 % Rest
-[restLogical] = FilterEvents_IOS_nNOS(RestData.CBV_HbT.adjBarrels,RestCriteria);
-[stimLogical] = FilterEvents_IOS_nNOS(RestData.CBV_HbT.adjBarrels,RestStimCriteria);
+[restLogical] = FilterEvents_IOS_eLife2025(RestData.CBV_HbT.adjBarrels,RestCriteria);
+[stimLogical] = FilterEvents_IOS_eLife2025(RestData.CBV_HbT.adjBarrels,RestStimCriteria);
 combRestLogical = logical(restLogical.*stimLogical);
 restFileIDs = RestData.CBV_HbT.adjBarrels.fileIDs(combRestLogical,:);
 restEventTimes = RestData.CBV_HbT.adjBarrels.eventTimes(combRestLogical,:);
@@ -40,7 +40,7 @@ restDurations = RestData.CBV_HbT.adjBarrels.durations(combRestLogical,:);
 restData = RestData.CBV_HbT.adjBarrels.data(combRestLogical,:);
 % keep only the data that occurs within the manually-approved awake regions
 try
-    [finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
 catch
     finalRestData = [];
 end

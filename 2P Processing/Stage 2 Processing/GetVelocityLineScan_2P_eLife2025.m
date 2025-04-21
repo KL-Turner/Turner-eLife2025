@@ -1,4 +1,4 @@
-function [MScanData] = GetVelocityLineScan_2P_nNOS(MScanData,fileID)
+function [MScanData] = GetVelocityLineScan_2P_eLife2025(MScanData,fileID)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -25,9 +25,9 @@ angleResolution = .1; % how accurate to determine the angle
 interleaved = 1;
 disp(['Processing ' MScanData.notes.date '_' MScanData.notes.imageID '...']); disp(' ')
 currentFilePath = mfilename('fullpath');
-MScanData.notes.code = GetFunctionCode_2P_nNOS(currentFilePath);
-[MScanData] = GetVelocityRadon_2P_nNOS(fileID,angleSpan,angleResolution,maxVelocity,interleaved,MScanData);
+MScanData.notes.code = GetFunctionCode_2P_eLife2025(currentFilePath);
+[MScanData] = GetVelocityRadon_2P_eLife2025(fileID,angleSpan,angleResolution,maxVelocity,interleaved,MScanData);
 % calculate the velocity using the cross correlation method of Kim et al, 2012
-[MScanData] = LineScanXCVelocity_2P_nNOS(MScanData);
+[MScanData] = LineScanXCVelocity_2P_eLife2025(MScanData);
 
 end

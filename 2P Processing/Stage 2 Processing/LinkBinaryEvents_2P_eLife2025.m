@@ -1,4 +1,4 @@
-function [linkedWF] = LinkBinaryEvents_2P_nNOS(binWF,dCrit)
+function [linkedWF] = LinkBinaryEvents_2P_eLife2025(binWF,dCrit)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

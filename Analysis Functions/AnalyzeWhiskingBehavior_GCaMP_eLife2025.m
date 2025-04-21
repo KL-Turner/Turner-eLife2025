@@ -1,4 +1,4 @@
-function [Results_WhiskBehav_GCaMP] = AnalyzeWhiskingBehavior_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_WhiskBehav_GCaMP)
+function [Results_WhiskBehav_GCaMP] = AnalyzeWhiskingBehavior_GCaMP_eLife2025(animalID,group,set,rootFolder,delim,Results_WhiskBehav_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

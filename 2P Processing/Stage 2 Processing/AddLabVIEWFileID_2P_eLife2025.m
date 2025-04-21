@@ -1,4 +1,4 @@
-function [] = AddLabVIEWFileID_2P_nNOS(mscanDataFiles,labviewDataFiles,msExcelFile)
+function [] = AddLabVIEWFileID_2P_eLife2025(mscanDataFiles,labviewDataFiles,msExcelFile)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

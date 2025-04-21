@@ -1,4 +1,4 @@
-function [] = TrainSleepModels_IOS_nNOS()
+function [] = TrainSleepModels_IOS_eLife2025()
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -17,13 +17,13 @@ procDataFileStruct = dir('*_ProcData.mat');
 procDataFiles = {procDataFileStruct.name}';
 procDataFileIDs = char(procDataFiles);
 % prepare pupil training data by updating parameters
-AddPupilSleepParameters_IOS_nNOS(procDataFileIDs,RestingBaselines)
-CreatePupilModelDataSet_IOS_nNOS(procDataFileIDs)
-UpdatePupilTrainingDataSet_IOS_nNOS(procDataFileIDs)
+AddPupilSleepParameters_IOS_eLife2025(procDataFileIDs,RestingBaselines)
+CreatePupilModelDataSet_IOS_eLife2025(procDataFileIDs)
+UpdatePupilTrainingDataSet_IOS_eLife2025(procDataFileIDs)
 % prepare physio training data by updating parameters
-AddSleepParameters_IOS_nNOS(procDataFileIDs,RestingBaselines,'manualSelection')
-CreateModelDataSet_IOS_nNOS(procDataFileIDs)
-UpdateTrainingDataSets_IOS_nNOS(procDataFileIDs)
+AddSleepParameters_IOS_eLife2025(procDataFileIDs,RestingBaselines,'manualSelection')
+CreateModelDataSet_IOS_eLife2025(procDataFileIDs)
+UpdateTrainingDataSets_IOS_eLife2025(procDataFileIDs)
 % training data file IDs
 pupilTrainingDataFileStruct = dir('*_PupilTrainingData.mat');
 pupilTrainingDataFiles = {pupilTrainingDataFileStruct.name}';

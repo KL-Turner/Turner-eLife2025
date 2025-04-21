@@ -1,4 +1,4 @@
-function [DataStruct] = NormBehavioralDataStruct_2P_nNOS(DataStruct,RestingBaselines,baselineType)
+function [DataStruct] = NormBehavioralDataStruct_2P_eLife2025(DataStruct,RestingBaselines,baselineType)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % Ph.D. Candidate, Department of Bioengineering

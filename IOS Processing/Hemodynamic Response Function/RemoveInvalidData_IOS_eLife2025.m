@@ -1,4 +1,4 @@
-function [decData,decFileIDs,decDurations,decEventTimes] = RemoveInvalidData_IOS_nNOS(data,fileIDs,durations,eventTimes,ManualDecisions)
+function [decData,decFileIDs,decDurations,decEventTimes] = RemoveInvalidData_IOS_eLife2025(data,fileIDs,durations,eventTimes,ManualDecisions)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -18,7 +18,7 @@ for a = 1:size(data,1)
     manualStartTime = [];
     manualEndTime = [];
     for b = 1:length(ManualDecisions.fileIDs)
-        [~,~,manualFileID] = GetFileInfo_IOS_nNOS(ManualDecisions.fileIDs{b,1});
+        [~,~,manualFileID] = GetFileInfo_IOS_eLife2025(ManualDecisions.fileIDs{b,1});
         if strcmp(fileID,manualFileID) == true
             manualStartTime = ManualDecisions.startTimes{b,1};
             manualEndTime = ManualDecisions.endTimes{b,1};

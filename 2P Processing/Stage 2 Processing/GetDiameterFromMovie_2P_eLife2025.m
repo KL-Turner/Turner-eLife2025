@@ -1,4 +1,4 @@
-function [MScanData] = GetDiameterFromMovie_2P_nNOS(MScanData,fileID)
+function [MScanData] = GetDiameterFromMovie_2P_eLife2025(MScanData,fileID)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -18,7 +18,7 @@ MScanData.notes.vesselROI.projectionAngle = atand(diff(MScanData.notes.vesselROI
 for theFrame = MScanData.notes.startframe:MScanData.notes.endframe
     rawFrame = imread(fileID,'TIFF','Index',theFrame);
     fftRawFrame = fft2(double(rawFrame));
-    [MScanData.notes.pixelShift(:,theFrame),~] = DftRegistration_2P_nNOS(fftFirstFrame,fftRawFrame,1);
+    [MScanData.notes.pixelShift(:,theFrame),~] = DftRegistration_2P_eLife2025(fftFirstFrame,fftRawFrame,1);
     inpolyFrame = inpolygon(X + MScanData.notes.pixelShift(3,theFrame),Y + MScanData.notes.pixelShift(4,theFrame),MScanData.notes.vesselROI.boxPosition.xy(:,1),MScanData.notes.vesselROI.boxPosition.xy(:,2));
     boundedrawFrame = rawFrame.*uint16(inpolyFrame);
     MScanData.notes.vesselROI.projection(theFrame,:) = radon(boundedrawFrame,MScanData.notes.vesselROI.projectionAngle);

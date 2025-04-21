@@ -1,4 +1,4 @@
-function [Results_HRF_Ephys] = AnalyzeHRF_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_HRF_Ephys)
+function [Results_HRF_Ephys] = AnalyzeHRF_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_HRF_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -58,24 +58,24 @@ for aa = 1:length(hemispheres)
             %% get the valid neural and hemodynamic data from the data structures
             if strcmp(behavior,'Contra') == true || strcmp(behavior,'Whisk') == true
                 % extract neural and hemodynamic data from event structure
-                [NeuralDataStruct,NeuralFiltArray] = SelectConvolutionBehavioralEvents_IOS_nNOS(EventData.(['cortical_' hemisphere]).(dataType),behavior,hemisphere);
-                [HemoDataStruct,HemoFiltArray] = SelectConvolutionBehavioralEvents_IOS_nNOS(EventData.HbT.(hemisphere),behavior,hemisphere);
+                [NeuralDataStruct,NeuralFiltArray] = SelectConvolutionBehavioralEvents_IOS_eLife2025(EventData.(['cortical_' hemisphere]).(dataType),behavior,hemisphere);
+                [HemoDataStruct,HemoFiltArray] = SelectConvolutionBehavioralEvents_IOS_eLife2025(EventData.HbT.(hemisphere),behavior,hemisphere);
                 % remove events that don't meet criteria
-                [NeuralData,~,~,~] = RemoveInvalidData_IOS_nNOS(NeuralDataStruct.NormData(NeuralFiltArray,:),NeuralDataStruct.fileIDs(NeuralFiltArray,:),NeuralDataStruct.duration(NeuralFiltArray,:),NeuralDataStruct.eventTime(NeuralFiltArray,:),ManualDecisions);
-                [HemoData,~,~,~] = RemoveInvalidData_IOS_nNOS(HemoDataStruct.data(HemoFiltArray,:),HemoDataStruct.fileIDs(HemoFiltArray,:),HemoDataStruct.duration(HemoFiltArray,:),HemoDataStruct.eventTime(HemoFiltArray,:),ManualDecisions);
+                [NeuralData,~,~,~] = RemoveInvalidData_IOS_eLife2025(NeuralDataStruct.NormData(NeuralFiltArray,:),NeuralDataStruct.fileIDs(NeuralFiltArray,:),NeuralDataStruct.duration(NeuralFiltArray,:),NeuralDataStruct.eventTime(NeuralFiltArray,:),ManualDecisions);
+                [HemoData,~,~,~] = RemoveInvalidData_IOS_eLife2025(HemoDataStruct.data(HemoFiltArray,:),HemoDataStruct.fileIDs(HemoFiltArray,:),HemoDataStruct.duration(HemoFiltArray,:),HemoDataStruct.eventTime(HemoFiltArray,:),ManualDecisions);
             elseif strcmp(behavior,'Rest') == true
                 % extract neural and hemodynamic data from event structure
-                [NeuralDataStruct,NeuralFiltArray] = SelectConvolutionBehavioralEvents_IOS_nNOS(RestData.(['cortical_' hemisphere]).(dataType),behavior,hemisphere);
-                [HemoDataStruct,HemoFiltArray] = SelectConvolutionBehavioralEvents_IOS_nNOS(RestData.HbT.(hemisphere),behavior,hemisphere);
+                [NeuralDataStruct,NeuralFiltArray] = SelectConvolutionBehavioralEvents_IOS_eLife2025(RestData.(['cortical_' hemisphere]).(dataType),behavior,hemisphere);
+                [HemoDataStruct,HemoFiltArray] = SelectConvolutionBehavioralEvents_IOS_eLife2025(RestData.HbT.(hemisphere),behavior,hemisphere);
                 % remove events that don't meet criteria
-                [NeuralData,~,~,~] = RemoveInvalidData_IOS_nNOS(NeuralDataStruct.NormData(NeuralFiltArray,:),NeuralDataStruct.fileIDs(NeuralFiltArray,:),NeuralDataStruct.duration(NeuralFiltArray,:),NeuralDataStruct.eventTime(NeuralFiltArray,:),ManualDecisions);
-                [HemoData,~,~,~] = RemoveInvalidData_IOS_nNOS(HemoDataStruct.data(HemoFiltArray,:),HemoDataStruct.fileIDs(HemoFiltArray,:),HemoDataStruct.duration(HemoFiltArray,:),HemoDataStruct.eventTime(HemoFiltArray,:),ManualDecisions);
+                [NeuralData,~,~,~] = RemoveInvalidData_IOS_eLife2025(NeuralDataStruct.NormData(NeuralFiltArray,:),NeuralDataStruct.fileIDs(NeuralFiltArray,:),NeuralDataStruct.duration(NeuralFiltArray,:),NeuralDataStruct.eventTime(NeuralFiltArray,:),ManualDecisions);
+                [HemoData,~,~,~] = RemoveInvalidData_IOS_eLife2025(HemoDataStruct.data(HemoFiltArray,:),HemoDataStruct.fileIDs(HemoFiltArray,:),HemoDataStruct.duration(HemoFiltArray,:),HemoDataStruct.eventTime(HemoFiltArray,:),ManualDecisions);
             elseif strcmp(behavior,'NREM') == true || strcmp(behavior,'REM') == true
                 % extract neural and hemodynamic data from sleep structure
-                [NeuralData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).(behavior).data.(['cortical_' hemisphere]).(dataType),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
-                [HemoData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).(behavior).data.HbT.(hemisphere(end - 1:end)),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
+                [NeuralData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).(behavior).data.(['cortical_' hemisphere]).(dataType),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
+                [HemoData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).(behavior).data.HbT.(hemisphere(end - 1:end)),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
             elseif strcmp(behavior,'All') == true || strcmp(behavior,'Alert') == true || strcmp(behavior,'Asleep') == true
-                [NeuralData,HemoData] = GatherLongEventData_IOS_nNOS(dataType,hemisphere,behavior,RestingBaselines,ScoringResults);
+                [NeuralData,HemoData] = GatherLongEventData_IOS_eLife2025(dataType,hemisphere,behavior,RestingBaselines,ScoringResults);
             end
             %% setup the neural data based on behavior
             % Insert padding of zeros with size equal to the HRF between individual
@@ -194,7 +194,7 @@ for aa = 1:length(hemispheres)
             Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_gammaHRFParams = initVals;
             %% calculate the gamma HRF using fminsearch
             options = optimset('MaxFunEvals',2e4,'MaxIter',2e4,'TolFun',1e-7,'TolX',1e-7,'Display','off');
-            [GamParams,~,~] = fminsearch(@(x)GammaConvolve_nNOS(x,ProcNeuralFitData,ProcHemoFitData,samplingRate,HRFParams.durGam),initVals,options);
+            [GamParams,~,~] = fminsearch(@(x)GammaConvolve_eLife2025(x,ProcNeuralFitData,ProcHemoFitData,samplingRate,HRFParams.durGam),initVals,options);
             FM_t = 0:1/samplingRate:HRFParams.durGam;
             FM_a = ((GamParams(2)/GamParams(3))^2*8*log10(2));
             FM_beta = ((GamParams(3)^2)/GamParams(2)/8/log10(2));

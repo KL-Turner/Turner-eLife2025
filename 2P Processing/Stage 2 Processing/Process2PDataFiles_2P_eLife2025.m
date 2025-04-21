@@ -1,4 +1,4 @@
-function [] = Process2PDataFiles_2P_nNOS(labviewDataFiles,mscanDataFiles)
+function [] = Process2PDataFiles_2P_eLife2025(labviewDataFiles,mscanDataFiles)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -22,7 +22,7 @@ for a = 1:size(mscanDataFiles,1)
         imageID = MScanData.notes.imageID;
         vesselID = MScanData.notes.vesselID;
         date = MScanData.notes.date;
-        strDay = ConvertDate_2P_nNOS(date);
+        strDay = ConvertDate_2P_eLife2025(date);
         downSampledFs = 30;
         MScanData.notes.dsFs = downSampledFs;
         expectedLength = floor((MScanData.notes.numberOfFrames/MScanData.notes.frameRate)*MScanData.notes.analogSamplingRate);
@@ -34,17 +34,17 @@ for a = 1:size(mscanDataFiles,1)
             neuralType = neuralTypes{1,q};
             neuralField = neuralFields{1,q};
             % MUA [300-3000 Hz]
-            [MScanData.data.(neuralField).muaPower] = ProcessNeuro_2P_nNOS(MScanData,expectedLength,'MUA',neuralType);
+            [MScanData.data.(neuralField).muaPower] = ProcessNeuro_2P_eLife2025(MScanData,expectedLength,'MUA',neuralType);
             % Gamma [30-100 Hz]
-            [MScanData.data.(neuralField).gammaBandPower] = ProcessNeuro_2P_nNOS(MScanData,expectedLength,'Gam',neuralType);
+            [MScanData.data.(neuralField).gammaBandPower] = ProcessNeuro_2P_eLife2025(MScanData,expectedLength,'Gam',neuralType);
             % Beta [13-30 Hz]
-            [MScanData.data.(neuralField).betaBandPower] = ProcessNeuro_2P_nNOS(MScanData,expectedLength,'Beta',neuralType);
+            [MScanData.data.(neuralField).betaBandPower] = ProcessNeuro_2P_eLife2025(MScanData,expectedLength,'Beta',neuralType);
             % Alpha [10-13 Hz]
-            [MScanData.data.(neuralField).alphaBandPower] = ProcessNeuro_2P_nNOS(MScanData,expectedLength,'Alpha',neuralType);
+            [MScanData.data.(neuralField).alphaBandPower] = ProcessNeuro_2P_eLife2025(MScanData,expectedLength,'Alpha',neuralType);
             % Theta [4-10 Hz]
-            [MScanData.data.(neuralField).thetaBandPower] = ProcessNeuro_2P_nNOS(MScanData,expectedLength,'Theta',neuralType);
+            [MScanData.data.(neuralField).thetaBandPower] = ProcessNeuro_2P_eLife2025(MScanData,expectedLength,'Theta',neuralType);
             % Delta [1-4 Hz]
-            [MScanData.data.(neuralField).deltaBandPower] = ProcessNeuro_2P_nNOS(MScanData,expectedLength,'Delta',neuralType);
+            [MScanData.data.(neuralField).deltaBandPower] = ProcessNeuro_2P_eLife2025(MScanData,expectedLength,'Delta',neuralType);
         end
         
         %% Downsample and binarize the force sensor.
@@ -61,13 +61,13 @@ for a = 1:size(mscanDataFiles,1)
         if ~isempty(threshfile)
             load(threshfile.name)
         end
-        [ok] = CheckForThreshold_2P_nNOS(['binarizedForceSensor_' strDay],animalID);
+        [ok] = CheckForThreshold_2P_eLife2025(['binarizedForceSensor_' strDay],animalID);
         if ok == 0
-            [forceSensorThreshold] = CreateForceSensorThreshold_2P_nNOS(MScanData.data.dsForceSensorM);
+            [forceSensorThreshold] = CreateForceSensorThreshold_2P_eLife2025(MScanData.data.dsForceSensorM);
             Thresholds.(['binarizedForceSensor_' strDay]) = forceSensorThreshold;
             save([animalID '_Thresholds.mat'],'Thresholds');
         end
-        MScanData.data.binForceSensorM = BinarizeForceSensor_2P_nNOS(MScanData.data.dsForceSensorM,Thresholds.(['binarizedForceSensor_' strDay]));
+        MScanData.data.binForceSensorM = BinarizeForceSensor_2P_eLife2025(MScanData.data.dsForceSensorM,Thresholds.(['binarizedForceSensor_' strDay]));
         
         %% EMG
         fpass = [300,3000];
@@ -103,12 +103,12 @@ for b = 1:size(labviewDataFiles,1)
     load(labviewDataFile);
     if LabVIEWData.notes.checklist.processData == false
         disp(['Analyzing LabVIEW analog signals and whisker angle for file number ' num2str(b) ' of ' num2str(size(labviewDataFiles, 1)) '...']); disp(' ');
-        [animalID,hem,fileDate,fileID] = GetFileInfo_2P_nNOS(labviewDataFile);
-        strDay = ConvertDate_2P_nNOS(fileDate);
+        [animalID,hem,fileDate,fileID] = GetFileInfo_2P_eLife2025(labviewDataFile);
+        strDay = ConvertDate_2P_eLife2025(fileDate);
         expectedLength = LabVIEWData.notes.trialDuration_Seconds*LabVIEWData.notes.analogSamplingRate_Hz;
 
         %% Patch and binarize the whisker angle and set the resting angle to zero degrees.
-        [patchedWhisk] = PatchWhiskerAngle_2P_nNOS(LabVIEWData.data.whiskerAngle,LabVIEWData.notes.whiskerCamSamplingRate_Hz,LabVIEWData.notes.trialDuration_Seconds,LabVIEWData.notes.droppedWhiskerCamFrameIndex);
+        [patchedWhisk] = PatchWhiskerAngle_2P_eLife2025(LabVIEWData.data.whiskerAngle,LabVIEWData.notes.whiskerCamSamplingRate_Hz,LabVIEWData.notes.trialDuration_Seconds,LabVIEWData.notes.droppedWhiskerCamFrameIndex);
         % Create filter for whisking/movement
         downSampledFs = 30;
         filtThreshold = 20;
@@ -122,16 +122,16 @@ for b = 1:size(labviewDataFiles,1)
         if ~isempty(threshfile)
             load(threshfile.name)
         end 
-        [ok] = CheckForThreshold_2P_nNOS(['binarizedWhiskersLower_' strDay],animalID);
+        [ok] = CheckForThreshold_2P_eLife2025(['binarizedWhiskersLower_' strDay],animalID);
         if ok == 0
-            [whiskersThresh1, whiskersThresh2] = CreateWhiskThreshold_2P_nNOS(resampledWhisk,downSampledFs);
+            [whiskersThresh1, whiskersThresh2] = CreateWhiskThreshold_2P_eLife2025(resampledWhisk,downSampledFs);
             Thresholds.(['binarizedWhiskersLower_' strDay]) = whiskersThresh1;
             Thresholds.(['binarizedWhiskersUpper_' strDay]) = whiskersThresh2;
             save([animalID '_Thresholds.mat'], 'Thresholds');
         end
         load([animalID '_Thresholds.mat']);
-        binWhisk = BinarizeWhiskers_2P_nNOS(resampledWhisk,downSampledFs,Thresholds.(['binarizedWhiskersLower_' strDay]),Thresholds.(['binarizedWhiskersUpper_' strDay]));
-        [linkedBinarizedWhiskers] = LinkBinaryEvents_2P_nNOS(gt(binWhisk,0),[round(downSampledFs/3),0]);
+        binWhisk = BinarizeWhiskers_2P_eLife2025(resampledWhisk,downSampledFs,Thresholds.(['binarizedWhiskersLower_' strDay]),Thresholds.(['binarizedWhiskersUpper_' strDay]));
+        [linkedBinarizedWhiskers] = LinkBinaryEvents_2P_eLife2025(gt(binWhisk,0),[round(downSampledFs/3),0]);
         inds = linkedBinarizedWhiskers == 0;
         restAngle = mean(resampledWhisk(inds));
         LabVIEWData.data.dsWhiskerAngle = resampledWhisk - restAngle;
@@ -145,13 +145,13 @@ for b = 1:size(labviewDataFiles,1)
         filtForceSensorL = filtfilt(sos,g,trimmedForceL);
         LabVIEWData.data.dsForceSensorL = resample(filtForceSensorL,downSampledFs,LabVIEWData.notes.analogSamplingRate_Hz);
         % Binarize the force sensor waveform
-        [ok] = CheckForThreshold_2P_nNOS(['binarizedForceSensor_' strDay],animalID);   
+        [ok] = CheckForThreshold_2P_eLife2025(['binarizedForceSensor_' strDay],animalID);   
         if ok == 0
-            [forceSensorThreshold] = CreateForceSensorThreshold_2P_nNOS(LabVIEWData.data.dsForceSensorL);
+            [forceSensorThreshold] = CreateForceSensorThreshold_2P_eLife2025(LabVIEWData.data.dsForceSensorL);
             Thresholds.(['binarizedForceSensor_' strDay]) = forceSensorThreshold;
             save([animalID '_Thresholds.mat'],'Thresholds');
         end 
-        LabVIEWData.data.binForceSensorL = BinarizeForceSensor_2P_nNOS(LabVIEWData.data.dsForceSensorL,Thresholds.(['binarizedForceSensor_' strDay]));
+        LabVIEWData.data.binForceSensorL = BinarizeForceSensor_2P_eLife2025(LabVIEWData.data.dsForceSensorL,Thresholds.(['binarizedForceSensor_' strDay]));
         
         %% Save the data, set checklist to true
         LabVIEWData.notes.checklist.processData = true;

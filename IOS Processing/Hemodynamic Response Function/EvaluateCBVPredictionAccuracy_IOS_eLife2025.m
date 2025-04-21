@@ -1,4 +1,4 @@
-function [Results_HRF_Ephys] = EvaluateCBVPredictionAccuracy_IOS_nNOS(animalID,group,neuralBand,hemisphere,behavior,Results_HRF_Ephys)
+function [Results_HRF_Ephys] = EvaluateCBVPredictionAccuracy_IOS_eLife2025(animalID,group,neuralBand,hemisphere,behavior,Results_HRF_Ephys)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner - adapted from code written by Aaron T. Winder
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -51,17 +51,17 @@ end
 %% get the valid neural and hemodynamic data from the data structures
 if strcmp(behavior,'Contra') == true || strcmp(behavior,'Whisk') == true || strcmp(behavior,'Rest') == true
     % extract neural and hemodynamic data from event structure
-    [NeuralDataStruct,NeuralFiltArray] = SelectConvolutionBehavioralEvents_IOS_nNOS(BehData.(['cortical_' (hemisphere)]).(neuralBand),behavior,hemisphere);
-    [HemoDataStruct,HemoFiltArray] = SelectConvolutionBehavioralEvents_IOS_nNOS(BehData.HbT.(hemisphere),behavior,hemisphere);
+    [NeuralDataStruct,NeuralFiltArray] = SelectConvolutionBehavioralEvents_IOS_eLife2025(BehData.(['cortical_' (hemisphere)]).(neuralBand),behavior,hemisphere);
+    [HemoDataStruct,HemoFiltArray] = SelectConvolutionBehavioralEvents_IOS_eLife2025(BehData.HbT.(hemisphere),behavior,hemisphere);
     % remove events that don't meet criteria
-    [NeuralData,~,~,~] = RemoveInvalidData_IOS_nNOS(NeuralDataStruct.NormData(NeuralFiltArray,:),NeuralDataStruct.fileIDs(NeuralFiltArray,:),NeuralDataStruct.duration(NeuralFiltArray,:),NeuralDataStruct.eventTime(NeuralFiltArray,:),ManualDecisions);
-    [HemoData,~,~,~] = RemoveInvalidData_IOS_nNOS(HemoDataStruct.data(HemoFiltArray,:),HemoDataStruct.fileIDs(HemoFiltArray,:),HemoDataStruct.duration(HemoFiltArray,:),HemoDataStruct.eventTime(HemoFiltArray,:),ManualDecisions);
+    [NeuralData,~,~,~] = RemoveInvalidData_IOS_eLife2025(NeuralDataStruct.NormData(NeuralFiltArray,:),NeuralDataStruct.fileIDs(NeuralFiltArray,:),NeuralDataStruct.duration(NeuralFiltArray,:),NeuralDataStruct.eventTime(NeuralFiltArray,:),ManualDecisions);
+    [HemoData,~,~,~] = RemoveInvalidData_IOS_eLife2025(HemoDataStruct.data(HemoFiltArray,:),HemoDataStruct.fileIDs(HemoFiltArray,:),HemoDataStruct.duration(HemoFiltArray,:),HemoDataStruct.eventTime(HemoFiltArray,:),ManualDecisions);
 elseif strcmp(behavior,'NREM') == true || strcmp(behavior,'REM') == true
     % extract neural and hemodynamic data from sleep structure
-    [NeuralData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).(behavior).data.(['cortical_' (hemisphere)]).(neuralBand),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
-    [HemoData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).(behavior).data.HbT.((hemisphere)),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
+    [NeuralData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).(behavior).data.(['cortical_' (hemisphere)]).(neuralBand),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
+    [HemoData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).(behavior).data.HbT.((hemisphere)),SleepData.(modelType).(behavior).FileIDs,SleepData.(modelType).(behavior).BinTimes);
 elseif strcmp(behavior,'All') == true || strcmp(behavior,'Alert') == true || strcmp(behavior,'Asleep') == true
-    [NeuralData,HemoData] = GatherAllData_IOS_nNOS(neuralBand,hemisphere,behavior,RestingBaselines,ScoringResults);
+    [NeuralData,HemoData] = GatherAllData_IOS_eLife2025(neuralBand,hemisphere,behavior,RestingBaselines,ScoringResults);
 end
 %% setup the neural data based on behavior
 fitIndex = EventIndex.fitStart:EventIndex.increment:size(NeuralData,1);
@@ -182,11 +182,11 @@ if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(
         strt = 2*samplingRate;
         stp = length(ProcHemoFitData{ee});
         if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(behavior,'REM') == true
-            [IR_Act,IR_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
-            [FM_Act,FM_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
+            [IR_Act,IR_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
+            [FM_Act,FM_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
         elseif strcmp(behavior,'All') == true || strcmp(behavior,'Alert') == true || strcmp(behavior,'Asleep') == true
-            [IR_Act,IR_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.IR_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
-            [FM_Act,FM_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.FM_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
+            [IR_Act,IR_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.IR_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
+            [FM_Act,FM_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.FM_gammaFunction,detrend(ProcNeuralFitData{ee}),detrend(ProcHemoFitData{ee}),0);
         end
         % impulse and fminsearch gamma functions
         IR_mPred = IR_Pred(strt:stp) - mean(IR_Pred(strt:stp));
@@ -203,11 +203,11 @@ if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(
         strt = 2*samplingRate;
         stp = length(ProcHemoTestData{ff});
         if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(behavior,'REM') == true
-            [IR_Act,IR_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
-            [FM_Act,FM_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
+            [IR_Act,IR_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
+            [FM_Act,FM_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
         elseif strcmp(behavior,'All') == true || strcmp(behavior,'Alert') == true || strcmp(behavior,'Asleep') == true
-            [IR_Act,IR_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.IR_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
-            [FM_Act,FM_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.FM_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
+            [IR_Act,IR_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.IR_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
+            [FM_Act,FM_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).All.FM_gammaFunction,detrend(ProcNeuralTestData{ff}),detrend(ProcHemoTestData{ff}),0);
         end
         % impulse and fminsearch gamma functions
         IR_mPred = IR_Pred(strt:stp) - mean(IR_Pred(strt:stp));
@@ -223,11 +223,11 @@ if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(
     try
         for gg = 1:length(TestData.IR_mPred)
             try
-                IR_IndR(gg) = CalculateR_IOS_nNOS(filtfilt(sos,g,TestData.IR_mPred{1,gg}),filtfilt(sos,g,TestData.IR_mAct{1,gg}));
-                IR_IndR2(gg) = CalculateRsquared_IOS_nNOS(filtfilt(sos,g,TestData.IR_mPred{1,gg}),filtfilt(sos,g,TestData.IR_mAct{1,gg}));
+                IR_IndR(gg) = CalculateR_IOS_eLife2025(filtfilt(sos,g,TestData.IR_mPred{1,gg}),filtfilt(sos,g,TestData.IR_mAct{1,gg}));
+                IR_IndR2(gg) = CalculateRsquared_IOS_eLife2025(filtfilt(sos,g,TestData.IR_mPred{1,gg}),filtfilt(sos,g,TestData.IR_mAct{1,gg}));
             catch
-                IR_IndR(gg) = CalculateR_IOS_nNOS(TestData.IR_mPred{1,gg},TestData.IR_mAct{1,gg});
-                IR_IndR2(gg) = CalculateRsquared_IOS_nNOS(TestData.IR_mPred{1,gg},TestData.IR_mAct{1,gg});
+                IR_IndR(gg) = CalculateR_IOS_eLife2025(TestData.IR_mPred{1,gg},TestData.IR_mAct{1,gg});
+                IR_IndR2(gg) = CalculateRsquared_IOS_eLife2025(TestData.IR_mPred{1,gg},TestData.IR_mAct{1,gg});
             end
         end
     catch
@@ -238,11 +238,11 @@ if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(
     try
         for gg = 1:length(TestData.FM_mPred)
             try
-                FM_IndR(gg) = CalculateR_IOS_nNOS(filtfilt(sos,g,TestData.FM_mPred{1,gg}),filtfilt(sos,g,TestData.FM_mAct{1,gg}));
-                FM_IndR2(gg) = CalculateRsquared_IOS_nNOS(filtfilt(sos,g,TestData.FM_mPred{1,gg}),filtfilt(sos,g,TestData.FM_mAct{1,gg}));
+                FM_IndR(gg) = CalculateR_IOS_eLife2025(filtfilt(sos,g,TestData.FM_mPred{1,gg}),filtfilt(sos,g,TestData.FM_mAct{1,gg}));
+                FM_IndR2(gg) = CalculateRsquared_IOS_eLife2025(filtfilt(sos,g,TestData.FM_mPred{1,gg}),filtfilt(sos,g,TestData.FM_mAct{1,gg}));
             catch
-                FM_IndR(gg) = CalculateR_IOS_nNOS(TestData.FM_mPred{1,gg},TestData.FM_mAct{1,gg});
-                FM_IndR2(gg) = CalculateRsquared_IOS_nNOS(TestData.FM_mPred{1,gg},TestData.FM_mAct{1,gg});
+                FM_IndR(gg) = CalculateR_IOS_eLife2025(TestData.FM_mPred{1,gg},TestData.FM_mAct{1,gg});
+                FM_IndR2(gg) = CalculateRsquared_IOS_eLife2025(TestData.FM_mPred{1,gg},TestData.FM_mAct{1,gg});
             end
         end
     catch
@@ -261,8 +261,8 @@ if strcmp(behavior,'Rest') == true || strcmp(behavior,'NREM') == true || strcmp(
 elseif strcmp(behavior,'Contra') == true || strcmp(behavior,'Whisk') == true
     % fit data
     for hh = 1:size(ProcHemoFitData,1)
-        [IR_Act,IR_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,ProcNeuralFitData(hh,:),ProcHemoFitData(hh,:),0);
-        [FM_Act,FM_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,ProcNeuralFitData(hh,:),ProcHemoFitData(hh,:),0);
+        [IR_Act,IR_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,ProcNeuralFitData(hh,:),ProcHemoFitData(hh,:),0);
+        [FM_Act,FM_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,ProcNeuralFitData(hh,:),ProcHemoFitData(hh,:),0);
         IR_mPred = IR_Pred(strt:stp) - mean(IR_Pred(strt:stp));
         FM_mPred = FM_Pred(strt:stp) - mean(FM_Pred(strt:stp));
         IR_mAct = IR_Act(strt:stp) - mean(IR_Act(strt:stp));
@@ -274,8 +274,8 @@ elseif strcmp(behavior,'Contra') == true || strcmp(behavior,'Whisk') == true
     end
     % test data
     for ii = 1:size(ProcHemoTestData,1)
-        [IR_Act,IR_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,ProcNeuralTestData(ii,:),ProcHemoTestData(ii,:),0);
-        [FM_Act,FM_Pred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,ProcNeuralTestData(ii,:),ProcHemoTestData(ii,:),0);
+        [IR_Act,IR_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,ProcNeuralTestData(ii,:),ProcHemoTestData(ii,:),0);
+        [FM_Act,FM_Pred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,ProcNeuralTestData(ii,:),ProcHemoTestData(ii,:),0);
         IR_mPred = IR_Pred(strt:stp) - mean(IR_Pred(strt:stp));
         FM_mPred = FM_Pred(strt:stp) - mean(FM_Pred(strt:stp));
         IR_mAct = IR_Act(strt:stp) - mean(IR_Act(strt:stp));
@@ -287,22 +287,22 @@ elseif strcmp(behavior,'Contra') == true || strcmp(behavior,'Whisk') == true
     end
     % calculate R and R2
     for jj = 1:length(TestData.IR_mPred)
-        IR_IndR(jj) = CalculateR_IOS_nNOS(filtfilt(sos,g,TestData.IR_mPred{jj,1}),filtfilt(sos,g,TestData.IR_mAct{jj,1}));
-        FM_IndR(jj) = CalculateR_IOS_nNOS(filtfilt(sos,g,TestData.FM_mPred{jj,1}),filtfilt(sos,g,TestData.FM_mAct{jj,1}));
-        IR_IndR2(jj) = CalculateRsquared_IOS_nNOS(filtfilt(sos,g,TestData.IR_mPred{jj,1}),filtfilt(sos,g,TestData.IR_mAct{jj,1}));
-        FM_IndR2(jj) = CalculateRsquared_IOS_nNOS(filtfilt(sos,g,TestData.FM_mPred{jj,1}),filtfilt(sos,g,TestData.FM_mAct{jj,1}));
+        IR_IndR(jj) = CalculateR_IOS_eLife2025(filtfilt(sos,g,TestData.IR_mPred{jj,1}),filtfilt(sos,g,TestData.IR_mAct{jj,1}));
+        FM_IndR(jj) = CalculateR_IOS_eLife2025(filtfilt(sos,g,TestData.FM_mPred{jj,1}),filtfilt(sos,g,TestData.FM_mAct{jj,1}));
+        IR_IndR2(jj) = CalculateRsquared_IOS_eLife2025(filtfilt(sos,g,TestData.IR_mPred{jj,1}),filtfilt(sos,g,TestData.IR_mAct{jj,1}));
+        FM_IndR2(jj) = CalculateRsquared_IOS_eLife2025(filtfilt(sos,g,TestData.FM_mPred{jj,1}),filtfilt(sos,g,TestData.FM_mAct{jj,1}));
     end
     % calculate R and R2 on average data
-    [IR_meanAct,IR_meanPred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,mean(ProcNeuralFitData(hh,:),1),mean(ProcHemoFitData(hh,:),1),0);
-    [FM_meanAct,FM_meanPred] = ConvolveHRF_IOS_nNOS(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,mean(ProcNeuralFitData(hh,:),1),mean(ProcHemoFitData(hh,:),1),0);
+    [IR_meanAct,IR_meanPred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_gammaFunction,mean(ProcNeuralFitData(hh,:),1),mean(ProcHemoFitData(hh,:),1),0);
+    [FM_meanAct,FM_meanPred] = ConvolveHRF_IOS_eLife2025(Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_gammaFunction,mean(ProcNeuralFitData(hh,:),1),mean(ProcHemoFitData(hh,:),1),0);
     IR_avgPred = IR_meanPred(strt:stp) - mean(IR_meanPred(strt:stp));
     FM_avgPred = FM_meanPred(strt:stp) - mean(FM_meanPred(strt:stp));
     IR_avgAct = IR_meanAct(strt:stp) - mean(IR_meanAct(strt:stp));
     FM_avgAct = FM_meanAct(strt:stp) - mean(FM_meanAct(strt:stp));
-    IR_meanR = CalculateR_IOS_nNOS(filtfilt(sos,g,IR_avgPred),filtfilt(sos,g,IR_avgAct));
-    FM_meanR = CalculateR_IOS_nNOS(filtfilt(sos,g,FM_avgPred),filtfilt(sos,g,FM_avgAct));
-    IR_meanR2 = CalculateRsquared_IOS_nNOS(filtfilt(sos,g,IR_avgPred),filtfilt(sos,g,IR_avgAct));
-    FM_meanR2 = CalculateRsquared_IOS_nNOS(filtfilt(sos,g,FM_avgPred),filtfilt(sos,g,FM_avgAct));
+    IR_meanR = CalculateR_IOS_eLife2025(filtfilt(sos,g,IR_avgPred),filtfilt(sos,g,IR_avgAct));
+    FM_meanR = CalculateR_IOS_eLife2025(filtfilt(sos,g,FM_avgPred),filtfilt(sos,g,FM_avgAct));
+    IR_meanR2 = CalculateRsquared_IOS_eLife2025(filtfilt(sos,g,IR_avgPred),filtfilt(sos,g,IR_avgAct));
+    FM_meanR2 = CalculateRsquared_IOS_eLife2025(filtfilt(sos,g,FM_avgPred),filtfilt(sos,g,FM_avgAct));
     % save results
     Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).IR_R = IR_IndR;
     Results_HRF_Ephys.(group).(animalID).(hemisphere).(neuralBand).(behavior).FM_R = FM_IndR;

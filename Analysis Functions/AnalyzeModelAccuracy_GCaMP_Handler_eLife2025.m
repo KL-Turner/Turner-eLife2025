@@ -1,4 +1,4 @@
-function [] = AnalyzeModelAccuracy_GCaMP_Handler_nNOS(rootFolder,delim,runFromStart)
+function [] = AnalyzeModelAccuracy_GCaMP_Handler_eLife2025(rootFolder,delim,runFromStart)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -37,7 +37,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_ModelAccuracy_GCaMP.(groups{1,aa}),animalIDs{1,bb}) == false
-            [Results_ModelAccuracy_GCaMP] = AnalyzeModelAccuracy_GCaMP_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_ModelAccuracy_GCaMP);
+            [Results_ModelAccuracy_GCaMP] = AnalyzeModelAccuracy_GCaMP_eLife2025(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_ModelAccuracy_GCaMP);
         end
         multiWaitbar('Analyzing sleep model accuracy for GCaMP','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

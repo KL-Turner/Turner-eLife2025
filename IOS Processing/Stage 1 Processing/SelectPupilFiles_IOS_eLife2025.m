@@ -1,4 +1,4 @@
-function [PupilData] = SelectPupilFiles_IOS_nNOS(trialData)
+function [PupilData] = SelectPupilFiles_IOS_eLife2025(trialData)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -20,15 +20,15 @@ pupilFileIDs = char(pupilFileNames);
 % check first file of each day
 if isfield(PupilData,'firstFileOfDay') == false
     % establish the number of unique days based on file IDs
-    [~,fileDates,~] = GetFileInfo_IOS_nNOS(pupilFileIDs);
-    [uniqueDays,~,DayID] = GetUniqueDays_IOS_nNOS(fileDates);
+    [~,fileDates,~] = GetFileInfo_IOS_eLife2025(pupilFileIDs);
+    [uniqueDays,~,DayID] = GetUniqueDays_IOS_eLife2025(fileDates);
     for aa = 1:length(uniqueDays)
-        strDay = ConvertDate_IOS_nNOS(uniqueDays{aa,1});
+        strDay = ConvertDate_IOS_eLife2025(uniqueDays{aa,1});
         FileInd = DayID == aa;
         dayFilenames.(strDay) = pupilFileIDs(FileInd,:);
     end
     for bb = 1:length(uniqueDays)
-        strDay = ConvertDate_IOS_nNOS(uniqueDays{bb,1});
+        strDay = ConvertDate_IOS_eLife2025(uniqueDays{bb,1});
         for cc = 1:size(dayFilenames.(strDay),1)
             pupilCamFileID = dayFilenames.(strDay)(cc,:);
             fid = fopen(pupilCamFileID); % reads the binary file in to the work space
@@ -96,8 +96,8 @@ end
 for bb = 1:length(firstFileOfDay)
     firstFile = firstFileOfDay{1,bb};
     load(firstFile)
-    [~,fileDate,fileID] = GetFileInfo_IOS_nNOS(firstFile);
-    strDay = ConvertDate_IOS_nNOS(fileDate);
+    [~,fileDate,fileID] = GetFileInfo_IOS_eLife2025(firstFile);
+    strDay = ConvertDate_IOS_eLife2025(fileDate);
     if ~isfield(PupilData.EyeROI,(strDay))
         pupilCamFileID = [fileID '_PupilCam.bin'];
         fid = fopen(pupilCamFileID); % reads the binary file in to the work space

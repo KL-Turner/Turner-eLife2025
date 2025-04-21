@@ -1,4 +1,4 @@
-function [Results_PreWhitenedPowerSpec_2P_nNOS] = AnalyzePreWhitenedPowerSpectrum_2P_nNOS(animalID,group,set,rootFolder,delim,Results_PreWhitenedPowerSpec_2P_nNOS)
+function [Results_PreWhitenedPowerSpec_2P_eLife2025] = AnalyzePreWhitenedPowerSpectrum_2P_eLife2025(animalID,group,set,rootFolder,delim,Results_PreWhitenedPowerSpec_2P_eLife2025)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -26,10 +26,10 @@ samplingRate = 5;
 allData = [];
 for aa = 1:size(mergedDataFileIDs,1)
     mergedDataFileID = mergedDataFileIDs(aa,:);
-    [~,~,fileDate,~,~,vesselID] = GetFileInfo2_2P_nNOS(mergedDataFileID);
+    [~,~,fileDate,~,~,vesselID] = GetFileInfo2_2P_eLife2025(mergedDataFileID);
     if strcmp(vesselID(1),'V') == false
         load(mergedDataFileID,'-mat')
-        strDay = ConvertDate_2P_nNOS(fileDate);
+        strDay = ConvertDate_2P_eLife2025(fileDate);
         if isfield(allData,vesselID) == false
             allData.(vesselID) = [];
             binWhisking.(vesselID) = [];
@@ -39,7 +39,7 @@ for aa = 1:size(mergedDataFileIDs,1)
         normVesselDiam = diff(detrend((vesselDiam - RestingBaselines.manualSelection.vesselDiameter.data.(vesselID).(strDay))./ RestingBaselines.manualSelection.vesselDiameter.data.(vesselID).(strDay),'constant'),1);
         allData.(vesselID) = horzcat(allData.(vesselID),normVesselDiam');
         binWhisk = MergedData.data.binWhiskerAngle;
-        [linkedBinarizedWhiskers] = LinkBinaryEvents_2P_nNOS(gt(binWhisk,0),[round(30/3),0]);
+        [linkedBinarizedWhiskers] = LinkBinaryEvents_2P_eLife2025(gt(binWhisk,0),[round(30/3),0]);
         binWhiskingPercent = sum(linkedBinarizedWhiskers)/length(linkedBinarizedWhiskers)*100 ;
         binWhisking.(vesselID) = horzcat(binWhisking.(vesselID),binWhiskingPercent);
     end
@@ -65,5 +65,5 @@ if isempty(allData) == false
 end
 % save data
 cd([rootFolder delim 'Results_Turner'])
-save('Results_PreWhitenedPowerSpec_2P_nNOS.mat','Results_PreWhitenedPowerSpec_2P')
+save('Results_PreWhitenedPowerSpec_2P_eLife2025.mat','Results_PreWhitenedPowerSpec_2P')
 cd([rootFolder delim 'Data'])

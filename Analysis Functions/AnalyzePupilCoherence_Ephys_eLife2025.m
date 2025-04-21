@@ -1,4 +1,4 @@
-function [Results_PupilCoher_Ephys] = AnalyzePupilCoherence_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_PupilCoher_Ephys)
+function [Results_PupilCoher_Ephys] = AnalyzePupilCoherence_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_PupilCoher_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -58,8 +58,8 @@ for zzz = 1:length(hemDataTypes)
         dataType = dataTypes{1,aa};
         %% analyze neural-hemo coherence during periods of rest
         % pull data from RestData.mat structure
-        [restLogical] = FilterEvents_IOS_nNOS(RestData.Pupil.(dataType),RestCriteria);
-        [puffLogical] = FilterEvents_IOS_nNOS(RestData.Pupil.(dataType),RestPuffCriteria);
+        [restLogical] = FilterEvents_IOS_eLife2025(RestData.Pupil.(dataType),RestCriteria);
+        [puffLogical] = FilterEvents_IOS_eLife2025(RestData.Pupil.(dataType),RestPuffCriteria);
         combRestLogical = logical(restLogical.*puffLogical);
         restFileIDs = RestData.Pupil.(dataType).fileIDs(combRestLogical,:);
         restEventTimes = RestData.Pupil.(dataType).eventTimes(combRestLogical,:);
@@ -67,8 +67,8 @@ for zzz = 1:length(hemDataTypes)
         HbT_restData = RestData.Pupil.(hemDataType).data(combRestLogical,:);
         Pupil_restData = RestData.Pupil.(dataType).data(combRestLogical,:);
         % keep only the data that occurs within the manually-approved awake regions
-        [HbT_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(HbT_restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-        [Pupil_FinalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(Pupil_restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [HbT_finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(HbT_restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [Pupil_FinalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(Pupil_restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
         clear HbT_procRestData Pupil_procRestData
         % filter, detrend, and truncate data to minimum length to match events
         for bb = 1:length(HbT_finalRestData)
@@ -114,8 +114,8 @@ for zzz = 1:length(hemDataTypes)
         HbT_alertData = []; Pupil_alertData = [];
         for bb = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(bb,:);
-            [~,fileDate,alertDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-            strDay = ConvertDate_IOS_nNOS(fileDate);
+            [~,fileDate,alertDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+            strDay = ConvertDate_IOS_eLife2025(fileDate);
             scoringLabels = [];
             for cc = 1:length(ScoringResults.fileIDs)
                 if strcmp(alertDataFileID,ScoringResults.fileIDs{cc,1}) == true
@@ -184,8 +184,8 @@ for zzz = 1:length(hemDataTypes)
         HbT_asleepData = []; Pupil_asleepData = [];
         for bb = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(bb,:);
-            [~,fileDate,asleepDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-            strDay = ConvertDate_IOS_nNOS(fileDate);
+            [~,fileDate,asleepDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+            strDay = ConvertDate_IOS_eLife2025(fileDate);
             scoringLabels = [];
             for cc = 1:length(ScoringResults.fileIDs)
                 if strcmp(asleepDataFileID,ScoringResults.fileIDs{cc,1}) == true
@@ -254,8 +254,8 @@ for zzz = 1:length(hemDataTypes)
         HbT_allData = []; Pupil_allData = [];
         for bb = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(bb,:);
-            [~,fileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
-            strDay = ConvertDate_IOS_nNOS(fileDate);
+            [~,fileDate,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
+            strDay = ConvertDate_IOS_eLife2025(fileDate);
             load(procDataFileID,'-mat')
             if strcmp(ProcData.data.Pupil.diameterCheck,'y') == true
                 try
@@ -312,8 +312,8 @@ for zzz = 1:length(hemDataTypes)
         % analyze neural-hemo coherence during periods of NREM
         % pull data from AsleepData.mat structure
         if isempty(SleepData.(modelType).NREM.data.Pupil) == false
-            [HbT_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.Pupil.(hemDataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
-            [Pupil_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.Pupil.(dataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
+            [HbT_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.Pupil.(hemDataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
+            [Pupil_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.Pupil.(dataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
         else
             HbT_nremData = [];
             Pupil_nremData = [];
@@ -352,8 +352,8 @@ for zzz = 1:length(hemDataTypes)
         % analyze neural-hemo coherence during periods of REM
         % pull data from AsleepData.mat structure
         if isempty(SleepData.(modelType).REM.data.Pupil) == false
-            [HbT_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.Pupil.(hemDataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
-            [Pupil_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.Pupil.(dataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
+            [HbT_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.Pupil.(hemDataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
+            [Pupil_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.Pupil.(dataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
         else
             HbT_remData = [];
             Pupil_remData = [];

@@ -1,4 +1,4 @@
-function [Results_PowerSpec_LFP] = AnalyzePowerSpectrum_LFP_nNOS(animalID,group,set,rootFolder,delim,Results_PowerSpec_LFP)
+function [Results_PowerSpec_LFP] = AnalyzePowerSpectrum_LFP_eLife2025(animalID,group,set,rootFolder,delim,Results_PowerSpec_LFP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

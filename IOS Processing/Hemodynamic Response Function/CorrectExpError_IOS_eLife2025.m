@@ -1,4 +1,4 @@
-function [CorrectedHbT,FitParams] = CorrectExpError_IOS_nNOS(FitActual,FitPred,TestActual,TestPred)
+function [CorrectedHbT,FitParams] = CorrectExpError_IOS_eLife2025(FitActual,FitPred,TestActual,TestPred)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner - originally written By Kyle Gheres
 % The Pennsylvania State University, Dept. of Biomedical Engineering

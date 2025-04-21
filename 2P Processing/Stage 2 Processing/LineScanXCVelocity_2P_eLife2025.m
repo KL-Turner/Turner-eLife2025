@@ -1,4 +1,4 @@
-function [MScanData,xcFig] = LineScanXCVelocity_2P_nNOS(MScanData)
+function [MScanData,xcFig] = LineScanXCVelocity_2P_eLife2025(MScanData)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -15,7 +15,7 @@ function [MScanData,xcFig] = LineScanXCVelocity_2P_nNOS(MScanData)
 % xshift- shift of the peak away from the center, in pixels
 xSpread = round(max(1,.5/MScanData.notes.xFactor)); % spatial gaussian with 0.5um std
 tSpread = round(MScanData.notes.tFactor/10); % temporal gaussian with 10ms std
-theKernel = gaussian2d_2P_nNOS(xSpread,tSpread,3*xSpread,3*tSpread);
+theKernel = gaussian2d_2P_eLife2025(xSpread,tSpread,3*xSpread,3*tSpread);
 theImage = double(MScanData.data.bloodFlow.Image'); % DOUBLE CHECK IS THIS REALLY THE RIGHT IMAGE????
 nLines = size(theImage,2);
 nPoints = size(theImage,1);

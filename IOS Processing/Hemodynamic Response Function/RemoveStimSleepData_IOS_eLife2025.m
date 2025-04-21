@@ -1,4 +1,4 @@
-function [decData,decFileIDs,decBinTimes] = RemoveStimSleepData_IOS_nNOS(animalID,data,fileIDs,binTimes)
+function [decData,decFileIDs,decBinTimes] = RemoveStimSleepData_IOS_eLife2025(animalID,data,fileIDs,binTimes)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

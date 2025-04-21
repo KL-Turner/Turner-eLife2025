@@ -1,5 +1,5 @@
 %% subfunctions
-function [s1,s2]=MatchStructs_2P_nNOS(s1,s2)
+function [s1,s2]=MatchStructs_2P_eLife2025(s1,s2)
 fields1 = fieldnames(s1);
 fields2 = fieldnames(s2);
 mpP = s2;

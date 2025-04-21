@@ -1,4 +1,4 @@
-function [SpecData] = NormalizeSpectrograms_2P_nNOS(specDataFiles,neuralDataTypes,RestingBaselines)
+function [SpecData] = NormalizeSpectrograms_2P_eLife2025(specDataFiles,neuralDataTypes,RestingBaselines)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -11,8 +11,8 @@ function [SpecData] = NormalizeSpectrograms_2P_nNOS(specDataFiles,neuralDataType
 for a = 1:size(specDataFiles,1)
     disp(['Normalizing spectrogram file ' num2str(a) ' of ' num2str(size(specDataFiles,1)) '...']); disp(' ')
     load(specDataFiles(a,:),'-mat');
-    [~,~,fileDate,~,~,~] = GetFileInfo2_2P_nNOS(specDataFiles(a,:));
-    strDay = ConvertDate_2P_nNOS(fileDate);
+    [~,~,fileDate,~,~,~] = GetFileInfo2_2P_eLife2025(specDataFiles(a,:));
+    strDay = ConvertDate_2P_eLife2025(fileDate);
     for b = 1:length(neuralDataTypes)
         neuralDataType = neuralDataTypes{1,b};
         baseLine1 = RestingBaselines.Spectrograms.(neuralDataType).oneSec.(strDay);

@@ -1,4 +1,4 @@
-function [temp] = AddEpochInfo_IOS_nNOS(data,dataType,behavior,temp,fileID,fileDate,evFilter,f)
+function [temp] = AddEpochInfo_IOS_eLife2025(data,dataType,behavior,temp,fileID,fileDate,evFilter,f)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

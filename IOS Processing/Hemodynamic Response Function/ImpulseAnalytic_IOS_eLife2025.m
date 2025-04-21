@@ -1,4 +1,4 @@
-function IR_est = ImpulseAnalytic_IOS_nNOS(datain,dataout,tshift,IR_length)
+function IR_est = ImpulseAnalytic_IOS_eLife2025(datain,dataout,tshift,IR_length)
 % IR_analytic.m
 % Bingxing Huo, May 2013
 % Modified from:
@@ -22,7 +22,7 @@ TL = 1:N;
 if nargin<4
     N_IR=round(N/5); % Let the length of IR be 1/5 of the length of the input data
 else
-    if isempty(IR_length==1)
+    if ~any(IR_length==1, "all")
         N_IR=round(N/5);
     else
         N_IR=IR_length;

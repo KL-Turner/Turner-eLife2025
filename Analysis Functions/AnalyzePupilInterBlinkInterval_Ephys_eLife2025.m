@@ -1,4 +1,4 @@
-function [Results_InterBlinkInterval] = AnalyzePupilInterBlinkInterval_Ephys_nNOS(animalID,rootFolder,delim,Results_InterBlinkInterval)
+function [Results_InterBlinkInterval] = AnalyzePupilInterBlinkInterval_Ephys_eLife2025(animalID,rootFolder,delim,Results_InterBlinkInterval)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

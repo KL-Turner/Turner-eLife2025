@@ -1,4 +1,4 @@
-function [days] = ConvertDate_IOS_nNOS(dateTag)
+function [days] = ConvertDate_IOS_eLife2025(dateTag)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

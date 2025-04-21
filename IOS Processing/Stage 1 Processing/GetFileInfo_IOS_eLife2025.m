@@ -1,4 +1,4 @@
-function [animalID,fileDate,fileID] = GetFileInfo_IOS_nNOS(fileName)
+function [animalID,fileDate,fileID] = GetFileInfo_IOS_eLife2025(fileName)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

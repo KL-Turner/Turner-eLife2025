@@ -39,7 +39,7 @@ for aa = 1:length(groups)
     animalIDs = {folderList.name};
     for bb = 1:length(animalIDs)
         if isfield(Results_Evoked_Ephys.(groups{1,aa}),animalIDs{1,bb}) == false
-            [Results_Evoked_Ephys] = AnalyzeEvokedResponses_Ephys_nNOS(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_Evoked_Ephys);
+            [Results_Evoked_Ephys] = AnalyzeEvokedResponses_Ephys_eLife2025(animalIDs{1,bb},groups{1,aa},set,rootFolder,delim,Results_Evoked_Ephys);
         end
         multiWaitbar('Analyzing evoked responses for Ephys','Value',cc/waitBarLength); pause(0.5);
         cc = cc + 1;

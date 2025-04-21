@@ -1,4 +1,4 @@
-function [FiltArray] = FilterEvents_2P_nNOS(DataStruct,Criteria)
+function [FiltArray] = FilterEvents_2P_eLife2025(DataStruct,Criteria)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

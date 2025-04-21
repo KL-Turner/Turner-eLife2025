@@ -1,4 +1,4 @@
-function [animalID,hem,fileDate,fileID] = GetFileInfo_2P_nNOS(fileName)
+function [animalID,hem,fileDate,fileID] = GetFileInfo_2P_eLife2025(fileName)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

@@ -1,4 +1,4 @@
-function [Results_Transitions_Ephys] = AnalyzeArousalTransitions_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_Transitions_Ephys)
+function [Results_Transitions_Ephys] = AnalyzeArousalTransitions_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_Transitions_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -48,7 +48,7 @@ patchedREMindex = [];
 % patch missing REM indeces due to theta band falling off
 for bb = 1:size(reshapedREMindex,2)
     remArray = reshapedREMindex(:,bb);
-    patchedREMarray = LinkBinaryEvents_IOS_nNOS(remArray',[5,0]);
+    patchedREMarray = LinkBinaryEvents_IOS_eLife2025(remArray',[5,0]);
     patchedREMindex = vertcat(patchedREMindex,patchedREMarray');
 end
 % change labels for each event
@@ -130,8 +130,8 @@ for hh = 1:length(transitions)
         file = data.(transition).files{ii,1};
         startBin = data.(transition).startInd(ii,1);
         if startBin > 1 && startBin < (180 - 12)
-            [animalID,fileDate,fileID] = GetFileInfo_IOS_nNOS(file);
-            strDay = ConvertDate_IOS_nNOS(fileDate);
+            [animalID,fileDate,fileID] = GetFileInfo_IOS_eLife2025(file);
+            strDay = ConvertDate_IOS_eLife2025(fileDate);
             procDataFileID = [animalID '_' fileID '_ProcData.mat'];
             load(procDataFileID)
             specDataFileID = [animalID '_' fileID '_SpecDataB.mat'];

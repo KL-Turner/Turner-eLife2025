@@ -1,4 +1,4 @@
-function [] = CreateRawDataFile_IOS_nNOS(trialData,fileID,imagingParameters,whiskerAngle,PupilStruct)
+function [] = CreateRawDataFile_IOS_eLife2025(trialData,fileID,imagingParameters,whiskerAngle,PupilStruct)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

@@ -1,4 +1,4 @@
-function [NeuralData,HemoData] = GatherLongEventData_IOS_nNOS(neuralBand,hemisphere,behavior,RestingBaselines,ScoringResults)
+function [NeuralData,HemoData] = GatherLongEventData_IOS_eLife2025(neuralBand,hemisphere,behavior,RestingBaselines,ScoringResults)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner - adapted from code written by Aaron T. Winder
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -19,8 +19,8 @@ if strcmp(behavior,'All') == true
     for aa = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(aa,:);
         load(procDataFileID,'-mat')
-        [~,fileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
-        strDay = ConvertDate_IOS_nNOS(fileDate);
+        [~,fileDate,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
+        strDay = ConvertDate_IOS_eLife2025(fileDate);
         NeuralData{aa,1} = (ProcData.data.(['cortical_' hemisphere]).(neuralBand) - RestingBaselines.manualSelection.(['cortical_' hemisphere]).(neuralBand).(strDay).mean)./RestingBaselines.manualSelection.(['cortical_' hemisphere]).(neuralBand).(strDay).mean; %#ok<*AGROW>
         HemoData{aa,1} = ProcData.data.HbT.(hemisphere);
     end
@@ -28,8 +28,8 @@ elseif strcmp(behavior,'Alert') == true
     dd = 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,alertDataFileDate,alertDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-        strDay = ConvertDate_IOS_nNOS(alertDataFileDate);
+        [~,alertDataFileDate,alertDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+        strDay = ConvertDate_IOS_eLife2025(alertDataFileDate);
         scoringLabels = [];
         for cc = 1:length(ScoringResults.fileIDs)
             if strcmp(alertDataFileID,ScoringResults.fileIDs{cc,1}) == true
@@ -52,8 +52,8 @@ elseif strcmp(behavior,'Asleep') == true
     gg = 1;
     for ee = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(ee,:);
-        [~,alertDataFileDate,alertDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-        strDay = ConvertDate_IOS_nNOS(alertDataFileDate);
+        [~,alertDataFileDate,alertDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+        strDay = ConvertDate_IOS_eLife2025(alertDataFileDate);
         scoringLabels = [];
         for ff = 1:length(ScoringResults.fileIDs)
             if strcmp(alertDataFileID,ScoringResults.fileIDs{ff,1}) == true

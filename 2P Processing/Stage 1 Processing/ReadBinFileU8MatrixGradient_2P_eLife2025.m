@@ -1,4 +1,4 @@
-function [imageGrad] = ReadBinFileU8MatrixGradient_2P_nNOS(fileName,height,width)
+function [imageGrad] = ReadBinFileU8MatrixGradient_2P_eLife2025(fileName,height,width)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

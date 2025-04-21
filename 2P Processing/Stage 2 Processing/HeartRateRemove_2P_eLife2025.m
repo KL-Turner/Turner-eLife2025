@@ -1,4 +1,4 @@
-function [mpP, fixed_v_noHR]=HeartRateRemove_2P_nNOS(mpP)
+function [mpP, fixed_v_noHR]=HeartRateRemove_2P_eLife2025(mpP)
 %removes high freqency (>8hz) noise with 2nd order butterworth filter
 f_high=5;
 fs=mpP.Blood_flow.the_Fs;

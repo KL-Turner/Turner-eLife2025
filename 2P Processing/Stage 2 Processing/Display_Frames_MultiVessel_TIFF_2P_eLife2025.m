@@ -1,4 +1,4 @@
-function [imagefig,xstart,xstop,frames_hold,nframes,scan_type] = Display_Frames_MultiVessel_TIFF_2P_nNOS(fname,mfname,tempData)
+function [imagefig,xstart,xstop,frames_hold,nframes,scan_type] = Display_Frames_MultiVessel_TIFF_2P_eLife2025(fname,mfname,tempData)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -15,7 +15,7 @@ function [imagefig,xstart,xstop,frames_hold,nframes,scan_type] = Display_Frames_
     tempData.ysize = str2double(tempData.notes.Frame_Height);
     frame_height = tempData.ysize;
  
-    frames_hold = LoadTiffConcatenate_2P_nNOS(fname,[1,5]);%
+    frames_hold = LoadTiffConcatenate_2P_eLife2025(fname,[1,5]);%
     imagefig = figure(2);
     colormap gray
     %plot the data

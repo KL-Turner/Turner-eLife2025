@@ -1,4 +1,4 @@
-function [theCode]=GetFunctionCode_2P_nNOS(filename)
+function [theCode]=GetFunctionCode_2P_eLife2025(filename)
 %________________________________________________________________________________________________________________________
 % Edited by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

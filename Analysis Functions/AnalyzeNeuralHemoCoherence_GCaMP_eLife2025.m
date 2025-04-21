@@ -1,4 +1,4 @@
-function [Results_NeuralHemoCoher_GCaMP] = AnalyzeNeuralHemoCoherence_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_NeuralHemoCoher_GCaMP)
+function [Results_NeuralHemoCoher_GCaMP] = AnalyzeNeuralHemoCoherence_GCaMP_eLife2025(animalID,group,set,rootFolder,delim,Results_NeuralHemoCoher_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -54,8 +54,8 @@ for zzz = 1:length(hemispheres)
         dataType = dataTypes{1,bbb};
         %% Rest
         samplingRate = RestData.(dataType).LH.samplingRate;
-        [restLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).(hemisphere),RestCriteria);
-        [puffLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).(hemisphere),RestPuffCriteria);
+        [restLogical] = FilterEvents_IOS_eLife2025(RestData.(dataType).(hemisphere),RestCriteria);
+        [puffLogical] = FilterEvents_IOS_eLife2025(RestData.(dataType).(hemisphere),RestPuffCriteria);
         combRestLogical = logical(restLogical.*puffLogical);
         restFileIDs = RestData.(dataType).(hemisphere).fileIDs(combRestLogical,:);
         restEventTimes = RestData.(dataType).(hemisphere).eventTimes(combRestLogical,:);
@@ -63,8 +63,8 @@ for zzz = 1:length(hemispheres)
         HbT_RestingData = RestData.(dataType).(hemisphere).data(combRestLogical,:);
         Neural_RestingData = RestData.GCaMP.(hemisphere).data(combRestLogical,:);
         % keep only the data that occurs within the manually-approved alert regions
-        [HbT_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(HbT_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-        [Neural_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(Neural_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [HbT_finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(HbT_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [Neural_finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(Neural_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
         clear HbT_ProcRestData Neural_ProcRestData
         % filter, detrend, and truncate data to minimum length to match events
         for bb = 1:length(HbT_finalRestData)
@@ -109,7 +109,7 @@ for zzz = 1:length(hemispheres)
         HbT_AlertData = [];
         for bb = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(bb,:);
-            [~,~,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,fileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
             scoringLabels = [];
             for cc = 1:length(ScoringResults.fileIDs)
                 if strcmp(fileID,ScoringResults.fileIDs{cc,1}) == true
@@ -188,7 +188,7 @@ for zzz = 1:length(hemispheres)
         HbT_AsleepData = [];
         for bb = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(bb,:);
-            [~,~,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,fileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
             scoringLabels = [];
             for cc = 1:length(ScoringResults.fileIDs)
                 if strcmp(fileID,ScoringResults.fileIDs{cc,1}) == true
@@ -306,8 +306,8 @@ for zzz = 1:length(hemispheres)
             Results_NeuralHemoCoher_GCaMP.(group).(animalID).(hemisphere).(dataType).All.cErr = cErr_AllUnstimData;
         end
         %% NREM
-        [HbT_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-        [Neural_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.GCaMP.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [HbT_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.(dataType).(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [Neural_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.GCaMP.(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
         % filter, detrend, and truncate data to minimum length to match events
         for ee = 1:length(HbT_nremData)
             HbT_nremData{ee,1} = detrend(HbT_nremData{ee,1}(1:(params.minTime.NREM*samplingRate)),'constant');
@@ -330,8 +330,8 @@ for zzz = 1:length(hemispheres)
         Results_NeuralHemoCoher_GCaMP.(group).(animalID).(hemisphere).(dataType).NREM.confC = confC_nrem;
         Results_NeuralHemoCoher_GCaMP.(group).(animalID).(hemisphere).(dataType).NREM.cErr = cErr_nrem;
         %% REM
-        [HbT_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-        [Neural_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.GCaMP.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [HbT_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.(dataType).(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [Neural_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.GCaMP.(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
         % filter, detrend, and truncate data to minimum length to match events
         for gg = 1:length(HbT_remData)
             HbT_remData{gg,1} = detrend(HbT_remData{gg,1}(1:(params.minTime.REM*samplingRate)),'constant');

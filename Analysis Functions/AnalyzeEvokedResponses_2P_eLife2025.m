@@ -1,4 +1,4 @@
-function [Results_Evoked_2P] = AnalyzeEvokedResponses_2P_nNOS(animalID,group,setName,rootFolder,delim,Results_Evoked_2P)
+function [Results_Evoked_2P] = AnalyzeEvokedResponses_2P_eLife2025(animalID,group,setName,rootFolder,delim,Results_Evoked_2P)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -57,7 +57,7 @@ for qq = 1:length(whiskCriteriaNames)
         WhiskCriteria = whiskCriteriaC;
     end
     % pull data from EventData.mat structure
-    [whiskLogical] = FilterEvents_2P_nNOS(EventData.vesselDiameter.data.whisk,WhiskCriteria);
+    [whiskLogical] = FilterEvents_2P_eLife2025(EventData.vesselDiameter.data.whisk,WhiskCriteria);
     whiskLogical = logical(whiskLogical);
     whiskingData = EventData.vesselDiameter.data.whisk.data(whiskLogical,:);
     whiskFileIDs = EventData.vesselDiameter.data.whisk.fileIDs(whiskLogical,:);
@@ -65,11 +65,11 @@ for qq = 1:length(whiskCriteriaNames)
     whiskEventTimes = EventData.vesselDiameter.data.whisk.eventTime(whiskLogical,:);
     whiskDurations = EventData.vesselDiameter.data.whisk.duration(whiskLogical,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalWhiskData,finalWhiskFileIDs,finalWhiskVesselIDs,~,~] = RemoveInvalidData_2P_nNOS(whiskingData,whiskFileIDs,whiskVesselIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+    [finalWhiskData,finalWhiskFileIDs,finalWhiskVesselIDs,~,~] = RemoveInvalidData_2P_eLife2025(whiskingData,whiskFileIDs,whiskVesselIDs,whiskDurations,whiskEventTimes,ManualDecisions);
     clear procWhiskData
     % filter and detrend data
     for aa = 1:size(finalWhiskData,1)
-        whiskStrDay = ConvertDate_2P_nNOS(finalWhiskFileIDs{aa,1}(1:6));
+        whiskStrDay = ConvertDate_2P_eLife2025(finalWhiskFileIDs{aa,1}(1:6));
         normWhiskData = (finalWhiskData(aa,:) - RestingBaselines.manualSelection.vesselDiameter.data.(finalWhiskVesselIDs{aa,1}).(whiskStrDay))./RestingBaselines.manualSelection.vesselDiameter.data.(finalWhiskVesselIDs{aa,1}).(whiskStrDay);
         filtWhiskData = sgolayfilt(normWhiskData,3,17);
         procWhiskData{aa,1} = filtWhiskData - mean(filtWhiskData(1:(offset*samplingRate)));
@@ -139,11 +139,11 @@ for zz = 1:length(stimCriteriaNames)
     stimEventTimes = EventData.vesselDiameter.data.stim.eventTime(stimLogical,:);
     stimDurations = zeros(length(stimEventTimes),1);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalStimData,finalStimFileIDs,finalStimVesselIDs,~,~] = RemoveInvalidData_2P_nNOS(stimData,stimFileIDs,stimVesselIDs,stimDurations,stimEventTimes,ManualDecisions);
+    [finalStimData,finalStimFileIDs,finalStimVesselIDs,~,~] = RemoveInvalidData_2P_eLife2025(stimData,stimFileIDs,stimVesselIDs,stimDurations,stimEventTimes,ManualDecisions);
     clear procStimData
     % filter and detrend data
     for aa = 1:size(finalStimData,1)
-        StimStrDay = ConvertDate_2P_nNOS(finalStimFileIDs{aa,1}(1:6));
+        StimStrDay = ConvertDate_2P_eLife2025(finalStimFileIDs{aa,1}(1:6));
         normStimData = (finalStimData(aa,:) - RestingBaselines.manualSelection.vesselDiameter.data.(finalStimVesselIDs{aa,1}).(StimStrDay))./RestingBaselines.manualSelection.vesselDiameter.data.(finalStimVesselIDs{aa,1}).(StimStrDay);
         filtStimData = sgolayfilt(normStimData,3,17);
         procStimData{aa,1} = filtStimData - mean(filtStimData(1:(offset*samplingRate)));

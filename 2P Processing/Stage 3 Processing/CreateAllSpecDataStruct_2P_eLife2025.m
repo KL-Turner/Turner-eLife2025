@@ -1,4 +1,4 @@
-function [] = CreateAllSpecDataStruct_2P_nNOS(animalID,neuralDataTypes)
+function [] = CreateAllSpecDataStruct_2P_eLife2025(animalID,neuralDataTypes)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

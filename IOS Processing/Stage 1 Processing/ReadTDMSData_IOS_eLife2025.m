@@ -1,11 +1,11 @@
-function [TDMSFile] = ReadTDMSData_IOS_nNOS(animalID,fileName)
+function [TDMSFile] = ReadTDMSData_IOS_eLife2025(animalID,fileName)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
 % https://github.com/KL-Turner
 %----------------------------------------------------------------------------------------------------------
 % convert the .tdms file into something that Matlab understands
-[tempStruct,~] = ConvertTDMS_IOS_nNOS(0,fileName);
+[tempStruct,~] = ConvertTDMS_IOS_eLife2025(0,fileName);
 % extract whisker camera info and transfer from tempStruct
 TDMSFile.experimenter = tempStruct.Data.Root.Experimenter;
 TDMSFile.animal_ID = tempStruct.Data.Root.Animal_ID;

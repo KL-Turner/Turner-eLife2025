@@ -1,4 +1,4 @@
-function [uniqueDays,dayIndex,dayID] = GetUniqueDays_IOS_nNOS(dateList)
+function [uniqueDays,dayIndex,dayID] = GetUniqueDays_IOS_eLife2025(dateList)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

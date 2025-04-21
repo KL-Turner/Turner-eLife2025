@@ -1,4 +1,4 @@
-function [Results_PearsonCorr_Ephys] = AnalyzePearsonCorrelation_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_PearsonCorr_Ephys)
+function [Results_PearsonCorr_Ephys] = AnalyzePearsonCorrelation_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_PearsonCorr_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -66,8 +66,8 @@ for a = 1:length(dataTypes)
     clear LH_finalRestData RH_finalRestData LH_ProcRestData RH_ProcRestData rest_R
     if strcmp(dataType,'HbT') == true
         samplingRate = RestData.(dataType).LH.samplingRate;
-        [restLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).LH,RestCriteria);
-        [stimLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).LH,RestStimCriteria);
+        [restLogical] = FilterEvents_IOS_eLife2025(RestData.(dataType).LH,RestCriteria);
+        [stimLogical] = FilterEvents_IOS_eLife2025(RestData.(dataType).LH,RestStimCriteria);
         combRestLogical = logical(restLogical.*stimLogical);
         restFileIDs = RestData.(dataType).LH.fileIDs(combRestLogical,:);
         restEventTimes = RestData.(dataType).LH.eventTimes(combRestLogical,:);
@@ -75,12 +75,12 @@ for a = 1:length(dataTypes)
         LH_RestingData = RestData.(dataType).LH.data(combRestLogical,:);
         RH_RestingData = RestData.(dataType).RH.data(combRestLogical,:);
         % keep only the data that occurs within the manually-approved alert regions
-        [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-        [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
     else
         samplingRate = RestData.cortical_LH.(dataType).samplingRate;
-        [restLogical] = FilterEvents_IOS_nNOS(RestData.cortical_LH.(dataType),RestCriteria);
-        [stimLogical] = FilterEvents_IOS_nNOS(RestData.cortical_LH.(dataType),RestStimCriteria);
+        [restLogical] = FilterEvents_IOS_eLife2025(RestData.cortical_LH.(dataType),RestCriteria);
+        [stimLogical] = FilterEvents_IOS_eLife2025(RestData.cortical_LH.(dataType),RestStimCriteria);
         combRestLogical = logical(restLogical.*stimLogical);
         restFileIDs = RestData.cortical_LH.(dataType).fileIDs(combRestLogical,:);
         restEventTimes = RestData.cortical_LH.(dataType).eventTimes(combRestLogical,:);
@@ -88,8 +88,8 @@ for a = 1:length(dataTypes)
         LH_RestingData = RestData.cortical_LH.(dataType).NormData(combRestLogical,:);
         RH_RestingData = RestData.cortical_RH.(dataType).NormData(combRestLogical,:);
         % keep only the data that occurs within the manually-approved alert regions
-        [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-        [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [LH_finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(LH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [RH_finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(RH_RestingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
     end
     % lowpass filter
     [z,p,k] = butter(4,0.5/(samplingRate/2),'low');
@@ -109,8 +109,8 @@ for a = 1:length(dataTypes)
     %% Whisk
     clear LH_finalWhiskData RH_finalWhiskData LH_ProcWhiskData RH_ProcWhiskData whisk_R
     if strcmp(dataType,'HbT') == true
-        [whiskLogical] = FilterEvents_IOS_nNOS(EventData.(dataType).LH.whisk,WhiskCriteria);
-        [stimLogical] = FilterEvents_IOS_nNOS(EventData.(dataType).LH.whisk,WhiskStimCriteria);
+        [whiskLogical] = FilterEvents_IOS_eLife2025(EventData.(dataType).LH.whisk,WhiskCriteria);
+        [stimLogical] = FilterEvents_IOS_eLife2025(EventData.(dataType).LH.whisk,WhiskStimCriteria);
         combWhiskLogical = logical(whiskLogical.*stimLogical);
         whiskFileIDs = EventData.(dataType).LH.whisk.fileIDs(combWhiskLogical,:);
         whiskEventTimes = EventData.(dataType).LH.whisk.eventTime(combWhiskLogical,:);
@@ -118,11 +118,11 @@ for a = 1:length(dataTypes)
         LH_whiskData = EventData.(dataType).LH.whisk.data(combWhiskLogical,:);
         RH_whiskData = EventData.(dataType).RH.whisk.data(combWhiskLogical,:);
         % keep only the data that occurs within the manually-approved alert regions
-        [LH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(LH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-        [RH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(RH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [LH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_eLife2025(LH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [RH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_eLife2025(RH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
     else
-        [whiskLogical] = FilterEvents_IOS_nNOS(EventData.cortical_LH.(dataType).whisk,WhiskCriteria);
-        [stimLogical] = FilterEvents_IOS_nNOS(EventData.cortical_LH.(dataType).whisk,WhiskStimCriteria);
+        [whiskLogical] = FilterEvents_IOS_eLife2025(EventData.cortical_LH.(dataType).whisk,WhiskCriteria);
+        [stimLogical] = FilterEvents_IOS_eLife2025(EventData.cortical_LH.(dataType).whisk,WhiskStimCriteria);
         combWhiskLogical = logical(whiskLogical.*stimLogical);
         whiskFileIDs = EventData.cortical_LH.(dataType).whisk.fileIDs(combWhiskLogical,:);
         whiskEventTimes = EventData.cortical_LH.(dataType).whisk.eventTime(combWhiskLogical,:);
@@ -130,8 +130,8 @@ for a = 1:length(dataTypes)
         LH_whiskData = EventData.cortical_LH.(dataType).whisk.NormData(combWhiskLogical,:);
         RH_whiskData = EventData.cortical_RH.(dataType).whisk.NormData(combWhiskLogical,:);
         % keep only the data that occurs within the manually-approved alert regions
-        [LH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(LH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-        [RH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_nNOS(RH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [LH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_eLife2025(LH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [RH_finalWhiskData,~,~,~] = RemoveInvalidData_IOS_eLife2025(RH_whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
     end
     % filter, detrend, and take data from whisk onset through 5 seconds
     for gg = 1:size(LH_finalWhiskData,1)
@@ -151,8 +151,8 @@ for a = 1:length(dataTypes)
     zz = 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,allDataFileDate,allDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-        strDay = ConvertDate_IOS_nNOS(allDataFileDate);
+        [~,allDataFileDate,allDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+        strDay = ConvertDate_IOS_eLife2025(allDataFileDate);
         for cc = 1:length(ScoringResults.fileIDs)
             if strcmp(allDataFileID,ScoringResults.fileIDs{cc,1}) == true
                 scoringLabels = ScoringResults.labels{cc,1};
@@ -245,8 +245,8 @@ for a = 1:length(dataTypes)
     zz= 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,allDataFileDate,allDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-        strDay = ConvertDate_IOS_nNOS(allDataFileDate);
+        [~,allDataFileDate,allDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+        strDay = ConvertDate_IOS_eLife2025(allDataFileDate);
         for cc = 1:length(ScoringResults.fileIDs)
             if strcmp(allDataFileID,ScoringResults.fileIDs{cc,1}) == true
                 scoringLabels = ScoringResults.labels{cc,1};
@@ -338,8 +338,8 @@ for a = 1:length(dataTypes)
     zz = 1;
     for bb = 1:size(procDataFileIDs,1)
         procDataFileID = procDataFileIDs(bb,:);
-        [~,allDataFileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
-        strDay = ConvertDate_IOS_nNOS(allDataFileDate);
+        [~,allDataFileDate,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
+        strDay = ConvertDate_IOS_eLife2025(allDataFileDate);
         load(procDataFileID,'-mat')
         stims = ProcData.data.stimulations.LPadSol;
         % don't include trials with stimulation
@@ -385,11 +385,11 @@ for a = 1:length(dataTypes)
     %% NREM
     clear LH_nremData RH_nremData nrem_R
     if strcmp(dataType,'HbT') == true
-        [LH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-        [RH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [LH_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.(dataType).LH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [RH_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.(dataType).RH,SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
     else
-        [LH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.cortical_LH.(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
-        [RH_nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.cortical_RH.(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [LH_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.cortical_LH.(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+        [RH_nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.cortical_RH.(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
     end
     % filter, detrend, and truncate data to data to minimum length to match events
     for j = 1:length(LH_nremData)
@@ -406,11 +406,11 @@ for a = 1:length(dataTypes)
     %% REM
     clear LH_remData RH_remData rem_R
     if strcmp(dataType,'HbT') == true
-        [LH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-        [RH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [LH_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.(dataType).LH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [RH_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.(dataType).RH,SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
     else
-        [LH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.cortical_LH.(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
-        [RH_remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.cortical_RH.(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [LH_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.cortical_LH.(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+        [RH_remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.cortical_RH.(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
     end
     % filter, detrend, and truncate data to data to minimum length to match events
     for m = 1:length(LH_remData)

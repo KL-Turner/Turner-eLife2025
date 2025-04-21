@@ -1,4 +1,4 @@
-function [TrainingFiles,procDataFileIDs] = SelectTrainingDates_IOS_nNOS()
+function [TrainingFiles,procDataFileIDs] = SelectTrainingDates_IOS_eLife2025()
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -13,9 +13,9 @@ procDataFileStruct = dir('*_ProcData.mat');
 procDataFiles = {procDataFileStruct.name}';
 procDataFileIDs = char(procDataFiles);
 if isempty(trainingDatesFileID) == true
-    [animalIDs,fileDates,~] = GetFileInfo_IOS_nNOS(procDataFileIDs);
+    [animalIDs,fileDates,~] = GetFileInfo_IOS_eLife2025(procDataFileIDs);
     animalID = animalIDs(1,:);
-    uniqueDays = GetUniqueDays_IOS_nNOS(fileDates);
+    uniqueDays = GetUniqueDays_IOS_eLife2025(fileDates);
     TrainingFiles = [];
     % select day 1
     tf = 0;
@@ -25,7 +25,7 @@ if isempty(trainingDatesFileID) == true
         if tf == 0
             disp('Please select a date'); disp(' ');
         else
-            disp(['Day ' num2str(uniqueDays{indxA,1}) ' selected (' ConvertDate_IOS_nNOS(uniqueDays{indxA,1}) ')']); disp(' ')
+            disp(['Day ' num2str(uniqueDays{indxA,1}) ' selected (' ConvertDate_IOS_eLife2025(uniqueDays{indxA,1}) ')']); disp(' ')
             TrainingFiles.day1 = uniqueDays{indxA,1};
         end
     end
@@ -37,7 +37,7 @@ if isempty(trainingDatesFileID) == true
         if tf == 0
             disp('Please select a date'); disp(' ');
         else
-            disp(['Day ' num2str(uniqueDays{indxB,1}) ' selected (' ConvertDate_IOS_nNOS(uniqueDays{indxB,1}) ')']); disp(' ')
+            disp(['Day ' num2str(uniqueDays{indxB,1}) ' selected (' ConvertDate_IOS_eLife2025(uniqueDays{indxB,1}) ')']); disp(' ')
             TrainingFiles.day2 = uniqueDays{indxB,1};
         end
     end

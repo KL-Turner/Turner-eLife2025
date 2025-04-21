@@ -1,4 +1,4 @@
-function [routp,convout] = ConvolveHRF_IOS_nNOS(HRF,inp,outp,offset)
+function [routp,convout] = ConvolveHRF_IOS_eLife2025(HRF,inp,outp,offset)
 %
 %   Author: Aaron Winder
 %   Affiliation: Engineering Science and Mechanics, Penn State University
@@ -28,7 +28,7 @@ function [routp,convout] = ConvolveHRF_IOS_nNOS(HRF,inp,outp,offset)
 % Match Data Lengths
 outdc = outp(1);
 indc = inp(1);
-[rinp,routp] = MatchDataLengths_IOS_nNOS(inp - indc,outp - outdc);
+[rinp,routp] = MatchDataLengths_IOS_eLife2025(inp - indc,outp - outdc);
 %routp = routp+outdc;
 rinp = rinp + indc;
 % Perform Convolution

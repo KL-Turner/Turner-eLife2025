@@ -1,4 +1,4 @@
-function [figHandle,ax1,ax2,ax3,ax4,ax5] = GenerateSingleFigures_GCaMP_Sleep_IOS_nNOS(procDataFileID)
+function [figHandle,ax1,ax2,ax3,ax4,ax5] = GenerateSingleFigures_GCaMP_Sleep_IOS_eLife2025(procDataFileID)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -6,7 +6,7 @@ function [figHandle,ax1,ax2,ax3,ax4,ax5] = GenerateSingleFigures_GCaMP_Sleep_IOS
 %----------------------------------------------------------------------------------------------------------
 % load file and gather information
 load(procDataFileID)
-[animalID,~,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+[animalID,~,fileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
 % setup butterworth filter coefficients for a 1 Hz and 10 Hz lowpass based on the sampling rate
 [z1,p1,k1] = butter(4,10/(ProcData.notes.dsFs/2),'low');
 [sos1,g1] = zp2sos(z1,p1,k1);

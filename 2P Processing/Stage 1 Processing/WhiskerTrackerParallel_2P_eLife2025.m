@@ -1,4 +1,4 @@
-function [angle] = WhiskerTrackerParallel_2P_nNOS(fileName)
+function [angle] = WhiskerTrackerParallel_2P_eLife2025(fileName)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -8,7 +8,7 @@ function [angle] = WhiskerTrackerParallel_2P_nNOS(fileName)
 theta = -40:80;   % Angles used for radon
 % Import whisker movie
 importStart = tic;
-baslerFrames = ReadBinFileU8MatrixGradient_2P_nNOS([fileName '_WhiskerCam.bin'],350,30);
+baslerFrames = ReadBinFileU8MatrixGradient_2P_eLife2025([fileName '_WhiskerCam.bin'],350,30);
 importTime = toc(importStart);
 disp(['WhiskerTrackerParallel: Binary file import time was ' num2str(importTime) ' seconds.']); disp(' ')
 % Transfer the images to the GPU

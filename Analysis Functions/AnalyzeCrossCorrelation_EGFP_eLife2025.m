@@ -1,4 +1,4 @@
-function [Results_CrossCorr_EGFP] = AnalyzeCrossCorrelation_EGFP_nNOS(animalID,group,set,rootFolder,delim,Results_CrossCorr_EGFP)
+function [Results_CrossCorr_EGFP] = AnalyzeCrossCorrelation_EGFP_eLife2025(animalID,group,set,rootFolder,delim,Results_CrossCorr_EGFP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

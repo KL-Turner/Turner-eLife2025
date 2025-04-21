@@ -1,4 +1,4 @@
-function [r] = CalculateR_IOS_nNOS(pred,act)
+function [r] = CalculateR_IOS_eLife2025(pred,act)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

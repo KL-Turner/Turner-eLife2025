@@ -1,4 +1,4 @@
-function StageOneProcessing_2P_nNOS(fileNames,trackWhiskers)
+function StageOneProcessing_2P_eLife2025(fileNames,trackWhiskers)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -33,13 +33,13 @@ for a = 1:length(fileNames)
         indFile = fileName;
     end
     % Pull out the file ID for the file - this is the numerical string after the animal name/hemisphere
-    [~,~,~,fileID] = GetFileInfo_2P_nNOS(indFile);
+    [~,~,~,fileID] = GetFileInfo_2P_eLife2025(indFile);
     % Determine if a LabVIEWData file has already been created for this file. If it has, skip it
     fileExist = ls(['*' fileID '_LabVIEWData.mat']);
     if isempty(fileExist)
         %% BLOCK PURPOSE: [2] Import .tdms data (All channels).
         disp('Analyzing Block [2] Importing .tdms data from all channels.'); disp(' ')
-        trialData = ReadInTDMSWhiskerTrials_2P_nNOS([fileID '.tdms']);
+        trialData = ReadInTDMSWhiskerTrials_2P_eLife2025([fileID '.tdms']);
         % force sensor data
         dataRow = strcmp(trialData.data.names,'forceSensor');
         forceSensor = trialData.data.vals(dataRow,:);          
@@ -54,7 +54,7 @@ for a = 1:length(fileNames)
         %% BLOCK PURPOSE: [3] Start Whisker tracker.
         disp('Analyzing Block [3] Starting whisker tracking.'); disp(' ')
         if trackWhiskers
-            [whiskerAngle] = WhiskerTrackerParallel_2P_nNOS(fileID);
+            [whiskerAngle] = WhiskerTrackerParallel_2P_eLife2025(fileID);
             inds = isnan(whiskerAngle) == 1;
             whiskerAngle(inds) = [];
         else

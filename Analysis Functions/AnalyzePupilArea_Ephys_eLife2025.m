@@ -1,4 +1,4 @@
-function [Results_PupilArea_Ephys] = AnalyzePupilArea_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_PupilArea_Ephys)
+function [Results_PupilArea_Ephys] = AnalyzePupilArea_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_PupilArea_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -69,15 +69,15 @@ for aa = 1:length(dataTypes)
     dataType = dataTypes{1,aa};
     %% analyze during periods of rest
     % pull data from RestData.mat structure
-    [restLogical] = FilterEvents_IOS_nNOS(RestData.Pupil.(dataType),RestCriteria);
-    [puffLogical] = FilterEvents_IOS_nNOS(RestData.Pupil.(dataType),RestPuffCriteria);
+    [restLogical] = FilterEvents_IOS_eLife2025(RestData.Pupil.(dataType),RestCriteria);
+    [puffLogical] = FilterEvents_IOS_eLife2025(RestData.Pupil.(dataType),RestPuffCriteria);
     combRestLogical = logical(restLogical.*puffLogical);
     restFileIDs = RestData.Pupil.(dataType).fileIDs(combRestLogical,:);
     restEventTimes = RestData.Pupil.(dataType).eventTimes(combRestLogical,:);
     restDurations = RestData.Pupil.(dataType).durations(combRestLogical,:);
     restData = RestData.Pupil.(dataType).data(combRestLogical,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalRestData,finalRestFileIDs,~,~] = RemoveInvalidData_IOS_nNOS(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+    [finalRestData,finalRestFileIDs,~,~] = RemoveInvalidData_IOS_eLife2025(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
     % filter
     for gg = 1:length(finalRestData)
         procRestData{gg,1} = filtfilt(sos,g,finalRestData{gg,1});
@@ -92,15 +92,15 @@ for aa = 1:length(dataTypes)
     Results_PupilArea_Ephys.(group).(animalID).(dataType).Rest.fileIDs = finalRestFileIDs;
     %% analyze during periods of moderate whisking (2-5 seconds)
     % pull data from EventData.mat structure
-    [whiskLogical] = FilterEvents_IOS_nNOS(EventData.Pupil.(dataType).whisk,WhiskCriteria);
-    [puffLogical] = FilterEvents_IOS_nNOS(EventData.Pupil.(dataType).whisk,WhiskPuffCriteria);
+    [whiskLogical] = FilterEvents_IOS_eLife2025(EventData.Pupil.(dataType).whisk,WhiskCriteria);
+    [puffLogical] = FilterEvents_IOS_eLife2025(EventData.Pupil.(dataType).whisk,WhiskPuffCriteria);
     combWhiskLogical = logical(whiskLogical.*puffLogical);
     whiskFileIDs = EventData.Pupil.(dataType).whisk.fileIDs(combWhiskLogical,:);
     whiskEventTimes = EventData.Pupil.(dataType).whisk.eventTime(combWhiskLogical,:);
     whiskDurations = EventData.Pupil.(dataType).whisk.duration(combWhiskLogical,:);
     whiskData = EventData.Pupil.(dataType).whisk.data(combWhiskLogical,:);
     % keep only the data that occurs within the manually-approved awake regions
-    [finalWhiskData,finalWhiskFileIDs,~,~] = RemoveInvalidData_IOS_nNOS(whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+    [finalWhiskData,finalWhiskFileIDs,~,~] = RemoveInvalidData_IOS_eLife2025(whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
     % filter and mean-subtract 2 seconds prior to whisk
     for gg = 1:size(finalWhiskData,1)
         try
@@ -120,8 +120,8 @@ for aa = 1:length(dataTypes)
     Results_PupilArea_Ephys.(group).(animalID).(dataType).Whisk.fileIDs = finalWhiskFileIDs;
     %% analyze during periods of stimulation
     % pull data from EventData.mat structure
-    LH_stimFilter = FilterEvents_IOS_nNOS(EventData.Pupil.(dataType).stim,StimCriteriaA);
-    RH_stimFilter = FilterEvents_IOS_nNOS(EventData.Pupil.(dataType).stim,StimCriteriaB);
+    LH_stimFilter = FilterEvents_IOS_eLife2025(EventData.Pupil.(dataType).stim,StimCriteriaA);
+    RH_stimFilter = FilterEvents_IOS_eLife2025(EventData.Pupil.(dataType).stim,StimCriteriaB);
     [LH_stimData] = EventData.Pupil.(dataType).stim.data(LH_stimFilter,:);
     [RH_stimData] = EventData.Pupil.(dataType).stim.data(RH_stimFilter,:);
     [LH_stimFileIDs] = EventData.Pupil.(dataType).stim.fileIDs(LH_stimFilter,:);
@@ -131,8 +131,8 @@ for aa = 1:length(dataTypes)
     LH_stimDurations = zeros(length(LH_stimEventTimes),1);
     RH_stimDurations = zeros(length(RH_stimEventTimes),1);
     % keep only the data that occurs within the manually-approved awake regions
-    [LH_finalStimData,LH_finalStimFileIDs,~,~] = RemoveInvalidData_IOS_nNOS(LH_stimData,LH_stimFileIDs,LH_stimDurations,LH_stimEventTimes,ManualDecisions);
-    [RH_finalStimData,RH_finalStimFileIDs,~,~] = RemoveInvalidData_IOS_nNOS(RH_stimData,RH_stimFileIDs,RH_stimDurations,RH_stimEventTimes,ManualDecisions);
+    [LH_finalStimData,LH_finalStimFileIDs,~,~] = RemoveInvalidData_IOS_eLife2025(LH_stimData,LH_stimFileIDs,LH_stimDurations,LH_stimEventTimes,ManualDecisions);
+    [RH_finalStimData,RH_finalStimFileIDs,~,~] = RemoveInvalidData_IOS_eLife2025(RH_stimData,RH_stimFileIDs,RH_stimDurations,RH_stimEventTimes,ManualDecisions);
     % filter and nanmean-subtract 2 seconds prior to stimulus (left hem)
     for gg = 1:size(LH_finalStimData,1)
         LH_ProcStimData = filtfilt(sos,g,LH_finalStimData(gg,:));
@@ -158,7 +158,7 @@ for aa = 1:length(dataTypes)
     %% analyze during periods of NREM sleep
     % pull data from SleepData.mat structure
     if isempty(SleepData.(modelType).NREM.data.Pupil) == false
-        [nremData,nremFileIDs,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.Pupil.(dataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
+        [nremData,nremFileIDs,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.Pupil.(dataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
         % filter and take nanmean during NREM epochs
         for nn = 1:length(nremData)
             try
@@ -180,7 +180,7 @@ for aa = 1:length(dataTypes)
     %% analyze during periods of REM sleep
     % pull data from SleepData.mat structure
     if isempty(SleepData.(modelType).REM.data.Pupil) == false
-        [remData,remFileIDs,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.Pupil.(dataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
+        [remData,remFileIDs,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.Pupil.(dataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
         % filter and take nanmean during REM epochs
         for nn = 1:length(remData)
             try

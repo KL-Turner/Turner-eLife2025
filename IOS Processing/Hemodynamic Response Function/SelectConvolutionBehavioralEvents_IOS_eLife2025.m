@@ -1,4 +1,4 @@
-function [DataStruct,filtArray] = SelectConvolutionBehavioralEvents_IOS_nNOS(DataStruct,behavior,hemisphere)
+function [DataStruct,filtArray] = SelectConvolutionBehavioralEvents_IOS_eLife2025(DataStruct,behavior,hemisphere)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

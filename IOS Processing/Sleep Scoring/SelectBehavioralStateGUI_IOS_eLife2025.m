@@ -1,4 +1,4 @@
-function varargout = SelectBehavioralStateGUI_IOS_nNOS(varargin)
+function varargout = SelectBehavioralStateGUI_IOS_eLife2025(varargin)
 %________________________________________________________________________________________________________________________
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -6,17 +6,17 @@ function varargout = SelectBehavioralStateGUI_IOS_nNOS(varargin)
 %
 % Purpose: sleep scoring GUI button
 %________________________________________________________________________________________________________________________
-% SELECTBEHAVIORALSTATEGUI_IOS_nNOS MATLAB code for SelectBehavioralStateGUI_IOS_nNOS.fig
-%      SELECTBEHAVIORALSTATEGUI_IOS_nNOS, by itself, creates a new SELECTBEHAVIORALSTATEGUI_IOS_nNOS or raises the existing
+% SELECTBEHAVIORALSTATEGUI_IOS_eLife2025 MATLAB code for SelectBehavioralStateGUI_IOS_eLife2025.fig
+%      SELECTBEHAVIORALSTATEGUI_IOS_eLife2025, by itself, creates a new SELECTBEHAVIORALSTATEGUI_IOS_eLife2025 or raises the existing
 %      singleton*.
 %
-%      H = SELECTBEHAVIORALSTATEGUI_IOS_nNOS returns the handle to a new SELECTBEHAVIORALSTATEGUI_IOS_nNOS or the handle to
+%      H = SELECTBEHAVIORALSTATEGUI_IOS_eLife2025 returns the handle to a new SELECTBEHAVIORALSTATEGUI_IOS_eLife2025 or the handle to
 %      the existing singleton*.
 %
-%      SELECTBEHAVIORALSTATEGUI_IOS_nNOS('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in SELECTBEHAVIORALSTATEGUI_IOS_nNOS.M with the given input arguments.
+%      SELECTBEHAVIORALSTATEGUI_IOS_eLife2025('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in SELECTBEHAVIORALSTATEGUI_IOS_eLife2025.M with the given input arguments.
 %
-%      SELECTBEHAVIORALSTATEGUI_IOS_nNOS('Property','Value',...) creates a new SELECTBEHAVIORALSTATEGUI_IOS_nNOS or raises the
+%      SELECTBEHAVIORALSTATEGUI_IOS_eLife2025('Property','Value',...) creates a new SELECTBEHAVIORALSTATEGUI_IOS_eLife2025 or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
 %      applied to the GUI before SelectBehavioralStateGUI_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
@@ -27,7 +27,7 @@ function varargout = SelectBehavioralStateGUI_IOS_nNOS(varargin)
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help SelectBehavioralStateGUI_IOS_nNOS
+% Edit the above text to modify the response to help SelectBehavioralStateGUI_IOS_eLife2025
 
 % Last Modified by GUIDE v2.5 18-Apr-2022 13:12:31
 
@@ -37,7 +37,7 @@ gui_State = struct('gui_Name',       mfilename, ...
     'gui_Singleton',  gui_Singleton, ...
     'gui_OpeningFcn', @SelectBehavioralStateGUI_OpeningFcn, ...
     'gui_OutputFcn',  @SelectBehavioralStateGUI_OutputFcn, ...
-    'gui_LayoutFcn',  @SelectBehavioralStateGUI_IOS_nNOS_LayoutFcn, ...
+    'gui_LayoutFcn',  @SelectBehavioralStateGUI_IOS_eLife2025_LayoutFcn, ...
     'gui_Callback',   []);
 if nargin && ischar(varargin{1})
     gui_State.gui_Callback = str2func(varargin{1});
@@ -57,15 +57,15 @@ function SelectBehavioralStateGUI_OpeningFcn(hObject, eventdata, handles, vararg
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to SelectBehavioralStateGUI_IOS_nNOS (see VARARGIN)
+% varargin   command line arguments to SelectBehavioralStateGUI_IOS_eLife2025 (see VARARGIN)
 
-% Choose default command line output for SelectBehavioralStateGUI_IOS_nNOS
+% Choose default command line output for SelectBehavioralStateGUI_IOS_eLife2025
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes SelectBehavioralStateGUI_IOS_nNOS wait for user response (see UIRESUME)
+% UIWAIT makes SelectBehavioralStateGUI_IOS_eLife2025 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
@@ -85,7 +85,7 @@ function togglebutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to togglebutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-ButtonSelect_IOS_nNOS
+ButtonSelect_IOS_eLife2025
 % Hint: get(hObject,'Value') returns toggle state of togglebutton1
 
 
@@ -94,7 +94,7 @@ function togglebutton2_Callback(hObject, eventdata, handles)
 % hObject    handle to togglebutton2 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-ButtonSelect_IOS_nNOS
+ButtonSelect_IOS_eLife2025
 % Hint: get(hObject,'Value') returns toggle state of togglebutton2
 
 
@@ -103,12 +103,12 @@ function togglebutton3_Callback(hObject, eventdata, handles)
 % hObject    handle to togglebutton3 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-ButtonSelect_IOS_nNOS
+ButtonSelect_IOS_eLife2025
 % Hint: get(hObject,'Value') returns toggle state of togglebutton3
 
 
 % --- Creates and returns a handle to the GUI figure. 
-function h1 = SelectBehavioralStateGUI_IOS_nNOS_LayoutFcn(policy)
+function h1 = SelectBehavioralStateGUI_IOS_eLife2025_LayoutFcn(policy)
 % policy - create a new figure or use a singleton. 'new' or 'reuse'.
 
 persistent hsingleton;
@@ -116,7 +116,7 @@ if strcmpi(policy, 'reuse') & ishandle(hsingleton)
     h1 = hsingleton;
     return;
 end
-load SelectBehavioralStateGUI_IOS_nNOS.mat
+load SelectBehavioralStateGUI_IOS_eLife2025.mat
 
 
 appdata = [];
@@ -135,8 +135,8 @@ appdata.GUIDEOptions = struct(...
     'singleton', 1, ...
     'syscolorfig', 1, ...
     'blocking', 0, ...
-    'lastSavedFile', 'C:\Users\klt8\OneDrive - The Pennsylvania State University\Documents\Github Repositories\Data-Analysis\Pre-Processing Functions\IOS Sleep Scoring\SelectBehavioralStateGUI_IOS_nNOS.m', ...
-    'lastFilename', 'C:\Users\klt8\OneDrive - The Pennsylvania State University\Documents\Github Repositories\Data-Analysis\Pre-Processing Functions\IOS Sleep Scoring\SelectBehavioralStateGUI_IOS_nNOS.fig');
+    'lastSavedFile', 'C:\Users\klt8\OneDrive - The Pennsylvania State University\Documents\Github Repositories\Data-Analysis\Pre-Processing Functions\IOS Sleep Scoring\SelectBehavioralStateGUI_IOS_eLife2025.m', ...
+    'lastFilename', 'C:\Users\klt8\OneDrive - The Pennsylvania State University\Documents\Github Repositories\Data-Analysis\Pre-Processing Functions\IOS Sleep Scoring\SelectBehavioralStateGUI_IOS_eLife2025.fig');
 appdata.lastValidTag = 'figure1';
 appdata.GUIDELayoutEditor = mat{1};
 
@@ -148,7 +148,7 @@ h1 = figure(...
 'IntegerHandle','off',...
 'Colormap',get(0,'defaultfigureColormap'),...
 'MenuBar','none',...
-'Name','SelectBehavioralStateGUI_IOS_nNOS',...
+'Name','SelectBehavioralStateGUI_IOS_eLife2025',...
 'NumberTitle','off',...
 'HandleVisibility','callback',...
 'CreateFcn', {@local_CreateFcn, @(fig,~)addToolbarExplorationButtons(fig), appdata} ,...
@@ -169,7 +169,7 @@ h2 = uicontrol(...
 'Style','togglebutton',...
 'Position',[2.6 2.46153846153846 36 4],...
 'BackgroundColor',[0.0745098039215686 0.623529411764706 1],...
-'Callback',@(hObject,eventdata)SelectBehavioralStateGUI_IOS_nNOS('togglebutton1_Callback',hObject,eventdata,guidata(hObject)),...
+'Callback',@(hObject,eventdata)SelectBehavioralStateGUI_IOS_eLife2025('togglebutton1_Callback',hObject,eventdata,guidata(hObject)),...
 'Children',[],...
 'ForegroundColor',get(0,'defaultuicontrolForegroundColor'),...
 'Tag','togglebutton1',...
@@ -187,7 +187,7 @@ h3 = uicontrol(...
 'Style','togglebutton',...
 'Position',[39.6 2.46153846153846 36 4],...
 'BackgroundColor',[0.5 1 0.25],...
-'Callback',@(hObject,eventdata)SelectBehavioralStateGUI_IOS_nNOS('togglebutton2_Callback',hObject,eventdata,guidata(hObject)),...
+'Callback',@(hObject,eventdata)SelectBehavioralStateGUI_IOS_eLife2025('togglebutton2_Callback',hObject,eventdata,guidata(hObject)),...
 'Children',[],...
 'ForegroundColor',get(0,'defaultuicontrolForegroundColor'),...
 'Tag','togglebutton2',...
@@ -205,7 +205,7 @@ h4 = uicontrol(...
 'Style','togglebutton',...
 'Position',[76.6 2.46153846153846 36 4],...
 'BackgroundColor',[1 0.75 0],...
-'Callback',@(hObject,eventdata)SelectBehavioralStateGUI_IOS_nNOS('togglebutton3_Callback',hObject,eventdata,guidata(hObject)),...
+'Callback',@(hObject,eventdata)SelectBehavioralStateGUI_IOS_eLife2025('togglebutton3_Callback',hObject,eventdata,guidata(hObject)),...
 'Children',[],...
 'Tag','togglebutton3',...
 'FontSize',20,...
@@ -271,12 +271,12 @@ end
 numargin = length(varargin);
 
 if numargin == 0
-    % SELECTBEHAVIORALSTATEGUI_IOS_nNOS
+    % SELECTBEHAVIORALSTATEGUI_IOS_eLife2025
     % create the GUI only if we are not in the process of loading it
     % already
     gui_Create = true;
 elseif local_isInvokeActiveXCallback(gui_State, varargin{:})
-    % SELECTBEHAVIORALSTATEGUI_IOS_nNOS(ACTIVEX,...)
+    % SELECTBEHAVIORALSTATEGUI_IOS_eLife2025(ACTIVEX,...)
     vin{1} = gui_State.gui_Name;
     vin{2} = [get(varargin{1}.Peer, 'Tag'), '_', varargin{end}];
     vin{3} = varargin{1};
@@ -285,7 +285,7 @@ elseif local_isInvokeActiveXCallback(gui_State, varargin{:})
     feval(vin{:});
     return;
 elseif local_isInvokeHGCallback(gui_State, varargin{:})
-    % SELECTBEHAVIORALSTATEGUI_IOS_nNOS('CALLBACK',hObject,eventData,handles,...)
+    % SELECTBEHAVIORALSTATEGUI_IOS_eLife2025('CALLBACK',hObject,eventData,handles,...)
     gui_Create = false;
 else
     % SELECTBEHAVIORALSTATEGUI_JNEUROSCI2022(...)

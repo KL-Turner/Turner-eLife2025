@@ -1,4 +1,4 @@
-function [] = CreateModelDataSet_IOS_nNOS(procDataFileIDs)
+function [] = CreateModelDataSet_IOS_eLife2025(procDataFileIDs)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

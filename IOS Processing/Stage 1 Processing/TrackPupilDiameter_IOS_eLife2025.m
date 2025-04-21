@@ -1,4 +1,4 @@
-function [PupilStruct] = TrackPupilDiameter_IOS_nNOS(fileName,iteration,trialData,imagingParameters)
+function [PupilStruct] = TrackPupilDiameter_IOS_eLife2025(fileName,iteration,trialData,imagingParameters)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -7,14 +7,14 @@ function [PupilStruct] = TrackPupilDiameter_IOS_nNOS(fileName,iteration,trialDat
 % check pupil frames and establish first file of each day
 if strcmp(imagingParameters.pupilOptions,'Yes') == true
     if iteration == 1
-        [PupilData] = SelectPupilFiles_IOS_nNOS(trialData);
+        [PupilData] = SelectPupilFiles_IOS_eLife2025(trialData);
     else
         load([trialData.animalID '_PupilData.mat'])
     end
     disp(['Running pupil tracker for: ' fileName]); disp(' ')
     pupilStart = tic;
-    [~,fileDate,~] = GetFileInfo_IOS_nNOS(fileName);
-    strDay = ConvertDate_IOS_nNOS(fileDate);
+    [~,fileDate,~] = GetFileInfo_IOS_eLife2025(fileName);
+    strDay = ConvertDate_IOS_eLife2025(fileDate);
     idx = 0;
     for qq = 1:size(PupilData.firstFileOfDay,2)
         if strfind(PupilData.firstFileOfDay{1,qq},fileDate) >= 5

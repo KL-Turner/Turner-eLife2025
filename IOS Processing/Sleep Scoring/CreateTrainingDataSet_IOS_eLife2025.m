@@ -1,4 +1,4 @@
-function [] = CreateTrainingDataSet_IOS_nNOS(procDataFileIDs,TrainingFiles)
+function [] = CreateTrainingDataSet_IOS_eLife2025(procDataFileIDs,TrainingFiles)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -13,7 +13,7 @@ cc = 1;
 % reduce file list to those with the training dates
 for aa = 1:size(procDataFileIDs,1)
     procDataFileID = procDataFileIDs(aa,:);
-    [~,fileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
+    [~,fileDate,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
     if strcmp(fileDate,TrainingFiles.day1) == true || strcmp(fileDate,TrainingFiles.day2) == true
         trainingFileList(cc,:) = procDataFileID;
         cc = cc + 1;
@@ -31,7 +31,7 @@ for bb = 1:size(trainingFileList,1)
         load(modelDataFileID)
         saveFigs = 'n';
         hemoType = 'HbT';
-        [figHandle,~,~,~,ax4,~,~] = GenerateSingleFigures_IOS_nNOS(procDataFileID,RestingBaselines,'manualSelection',saveFigs,imagingType,hemoType);
+        [figHandle,~,~,~,ax4,~,~] = GenerateSingleFigures_IOS_eLife2025(procDataFileID,RestingBaselines,'manualSelection',saveFigs,imagingType,hemoType);
         trialDuration = ProcData.notes.trialDuration_sec;
         numBins = trialDuration/5;
         behavioralState = cell(180,1);
@@ -53,7 +53,7 @@ for bb = 1:size(trainingFileList,1)
             elseif b == 121 % b >= 121 && b <= 180
                 xlim([600,900])
             end
-            [updatedGUI] = SelectBehavioralStateGUI_IOS_nNOS;
+            [updatedGUI] = SelectBehavioralStateGUI_IOS_eLife2025;
             while buttonState == 0
                 drawnow()
                 if buttonState == 1

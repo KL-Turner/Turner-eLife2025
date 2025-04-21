@@ -1,4 +1,4 @@
-function [] = AddSleepParameters_IOS_nNOS(procDataFileIDs)
+function [] = AddSleepParameters_IOS_eLife2025(procDataFileIDs)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -12,14 +12,14 @@ load(baselinesFileID)
 binTime = 5; % seconds
 for aa = 1:size(procDataFileIDs,1)
     procDataFileID = procDataFileIDs(aa,:);
-    [~,fileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
-    strDay = ConvertDate_IOS_nNOS(fileDate);
+    [~,fileDate,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
+    strDay = ConvertDate_IOS_eLife2025(fileDate);
     load(procDataFileID)
     % if isfield(ProcData,'sleep') == false
     disp(['Adding sleep parameters to ProcData file (' num2str(aa) '/' num2str(size(procDataFileIDs,1)) ')']); disp(' ')
     specDataFileID = [procDataFileID(1:end - 12) 'SpecData.mat'];
     load(specDataFileID)
-    [dataTypes] = DetermineWavelengthDatatypes_IOS_nNOS(ProcData.notes.imagingWavelengths,3);
+    [dataTypes] = DetermineWavelengthDatatypes_IOS_eLife2025(ProcData.notes.imagingWavelengths,3);
     for bb = 1:length(dataTypes)
         dataType = dataTypes{1,bb};
         if any(strcmp(dataType,{'HbT','HbO','HbR','GCaMP'})) == true

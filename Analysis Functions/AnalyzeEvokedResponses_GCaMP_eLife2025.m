@@ -1,4 +1,4 @@
-function [Results_Evoked_GCaMP] = AnalyzeEvokedResponses_GCaMP_nNOS(animalID,group,set,rootFolder,delim,Results_Evoked_GCaMP)
+function [Results_Evoked_GCaMP] = AnalyzeEvokedResponses_GCaMP_eLife2025(animalID,group,set,rootFolder,delim,Results_Evoked_GCaMP)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -70,14 +70,14 @@ for aa = 1:length(hemispheres)
                 WhiskCriteria = WhiskCriteriaC;
             end
             % pull data from EventData.mat structure
-            [whiskLogical] = FilterEvents_IOS_nNOS(EventData.(dataType).(hemisphere).whisk,WhiskCriteria);
+            [whiskLogical] = FilterEvents_IOS_eLife2025(EventData.(dataType).(hemisphere).whisk,WhiskCriteria);
             combWhiskLogical = logical(whiskLogical);
             [whiskData] = EventData.(dataType).(hemisphere).whisk.data(combWhiskLogical,:);
             [whiskFileIDs] = EventData.(dataType).(hemisphere).whisk.fileIDs(combWhiskLogical,:);
             [whiskEventTimes] = EventData.(dataType).(hemisphere).whisk.eventTime(combWhiskLogical,:);
             whiskDurations = EventData.(dataType).(hemisphere).whisk.duration(combWhiskLogical,:);
             % keep only the data that occurs within the manually-approved awake regions
-            [finalWhiskData,~,~,finalWhiskFileEventTimes] = RemoveInvalidData_IOS_nNOS(whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+            [finalWhiskData,~,~,finalWhiskFileEventTimes] = RemoveInvalidData_IOS_eLife2025(whiskData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
             % lowpass filter each whisking event and mean-subtract by the first 2 seconds
             clear procWhiskData
             dd = 1;
@@ -111,13 +111,13 @@ for aa = 1:length(hemispheres)
                 solenoid = 'AudSol';
             end
             % pull data from EventData.mat structure
-            stimFilter = FilterEvents_IOS_nNOS(EventData.(dataType).(hemisphere).stim,StimCriteria);
+            stimFilter = FilterEvents_IOS_eLife2025(EventData.(dataType).(hemisphere).stim,StimCriteria);
             [stimData] = EventData.(dataType).(hemisphere).stim.data(stimFilter,:);
             [stimFileIDs] = EventData.(dataType).(hemisphere).stim.fileIDs(stimFilter,:);
             [stimEventTimes] = EventData.(dataType).(hemisphere).stim.eventTime(stimFilter,:);
             stimDurations = zeros(length(stimEventTimes),1);
             % keep only the data that occurs within the manually-approved awake regions
-            [finalStimHbTData,~,~,finalStimFileEventTimes] = RemoveInvalidData_IOS_nNOS(stimData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
+            [finalStimHbTData,~,~,finalStimFileEventTimes] = RemoveInvalidData_IOS_eLife2025(stimData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
             % lowpass filter each stim event and mean-subtract by the first 2 seconds
             clear procStimData
             ii = 1;

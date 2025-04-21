@@ -1,4 +1,4 @@
-function [m2error] = GammaConvolve_nNOS_nNOS(x,inp,outp,Fs,HRFDur)
+function [m2error] = GammaConvolve_IOS_eLife2025(x,inp,outp,Fs,HRFDur)
 
 %   Written by Aaron Winder, Drew Lab, ESM, Penn State University, Dec 2011
 %   Version 2 - Updated Jan 2012

@@ -1,4 +1,4 @@
-function [Results_PupilCrossCorr_Ephys] = AnalyzePupilCrossCorrelation_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_PupilCrossCorr_Ephys)
+function [Results_PupilCrossCorr_Ephys] = AnalyzePupilCrossCorrelation_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_PupilCrossCorr_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -60,8 +60,8 @@ for aa = 1:length(dataTypes)
         pupilDataType = pupilDataTypes{1,bb};
         %% cross-correlation analysis for resting data
         % pull data from RestData.mat structure
-        [restLogical] = FilterEvents_IOS_nNOS(RestData.Pupil.(pupilDataType),RestCriteria);
-        [puffLogical] = FilterEvents_IOS_nNOS(RestData.Pupil.(pupilDataType),RestPuffCriteria);
+        [restLogical] = FilterEvents_IOS_eLife2025(RestData.Pupil.(pupilDataType),RestCriteria);
+        [puffLogical] = FilterEvents_IOS_eLife2025(RestData.Pupil.(pupilDataType),RestPuffCriteria);
         combRestLogical = logical(restLogical.*puffLogical);
         restFileIDs = RestData.Pupil.(pupilDataType).fileIDs(combRestLogical,:);
         restDurations = RestData.Pupil.(pupilDataType).durations(combRestLogical,:);
@@ -69,8 +69,8 @@ for aa = 1:length(dataTypes)
         restData = RestData.Pupil.(dataType).data(combRestLogical,:);
         pupilRestData = RestData.Pupil.(pupilDataType).data(combRestLogical,:);
         % keep only the data that occurs within the manually-approved alert regions
-        [finalRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
-        [finalPupilRestData,~,~,~] = RemoveInvalidData_IOS_nNOS(pupilRestData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [finalRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(restData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+        [finalPupilRestData,~,~,~] = RemoveInvalidData_IOS_eLife2025(pupilRestData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
         % process, filter + detrend each array
         catRestData = [];
         cc = 1;
@@ -119,7 +119,7 @@ for aa = 1:length(dataTypes)
         alertData = []; alertPupilData = []; alertProcData = [];
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,alertDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,alertDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
             scoringLabels = [];
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(alertDataFileID,ScoringResults.fileIDs{dd,1}) == true
@@ -187,7 +187,7 @@ for aa = 1:length(dataTypes)
         asleepData = []; asleepPupilData = []; asleepProcData = [];
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,asleepDataFileID] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,asleepDataFileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
             scoringLabels = [];
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(asleepDataFileID,ScoringResults.fileIDs{dd,1}) == true
@@ -254,7 +254,7 @@ for aa = 1:length(dataTypes)
         allData = []; allPupilData = []; allProcData = [];
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,~,~] = GetFileInfo_IOS_nNOS(procDataFileID);
+            [~,~,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
             load(procDataFileID,'-mat')
             % only run on files with good pupil measurement
             if strcmp(ProcData.data.Pupil.diameterCheck,'y') == true
@@ -313,8 +313,8 @@ for aa = 1:length(dataTypes)
         %% NREM
         if isempty(SleepData.(modelType).NREM.data.Pupil) == false
             NREM_sleepTime = params.minTime.NREM; % seconds
-            [NREM_finalData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.Pupil.(dataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
-            [NREM_finalPupilData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.Pupil.(pupilDataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
+            [NREM_finalData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.Pupil.(dataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
+            [NREM_finalPupilData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.Pupil.(pupilDataType).data,SleepData.(modelType).NREM.data.Pupil.fileIDs,SleepData.(modelType).NREM.data.Pupil.binTimes);
             NREM_finalVals = []; NREM_finalPupilVals = [];
             if isempty(NREM_finalData) == false
                 % ust events to match the edits made to the length of each spectrogram
@@ -358,8 +358,8 @@ for aa = 1:length(dataTypes)
         %% REM
         if isempty(SleepData.(modelType).REM.data.Pupil) == false
             REM_sleepTime = params.minTime.REM; % seconds
-            [REM_finalData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.Pupil.(dataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
-            [REM_finalPupilData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.Pupil.(pupilDataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
+            [REM_finalData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.Pupil.(dataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
+            [REM_finalPupilData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.Pupil.(pupilDataType).data,SleepData.(modelType).REM.data.Pupil.fileIDs,SleepData.(modelType).REM.data.Pupil.binTimes);
             REM_finalVals = []; REM_finalPupilVals = [];
             if isempty(REM_finalData) == false
                 % ust events to match the edits made to the length of each spectrogram

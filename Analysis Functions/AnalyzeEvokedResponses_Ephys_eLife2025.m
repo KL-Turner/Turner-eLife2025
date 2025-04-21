@@ -1,4 +1,4 @@
-function [Results_Evoked_Ephys] = AnalyzeEvokedResponses_Ephys_nNOS(animalID,group,setName,rootFolder,delim,Results_Evoked_Ephys)
+function [Results_Evoked_Ephys] = AnalyzeEvokedResponses_Ephys_eLife2025(animalID,group,setName,rootFolder,delim,Results_Evoked_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -69,7 +69,7 @@ for aa = 1:length(hemispheres)
             WhiskCriteria = WhiskCriteriaC;
         end
         % pull data from EventData.mat structure
-        [whiskLogical] = FilterEvents_IOS_nNOS(EventData.HbT.(hemisphere).whisk,WhiskCriteria);
+        [whiskLogical] = FilterEvents_IOS_eLife2025(EventData.HbT.(hemisphere).whisk,WhiskCriteria);
         combWhiskLogical = logical(whiskLogical);
         [whiskHbTData] = EventData.HbT.(hemisphere).whisk.data(combWhiskLogical,:);
         [whiskCortMUAData] = EventData.(neuralDataType).muaPower.whisk.NormData(combWhiskLogical,:);
@@ -80,11 +80,11 @@ for aa = 1:length(hemispheres)
         [whiskEventTimes] = EventData.HbT.(hemisphere).whisk.eventTime(combWhiskLogical,:);
         whiskDurations = EventData.HbT.(hemisphere).whisk.duration(combWhiskLogical,:);
         % keep only the data that occurs within the manually-approved awake regions
-        [finalWhiskHbTData,finalWhiskFileIDs,~,finalWhiskFileEventTimes] = RemoveInvalidData_IOS_nNOS(whiskHbTData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-        [finalWhiskCortMUAData,~,~,~] = RemoveInvalidData_IOS_nNOS(whiskCortMUAData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-        [finalWhiskHipMUAData,~,~,~] = RemoveInvalidData_IOS_nNOS(whiskHipMUAData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-        [finalWhiskCortGamData,~,~,~] = RemoveInvalidData_IOS_nNOS(whiskCortGamData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
-        [finalWhiskHipGamData,~,~,~] = RemoveInvalidData_IOS_nNOS(whiskHipGamData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [finalWhiskHbTData,finalWhiskFileIDs,~,finalWhiskFileEventTimes] = RemoveInvalidData_IOS_eLife2025(whiskHbTData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [finalWhiskCortMUAData,~,~,~] = RemoveInvalidData_IOS_eLife2025(whiskCortMUAData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [finalWhiskHipMUAData,~,~,~] = RemoveInvalidData_IOS_eLife2025(whiskHipMUAData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [finalWhiskCortGamData,~,~,~] = RemoveInvalidData_IOS_eLife2025(whiskCortGamData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
+        [finalWhiskHipGamData,~,~,~] = RemoveInvalidData_IOS_eLife2025(whiskHipGamData,whiskFileIDs,whiskDurations,whiskEventTimes,ManualDecisions);
         % lowpass filter each whisking event and mean-subtract by the first 2 seconds
         clear procWhiskHbTData procWhiskCortMUAData procWhiskHipMUAData procWhiskCortGamData procWhiskHipGamData finalWhiskStartTimes finalWhiskEndTimes finalWhiskFiles
         dd = 1;
@@ -183,7 +183,7 @@ for aa = 1:length(hemispheres)
             solenoid = 'AudSol';
         end
         % pull data from EventData.mat structure
-        stimFilter = FilterEvents_IOS_nNOS(EventData.HbT.(hemisphere).stim,StimCriteria);
+        stimFilter = FilterEvents_IOS_eLife2025(EventData.HbT.(hemisphere).stim,StimCriteria);
         [stimHbTData] = EventData.HbT.(hemisphere).stim.data(stimFilter,:);
         [stimCortMUAData] = EventData.(neuralDataType).muaPower.stim.NormData(stimFilter,:);
         [stimHipMUAData] = EventData.hippocampus.muaPower.stim.NormData(stimFilter,:);
@@ -193,11 +193,11 @@ for aa = 1:length(hemispheres)
         [stimEventTimes] = EventData.HbT.(hemisphere).stim.eventTime(stimFilter,:);
         stimDurations = zeros(length(stimEventTimes),1);
         % keep only the data that occurs within the manually-approved awake regions
-        [finalStimHbTData,finalStimFileIDs,~,finalStimFileEventTimes] = RemoveInvalidData_IOS_nNOS(stimHbTData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
-        [finalStimCortMUAData,~,~,~] = RemoveInvalidData_IOS_nNOS(stimCortMUAData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
-        [finalStimHipMUAData,~,~,~] = RemoveInvalidData_IOS_nNOS(stimHipMUAData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
-        [finalStimCortGamData,~,~,~] = RemoveInvalidData_IOS_nNOS(stimCortGamData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
-        [finalStimHipGamData,~,~,~] = RemoveInvalidData_IOS_nNOS(stimHipGamData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
+        [finalStimHbTData,finalStimFileIDs,~,finalStimFileEventTimes] = RemoveInvalidData_IOS_eLife2025(stimHbTData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
+        [finalStimCortMUAData,~,~,~] = RemoveInvalidData_IOS_eLife2025(stimCortMUAData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
+        [finalStimHipMUAData,~,~,~] = RemoveInvalidData_IOS_eLife2025(stimHipMUAData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
+        [finalStimCortGamData,~,~,~] = RemoveInvalidData_IOS_eLife2025(stimCortGamData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
+        [finalStimHipGamData,~,~,~] = RemoveInvalidData_IOS_eLife2025(stimHipGamData,stimFileIDs,stimDurations,stimEventTimes,ManualDecisions);
         % lowpass filter each stim event and mean-subtract by the first 2 seconds
         clear procStimHbTData procStimCortMUAData procStimHipMUAData procStimCortGamData procStimHipGamData finalStimStartTimes finalStimEndTimes finalStimFiles
         ii = 1;

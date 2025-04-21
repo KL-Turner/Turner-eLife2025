@@ -1,4 +1,4 @@
-function [Results_PowerSpec_Ephys] = AnalyzePowerSpectrum_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_PowerSpec_Ephys)
+function [Results_PowerSpec_Ephys] = AnalyzePowerSpectrum_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_PowerSpec_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -56,26 +56,26 @@ for aa = 1:length(hemispheres)
         clear restingData procRestData restData restData
         if strcmp(dataType,'HbT') == true
             samplingRate = RestData.(dataType).(hemisphere).samplingRate;
-            [restLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).(hemisphere),RestCriteria);
-            [stimLogical] = FilterEvents_IOS_nNOS(RestData.(dataType).(hemisphere),RestStimCriteria);
+            [restLogical] = FilterEvents_IOS_eLife2025(RestData.(dataType).(hemisphere),RestCriteria);
+            [stimLogical] = FilterEvents_IOS_eLife2025(RestData.(dataType).(hemisphere),RestStimCriteria);
             combRestLogical = logical(restLogical.*stimLogical);
             restFileIDs = RestData.(dataType).(hemisphere).fileIDs(combRestLogical,:);
             restEventTimes = RestData.(dataType).(hemisphere).eventTimes(combRestLogical,:);
             restDurations = RestData.(dataType).(hemisphere).durations(combRestLogical,:);
             restingData = RestData.(dataType).(hemisphere).data(combRestLogical,:);
             % keep only the data that occurs within the manually-approved alert regions
-            [restData,~,~,~] = RemoveInvalidData_IOS_nNOS(restingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+            [restData,~,~,~] = RemoveInvalidData_IOS_eLife2025(restingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
         else
             samplingRate = RestData.(['cortical_' hemisphere]).(dataType).samplingRate;
-            [restLogical] = FilterEvents_IOS_nNOS(RestData.(['cortical_' hemisphere]).(dataType),RestCriteria);
-            [stimLogical] = FilterEvents_IOS_nNOS(RestData.(['cortical_' hemisphere]).(dataType),RestStimCriteria);
+            [restLogical] = FilterEvents_IOS_eLife2025(RestData.(['cortical_' hemisphere]).(dataType),RestCriteria);
+            [stimLogical] = FilterEvents_IOS_eLife2025(RestData.(['cortical_' hemisphere]).(dataType),RestStimCriteria);
             combRestLogical = logical(restLogical.*stimLogical);
             restFileIDs = RestData.(['cortical_' hemisphere]).(dataType).fileIDs(combRestLogical,:);
             restEventTimes = RestData.(['cortical_' hemisphere]).(dataType).eventTimes(combRestLogical,:);
             restDurations = RestData.(['cortical_' hemisphere]).(dataType).durations(combRestLogical,:);
             restingData = RestData.(['cortical_' hemisphere]).(dataType).NormData(combRestLogical,:);
             % keep only the data that occurs within the manually-approved awake regions
-            [restData,~,~,~] = RemoveInvalidData_IOS_nNOS(restingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
+            [restData,~,~,~] = RemoveInvalidData_IOS_eLife2025(restingData,restFileIDs,restDurations,restEventTimes,ManualDecisions);
         end
         % detrend and truncate data to minimum length to match events
         for cc = 1:length(restData)
@@ -109,8 +109,8 @@ for aa = 1:length(hemispheres)
         zz = 1;
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,fileDate,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-            strDay = ConvertDate_IOS_nNOS(fileDate);
+            [~,fileDate,fileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+            strDay = ConvertDate_IOS_eLife2025(fileDate);
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(fileID,ScoringResults.fileIDs{dd,1}) == true
                     scoringLabels = ScoringResults.labels{dd,1};
@@ -160,8 +160,8 @@ for aa = 1:length(hemispheres)
         zz = 1;
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,fileDate,fileID] = GetFileInfo_IOS_nNOS(procDataFileID);
-            strDay = ConvertDate_IOS_nNOS(fileDate);
+            [~,fileDate,fileID] = GetFileInfo_IOS_eLife2025(procDataFileID);
+            strDay = ConvertDate_IOS_eLife2025(fileDate);
             for dd = 1:length(ScoringResults.fileIDs)
                 if strcmp(fileID,ScoringResults.fileIDs{dd,1}) == true
                     scoringLabels = ScoringResults.labels{dd,1};
@@ -210,8 +210,8 @@ for aa = 1:length(hemispheres)
         zz = 1;
         for cc = 1:size(procDataFileIDs,1)
             procDataFileID = procDataFileIDs(cc,:);
-            [~,fileDate,~] = GetFileInfo_IOS_nNOS(procDataFileID);
-            strDay = ConvertDate_IOS_nNOS(fileDate);
+            [~,fileDate,~] = GetFileInfo_IOS_eLife2025(procDataFileID);
+            strDay = ConvertDate_IOS_eLife2025(fileDate);
             load(procDataFileID,'-mat')
             stims = ProcData.data.stimulations.LPadSol;
             % don't include trials with stimulation
@@ -243,9 +243,9 @@ for aa = 1:length(hemispheres)
         %% NREM
         clear nremData procNREMData finalNREMData
         if strcmp(dataType,'HbT') == true
-            [nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(dataType).(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+            [nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.(dataType).(hemisphere),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
         else
-            [nremData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).NREM.data.(['cortical_' hemisphere]).(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
+            [nremData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).NREM.data.(['cortical_' hemisphere]).(dataType),SleepData.(modelType).NREM.FileIDs,SleepData.(modelType).NREM.BinTimes);
         end
         % detrend and truncate data to minimum length to match events
         for ee = 1:length(nremData)
@@ -262,9 +262,9 @@ for aa = 1:length(hemispheres)
         %% REM
         clear remData procREMData finalREMData
         if strcmp(dataType,'HbT') == true
-            [remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(dataType).(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+            [remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.(dataType).(hemisphere),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
         else
-            [remData,~,~] = RemoveStimSleepData_IOS_nNOS(animalID,SleepData.(modelType).REM.data.(['cortical_' hemisphere]).(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
+            [remData,~,~] = RemoveStimSleepData_IOS_eLife2025(animalID,SleepData.(modelType).REM.data.(['cortical_' hemisphere]).(dataType),SleepData.(modelType).REM.FileIDs,SleepData.(modelType).REM.BinTimes);
         end
         % detrend and truncate data to minimum length to match events
         for ee = 1:length(remData)

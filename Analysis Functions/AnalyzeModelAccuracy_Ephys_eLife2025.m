@@ -1,4 +1,4 @@
-function [Results_ModelAccuracy_Ephys] = AnalyzeModelAccuracy_Ephys_nNOS(animalID,group,set,rootFolder,delim,Results_ModelAccuracy_Ephys)
+function [Results_ModelAccuracy_Ephys] = AnalyzeModelAccuracy_Ephys_eLife2025(animalID,group,set,rootFolder,delim,Results_ModelAccuracy_Ephys)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering

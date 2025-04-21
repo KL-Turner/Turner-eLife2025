@@ -1,4 +1,4 @@
-function [] = Fig1_nNOS(rootFolder,saveState,delim)
+function [] = Fig1_eLife2025(rootFolder,saveState,delim)
 %----------------------------------------------------------------------------------------------------------
 % Written by Kevin L. Turner
 % The Pennsylvania State University, Dept. of Biomedical Engineering
@@ -171,59 +171,59 @@ IBA1stats.BlankSSP.Table.Count = cat(1,IBA1data.Blank_SAP.RH,IBA1data.SSP_SAP.RH
 IBA1stats.BlankSSP.FitFormula = 'Count ~ 1 + Group';
 IBA1stats.BlankSSP.Stats = fitglme(IBA1stats.BlankSSP.Table,IBA1stats.BlankSSP.FitFormula);
 
-%% nNOS IHC counts
+%% eLife2025 IHC counts
 % setup and pull data from excel sheet
-msExcelFile = 'nNOS_Counts.xlsx';
-[~,~,allnNOSdata] = xlsread(msExcelFile); %#ok<XLSRD>
+msExcelFile = 'eLife2025_Counts.xlsx';
+[~,~,alleLife2025data] = xlsread(msExcelFile); %#ok<XLSRD>
 groups = {'SSP_SAP','Blank_SAP'};
 % pre-allocate for concatenation
 for aa = 1:length(groups)
     group = groups{1,aa};
-    nNOSdata.(group).AnimalID = {};
-    nNOSdata.(group).Sex = [];
-    nNOSdata.(group).Group = {};
-    nNOSdata.(group).LH = [];
-    nNOSdata.(group).RH = [];
-    nNOSdata.(group).hemLH = {};
-    nNOSdata.(group).hemRH = {};
+    eLife2025data.(group).AnimalID = {};
+    eLife2025data.(group).Sex = [];
+    eLife2025data.(group).Group = {};
+    eLife2025data.(group).LH = [];
+    eLife2025data.(group).RH = [];
+    eLife2025data.(group).hemLH = {};
+    eLife2025data.(group).hemRH = {};
 end
 % concatenate data for each group/hemishpere
-for aa = 2:size(allnNOSdata,1)
-    group = allnNOSdata{aa,3};
-    nNOSdata.(group).AnimalID = cat(1,nNOSdata.(group).AnimalID,allnNOSdata{aa,1});
-    nNOSdata.(group).Sex = cat(1,nNOSdata.(group).Sex,allnNOSdata{aa,2});
-    nNOSdata.(group).Group = cat(1,nNOSdata.(group).Group,allnNOSdata{aa,3});
-    nNOSdata.(group).LH = cat(1,nNOSdata.(group).LH,allnNOSdata{aa,4}*squareRatio);
-    nNOSdata.(group).RH = cat(1,nNOSdata.(group).RH,allnNOSdata{aa,5}*squareRatio);
-    nNOSdata.(group).hemLH = cat(1,nNOSdata.(group).hemLH,'LH');
-    nNOSdata.(group).hemRH = cat(1,nNOSdata.(group).hemRH,'RH');
+for aa = 2:size(alleLife2025data,1)
+    group = alleLife2025data{aa,3};
+    eLife2025data.(group).AnimalID = cat(1,eLife2025data.(group).AnimalID,alleLife2025data{aa,1});
+    eLife2025data.(group).Sex = cat(1,eLife2025data.(group).Sex,alleLife2025data{aa,2});
+    eLife2025data.(group).Group = cat(1,eLife2025data.(group).Group,alleLife2025data{aa,3});
+    eLife2025data.(group).LH = cat(1,eLife2025data.(group).LH,alleLife2025data{aa,4}*squareRatio);
+    eLife2025data.(group).RH = cat(1,eLife2025data.(group).RH,alleLife2025data{aa,5}*squareRatio);
+    eLife2025data.(group).hemLH = cat(1,eLife2025data.(group).hemLH,'LH');
+    eLife2025data.(group).hemRH = cat(1,eLife2025data.(group).hemRH,'RH');
 end
 % mean/std of each hemisphere
 for aa = 1:length(groups)
     group = groups{1,aa};
-    nNOSdata.(group).LH_Mean = mean(nNOSdata.(group).LH,1);
-    nNOSdata.(group).LH_StD = std(nNOSdata.(group).LH,0,1);
-    nNOSdata.(group).RH_Mean = mean(nNOSdata.(group).RH,1);
-    nNOSdata.(group).RH_StD = std(nNOSdata.(group).RH,0,1);
+    eLife2025data.(group).LH_Mean = mean(eLife2025data.(group).LH,1);
+    eLife2025data.(group).LH_StD = std(eLife2025data.(group).LH,0,1);
+    eLife2025data.(group).RH_Mean = mean(eLife2025data.(group).RH,1);
+    eLife2025data.(group).RH_StD = std(eLife2025data.(group).RH,0,1);
 end
 % statistics - generalized linear mixed effects model
 for aa = 1:length(groups)
     group = groups{1,aa};
-    nNOSstats.(group).tableSize = cat(1,nNOSdata.(group).LH,nNOSdata.(group).RH);
-    nNOSstats.(group).Table = table('Size',[size(nNOSstats.(group).tableSize,1),3],'VariableTypes',{'string','string','double'},'VariableNames',{'Mouse','Hemisphere','Count'});
-    nNOSstats.(group).Table.Mouse = cat(1,nNOSdata.(group).AnimalID,nNOSdata.(group).AnimalID);
-    nNOSstats.(group).Table.Hemisphere = cat(1,nNOSdata.(group).hemLH,nNOSdata.(group).hemRH);
-    nNOSstats.(group).Table.Count = cat(1,nNOSdata.(group).LH,nNOSdata.(group).RH);
-    nNOSstats.(group).FitFormula = 'Count ~ 1 + Hemisphere + (1|Mouse)';
-    nNOSstats.(group).Stats = fitglme(nNOSstats.(group).Table,nNOSstats.(group).FitFormula);
+    eLife2025stats.(group).tableSize = cat(1,eLife2025data.(group).LH,eLife2025data.(group).RH);
+    eLife2025stats.(group).Table = table('Size',[size(eLife2025stats.(group).tableSize,1),3],'VariableTypes',{'string','string','double'},'VariableNames',{'Mouse','Hemisphere','Count'});
+    eLife2025stats.(group).Table.Mouse = cat(1,eLife2025data.(group).AnimalID,eLife2025data.(group).AnimalID);
+    eLife2025stats.(group).Table.Hemisphere = cat(1,eLife2025data.(group).hemLH,eLife2025data.(group).hemRH);
+    eLife2025stats.(group).Table.Count = cat(1,eLife2025data.(group).LH,eLife2025data.(group).RH);
+    eLife2025stats.(group).FitFormula = 'Count ~ 1 + Hemisphere + (1|Mouse)';
+    eLife2025stats.(group).Stats = fitglme(eLife2025stats.(group).Table,eLife2025stats.(group).FitFormula);
 end
 % Blank vs SSP RH
-nNOSstats.BlankSSP.tableSize = cat(1,nNOSdata.Blank_SAP.RH,nNOSdata.SSP_SAP.RH);
-nNOSstats.BlankSSP.Table = table('Size',[size(nNOSstats.BlankSSP.tableSize,1),2],'VariableTypes',{'string','double'},'VariableNames',{'Group','Count'});
-nNOSstats.BlankSSP.Table.Group = cat(1,nNOSdata.Blank_SAP.Group,nNOSdata.SSP_SAP.Group);
-nNOSstats.BlankSSP.Table.Count = cat(1,nNOSdata.Blank_SAP.RH,nNOSdata.SSP_SAP.RH);
-nNOSstats.BlankSSP.FitFormula = 'Count ~ 1 + Group';
-nNOSstats.BlankSSP.Stats = fitglme(nNOSstats.BlankSSP.Table,nNOSstats.BlankSSP.FitFormula);
+eLife2025stats.BlankSSP.tableSize = cat(1,eLife2025data.Blank_SAP.RH,eLife2025data.SSP_SAP.RH);
+eLife2025stats.BlankSSP.Table = table('Size',[size(eLife2025stats.BlankSSP.tableSize,1),2],'VariableTypes',{'string','double'},'VariableNames',{'Group','Count'});
+eLife2025stats.BlankSSP.Table.Group = cat(1,eLife2025data.Blank_SAP.Group,eLife2025data.SSP_SAP.Group);
+eLife2025stats.BlankSSP.Table.Count = cat(1,eLife2025data.Blank_SAP.RH,eLife2025data.SSP_SAP.RH);
+eLife2025stats.BlankSSP.FitFormula = 'Count ~ 1 + Group';
+eLife2025stats.BlankSSP.Stats = fitglme(eLife2025stats.BlankSSP.Table,eLife2025stats.BlankSSP.FitFormula);
 
 %% DAPI IHC fluorescence
 % setup and pull data from excel sheet
@@ -390,22 +390,22 @@ NeuNstats.BlankSSP.Stats = fitglme(NeuNstats.BlankSSP.Table,NeuNstats.BlankSSP.F
 %% Figure 1
 Fig1 = figure('Name','Fig. 1');
 
-% nNOS IHC count
+% eLife2025 IHC count
 subplot(2,3,1)
-xInds = ones(1,length(nNOSdata.Blank_SAP.RH));
-s1 = scatter(xInds*1,nNOSdata.Blank_SAP.RH,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('sapphire'),'jitter','off','jitterAmount',0.25);
+xInds = ones(1,length(eLife2025data.Blank_SAP.RH));
+s1 = scatter(xInds*1,eLife2025data.Blank_SAP.RH,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('sapphire'),'jitter','off','jitterAmount',0.25);
 hold on
-e1 = errorbar(1,nNOSdata.Blank_SAP.RH_Mean,nNOSdata.Blank_SAP.RH_StD,'d','MarkerEdgeColor','k','MarkerFaceColor','k');
+e1 = errorbar(1,eLife2025data.Blank_SAP.RH_Mean,eLife2025data.Blank_SAP.RH_StD,'d','MarkerEdgeColor','k','MarkerFaceColor','k');
 e1.Color = 'black';
 e1.MarkerSize = 10;
 e1.CapSize = 10;
-xInds = ones(1,length(nNOSdata.SSP_SAP.RH));
-s2 = scatter(xInds*2,nNOSdata.SSP_SAP.RH,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('electric purple'),'jitter','off','jitterAmount',0.25);
-e2 = errorbar(2,nNOSdata.SSP_SAP.RH_Mean,nNOSdata.SSP_SAP.RH_StD,'d','MarkerEdgeColor','k','MarkerFaceColor','k');
+xInds = ones(1,length(eLife2025data.SSP_SAP.RH));
+s2 = scatter(xInds*2,eLife2025data.SSP_SAP.RH,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('electric purple'),'jitter','off','jitterAmount',0.25);
+e2 = errorbar(2,eLife2025data.SSP_SAP.RH_Mean,eLife2025data.SSP_SAP.RH_StD,'d','MarkerEdgeColor','k','MarkerFaceColor','k');
 e2.Color = 'black';
 e2.MarkerSize = 10;
 e2.CapSize = 10;
-ylabel('nNOS Cells/mm^2 ')
+ylabel('eLife2025 Cells/mm^2 ')
 legend([s1,s2],'Blank-SAP','SSP-SAP')
 set(gca,'box','off')
 set(gca,'xtick',[])
@@ -526,13 +526,13 @@ if saveState == true
     alphaE = 0.01/comparisons;
     alphaF = 0.001/comparisons;
 
-    % nNOS IHC quantification
+    % eLife2025 IHC quantification
     disp('======================================================================================================================')
-    disp('nNOS IHC counts: Blank (N = 8, 4M/4F); SSP (N = 5, 3M/2F); mean +/- std'); disp(' ')
-    disp(['Blank: ' num2str(nNOSdata.Blank_SAP.RH_Mean) ' +/- ' num2str(nNOSdata.Blank_SAP.RH_StD)]); disp(' ')
-    disp(['SSP: ' num2str(nNOSdata.SSP_SAP.RH_Mean) ' +/- ' num2str(nNOSdata.SSP_SAP.RH_StD)]); disp(' ')
+    disp('eLife2025 IHC counts: Blank (N = 8, 4M/4F); SSP (N = 5, 3M/2F); mean +/- std'); disp(' ')
+    disp(['Blank: ' num2str(eLife2025data.Blank_SAP.RH_Mean) ' +/- ' num2str(eLife2025data.Blank_SAP.RH_StD)]); disp(' ')
+    disp(['SSP: ' num2str(eLife2025data.SSP_SAP.RH_Mean) ' +/- ' num2str(eLife2025data.SSP_SAP.RH_StD)]); disp(' ')
     disp('GLME statistics Blank vs. SSP')
-    disp(nNOSstats.BlankSSP.Stats)
+    disp(eLife2025stats.BlankSSP.Stats)
     disp(['*p < ' num2str(alphaA) ' **p < ' num2str(alphaB) ' ***p < ' num2str(alphaC)]);
 
     % IBA1 IHC quantification
