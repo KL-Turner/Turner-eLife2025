@@ -4,7 +4,7 @@ function [Results_Baseline_2P] = AnalyzeArterioleBaseline_2P_eLife2025(animalID,
 % The Pennsylvania State University, Dept. of Biomedical Engineering
 % https://github.com/KL-Turner
 %----------------------------------------------------------------------------------------------------------
-baseLocation = [rootFolder delim 'Data' delim group delim set delim animalID delim 'Imaging'];
+baseLocation = [rootFolder delim 'Data' delim group delim set delim animalID delim 'Imaging/Combined Imaging'];
 cd(baseLocation)
 % find and load RestingBaselines strut
 baselineDataFileStruct = dir('*_RestingBaselines.mat');
@@ -22,11 +22,15 @@ for aa = 1:size(mergedDataFileIDs,1)
     [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_eLife2025(mergedDataFileID);
     strDay = ConvertDate_2P_eLife2025(fileDate);
     % save results
-    Results_Baseline_2P.(group).(animalID).(vID).all.diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
-    Results_Baseline_2P.(group).(animalID).(vID).all.baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);
+    fields = fieldnames(RestingBaselines.manualSelection.vesselDiameter.data.(vID));
+    diameters = [];
+    for bb = 1:length(fields)
+        diameters(bb,1) = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(fields{bb,1});
+    end
+    Results_Baseline_2P.(group).(animalID).(vID).all.baseline = mean(diameters);
 end
 % cd to data location
-dataLocation = [rootFolder delim 'Data' delim group delim set delim animalID delim 'Isoflurane'];
+dataLocation = [rootFolder delim 'Data' delim group delim set delim animalID delim 'Imaging/Isoflurane Trials'];
 cd(dataLocation)
 % character list of all MergedData files
 mergedDirectory = dir('*_MergedData.mat');

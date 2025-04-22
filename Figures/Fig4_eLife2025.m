@@ -379,7 +379,7 @@ axis square
 
 %% Save figure and stats
 if saveState == true
-    dirpath = [rootFolder delim 'MATLAB Figs/Stats' delim];
+    dirpath = [rootFolder delim 'MATLAB Figs & Stats' delim];
     if ~exist(dirpath,'dir')
         mkdir(dirpath);
     end

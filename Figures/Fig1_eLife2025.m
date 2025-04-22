@@ -173,7 +173,7 @@ IBA1stats.BlankSSP.Stats = fitglme(IBA1stats.BlankSSP.Table,IBA1stats.BlankSSP.F
 
 %% eLife2025 IHC counts
 % setup and pull data from excel sheet
-msExcelFile = 'eLife2025_Counts.xlsx';
+msExcelFile = 'nNOS_Counts.xlsx';
 [~,~,alleLife2025data] = xlsread(msExcelFile); %#ok<XLSRD>
 groups = {'SSP_SAP','Blank_SAP'};
 % pre-allocate for concatenation
@@ -503,7 +503,7 @@ ylim([0,5000])
 
 %% Save figure and stats
 if saveState == true
-    dirpath = [rootFolder delim 'MATLAB Figs/Stats' delim];
+    dirpath = [rootFolder delim 'MATLAB Figs & Stats' delim];
     if ~exist(dirpath,'dir')
         mkdir(dirpath);
     end

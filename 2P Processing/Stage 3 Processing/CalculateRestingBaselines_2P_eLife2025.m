@@ -80,7 +80,7 @@ for aa = 1:length(dataTypes)
                     singleVesselData = allRestData(vesselFilterLogical);
                     dayFilterLogical = zeros(length(singleVesselFileIDs),1);
                     for ii = 1:length(singleVesselFileIDs)
-                        day = ConvertDate_IOS(singleVesselFileIDs{ii,1}(1:6));
+                        day = ConvertDate_2P_eLife2025(singleVesselFileIDs{ii,1}(1:6));
                         if strcmp(uD,day)
                             dayFilterLogical(ii,1) = 1;
                         end
@@ -156,7 +156,7 @@ for aa = 1:length(dataTypes)
             allRestDurations = RestData.(dataType).(subDataType).durations(combRestLogical,:);
             allRestEventTimes = RestData.(dataType).(subDataType).eventTimes(combRestLogical,:);
             restingData = RestData.(dataType).(subDataType).data(combRestLogical,:);
-            uniqueDays = GetUniqueDays_IOS(RestData.(dataType).(subDataType).fileIDs);   % Find the unique days of imaging
+            uniqueDays = GetUniqueDays_2P_eLife2025(RestData.(dataType).(subDataType).fileIDs);   % Find the unique days of imaging
             uniqueFiles = unique(RestData.(dataType).(subDataType).fileIDs);   % Find the unique files from the filelist. This removes duplicates
             numberOfFiles = length(unique(RestData.(dataType).(subDataType).fileIDs));   % Find the number of unique files
             fileTarget = targetMinutes/(trialDuration_sec/60);   % Divide that number of unique files by 5 (minutes) to get the number of files
