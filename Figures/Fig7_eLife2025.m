@@ -702,8 +702,8 @@ if saveState == true
     if ~exist(dirpath,'dir')
         mkdir(dirpath);
     end
-    savefig(Fig7,[dirpath 'Fig4']);
-    diaryFile = [dirpath 'Fig4_Stats.txt'];
+    savefig(Fig7,[dirpath 'Fig7']);
+    diaryFile = [dirpath 'Fig7_Stats.txt'];
     if exist(diaryFile,'file') == 2
         delete(diaryFile)
     end
