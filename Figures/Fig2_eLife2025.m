@@ -8,6 +8,7 @@ path = [rootFolder delim 'Results_Turner'];
 cd(path)
 Ephys_Fs = 30;
 GCaMP_Fs = 10;
+TwoP_Fs = 5;
 
 %% Awake ephys example
 exampleProcFile_AwakeEphys = 'T165_210222_12_45_38_ProcData.mat';
@@ -17,16 +18,12 @@ load(exampleSpecFile_AwakeEphys)
 % setup butterworth filter coefficients for a 1 Hz and 10 Hz lowpass based on the sampling rate
 [z_AwakeEphys,p_AwakeEphys,k_AwakeEphys] = butter(4,1/(Ephys_Fs/2),'low');
 [sos_AwakeEphys,g_AwakeEphys] = zp2sos(z_AwakeEphys,p_AwakeEphys,k_AwakeEphys);
-
-[z,p,k] = butter(1,1/(Ephys_Fs/2),'low');
-[sos,g] = zp2sos(z,p,k);
-
 binWhiskers_AwakeEphys = ProcData.data.binWhiskerAngle;
 % data
 HbT_AwakeEphys = filtfilt(sos_AwakeEphys,g_AwakeEphys,ProcData.data.HbT.RH);
 % RH gamma baseline for T165 Jan 30
 gammaBaseline_AwakeEphys = 1.016060094087967e-10;
-gamma_AwakeEphys = filtfilt(sos,g,((ProcData.data.cortical_RH.gammaBandPower - gammaBaseline_AwakeEphys)./gammaBaseline_AwakeEphys)*100);
+gamma_AwakeEphys = filtfilt(sos_AwakeEphys,g_AwakeEphys,((ProcData.data.cortical_RH.gammaBandPower - gammaBaseline_AwakeEphys)./gammaBaseline_AwakeEphys)*100);
 % cortical and hippocampal spectrograms
 cortNormS_AwakeEphys = SpecData.cortical_RH.normS.*100;
 T_AwakeEphys = SpecData.cortical_RH.T;
@@ -54,7 +51,7 @@ binWhiskers_AsleepEphys = ProcData.data.binWhiskerAngle;
 HbT_AsleepEphys = filtfilt(sos_AsleepEphys,g_AsleepEphys,ProcData.data.HbT.RH);
 % RH gamma baseline for T151 Jan 18
 gammaBaseline_AsleepEphys = 3.513854434241187e-10;
-gamma_AsleepEphys = filtfilt(sos,g,((ProcData.data.cortical_RH.gammaBandPower - gammaBaseline_AsleepEphys)./gammaBaseline_AsleepEphys)*100);
+gamma_AsleepEphys = filtfilt(sos_AsleepEphys,gammaBaseline_AsleepEphys,((ProcData.data.cortical_RH.gammaBandPower - gammaBaseline_AsleepEphys)./gammaBaseline_AsleepEphys)*100);
 % cortical and hippocampal spectrograms
 hipNormS_AsleepEphys = SpecData.hippocampus.normS.*100;
 T_AsleepEphys = SpecData.cortical_LH.T;
@@ -124,6 +121,39 @@ for x = 1:length(whiskInds_AsleepGCaMP)
         whiskInds_AsleepGCaMP(1,x) = NaN;
     end
 end
+
+%% Awake 2P example
+exampleProcFile_AwakeTwoP = 'T192_RH_210518_11_41_23_005_A08_MergedData.mat';
+load(exampleProcFile_AwakeTwoP)
+exampleSpecFile_AwakeTwoP = 'T192_RH_210518_11_41_23_005_A08_SpecData.mat';
+load(exampleSpecFile_AwakeTwoP)
+% setup butterworth filter coefficients for a 1 Hz and 10 Hz lowpass based on the sampling rate
+[z_AwakeTwoP,p_AwakeTwoP,k_AwakeTwoP] = butter(4,1/(TwoP_Fs/2),'low');
+[sos_AwakeTwoP,g_AwakeTwoP] = zp2sos(z_AwakeTwoP,p_AwakeTwoP,k_AwakeTwoP);
+binWhiskers_AwakeTwoP = ProcData.data.binWhiskerAngle;
+% data
+diameter_AwakeTwoP = filtfilt(sos_AwakeTwoP,g_AwakeTwoP,ProcData.data.HbT.RH);
+% cortical spectrogram
+cortNormS_AwakeTwoP = SpecData.corticalNeural.fiveSec.normS.*100;
+T_AwakeTwoP = SpecData.corticalNeural.fiveSec.T;
+F_AwakeTwoP = SpecData.corticalNeural.fiveSec.F;
+% Yvals for behavior Indices
+whisking_Yvals_AwakeTwoP = 155*ones(size(binWhiskers_AwakeTwoP));
+whiskInds_AwakeTwoP = binWhiskers_AwakeTwoP.*whisking_Yvals_AwakeTwoP;
+% set whisk indeces
+for x = 1:length(whiskInds_AwakeTwoP)
+    if whiskInds_AwakeTwoP(1,x) == 0
+        whiskInds_AwakeTwoP(1,x) = NaN;
+    end
+end
+% solenoids
+LPadSol_AwakeTwoP = MergedData.data.solenoids.LPadSol;
+RPadSol_AwakeTwoP = MergedData.data.solenoids.RPadSol;
+AudSol_AwakeTwoP = MergedData.data.solenoids.AudSol;
+% set solenoid indeces
+LPad_Yvals_AwakeTwoP = 1.30*max(diameter_AwakeTwoP)*ones(size(LPadSol_AwakeTwoP));
+RPad_Yvals_AwakeTwoP = 1.30*max(diameter_AwakeTwoP)*ones(size(RPadSol_AwakeTwoP));
+Aud_Yvals_AwakeTwoP = 1.30*max(diameter_AwakeTwoP)*ones(size(AudSol_AwakeTwoP));
 
 %% Figure 2
 Fig2 = figure('Name','Fig. 2');
@@ -285,6 +315,59 @@ ax7Pos = get(ax7,'position');
 ax8Pos = get(ax8,'position');
 ax8Pos(3) = ax7Pos(3);
 set(ax8,'position',ax8Pos);
+
+
+
+% % % % diameter and behavioral indeces
+% % % figure;
+% % % 
+% % % s1 = scatter((1:length(binWhiskers_AwakeTwoP))/ProcData.notes.dsFs,whiskInds_AwakeTwoP,'.','MarkerEdgeColor',colors('black'));
+% % % hold on;
+% % % s2 = scatter(LPadSol_AwakeTwoP,LPad_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','c');
+% % % s3 = scatter(RPadSol_AwakeTwoP,RPad_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','m');
+% % % s4 = scatter(AudSol_AwakeTwoP,Aud_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','g');p1 = plot((1:length(HbO_AwakeTwoP))/TwoP_Fs,HbO_AwakeTwoP,'color',colors('deep carrot orange'),'LineWidth',1);
+% % % p2 = plot((1:length(HbR_AwakeTwoP))/TwoP_Fs,HbR_AwakeTwoP,'color',colors('vegas gold'),'LineWidth',1);
+% % % p3 = plot((1:length(HbT_AwakeTwoP))/TwoP_Fs,HbT_AwakeTwoP,'color',colors('electric purple'),'LineWidth',1);
+% % % 
+% % % s3 = scatter(LPadSol,LPad_Yvals,'v','MarkerEdgeColor','k','MarkerFaceColor','c');
+% % % s4 = scatter(RPadSol,RPad_Yvals,'v','MarkerEdgeColor','k','MarkerFaceColor','m');
+% % % s5 = scatter(AudSol,Aud_Yvals,'v','MarkerEdgeColor','k','MarkerFaceColor','g');
+% % % 
+% % % ylabel('\Delta[Hb] (\muM)')
+% % % ylim([-50,160])
+% % % yyaxis right
+% % % p4 = plot((1:length(GCaMP_AwakeTwoP))/TwoP_Fs,(GCaMP_AwakeTwoP - 1)*100,'color',colors('north texas green'),'LineWidth',1);
+% % % ylabel('\DeltaF/F (%)','rotation',-90,'VerticalAlignment','bottom')
+% % % ylim([-7,20])
+% % % legend([p1,p2,p3,p4,s1],'HbO','HbR','HbT','GCaMP','whisking')
+% % % set(gca,'Xticklabel',[])
+% % % set(gca,'box','off')
+% % % xticks([215,275,335,395,455,515,575])
+% % % title('RH SIBF')
+% % % xlim([215,575])
+% % % ax7.YAxis(1).Color = colors('black');
+% % % ax7.YAxis(2).Color = colors('north texas green');
+% % % 
+% % % % Hippocampal electrode spectrogram
+% % % ax8 = subplot(4,3,[11,12]);
+% % % Semilog_ImageSC(T_AwakeTwoP,F_AwakeTwoP,hipNormS_AwakeTwoP,'y')
+% % % c2 = colorbar;
+% % % ylabel(c2,'\DeltaP/P (%)','rotation',-90,'VerticalAlignment','bottom')
+% % % clim([-100,100])
+% % % title('Hippocampal LFP')
+% % % xlabel('Time (min)')
+% % % ylabel('Frequency (Hz)')
+% % % xlim([215,575])
+% % % set(gca,'box','off')
+% % % xticks([215,275,335,395,455,515,575])
+% % % xticklabels({'0','1','2','3','4','5','6'})
+% % % % axis properties
+% % % ax7Pos = get(ax7,'position');
+% % % ax8Pos = get(ax8,'position');
+% % % ax8Pos(3) = ax7Pos(3);
+% % % set(ax8,'position',ax8Pos);
+
+
 
 %% Save figure and stats
 if saveState == true

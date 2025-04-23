@@ -564,6 +564,43 @@ for ee = 1:length(groups)
 end
 [TwoPIsoStats.h,TwoPIsoStats.p] = ttest2(diameterShiftData.Blank_SAP.diameter,diameterShiftData.SSP_SAP.diameter);
 
+%% two photon baseline diameter
+cd([rootFolder delim 'Results_Turner'])
+resultsStruct = 'Results_Baseline_2P';
+load(resultsStruct);
+cd(rootFolder)
+% loop parameters
+groups = {'Blank_SAP','SSP_SAP'};
+variables = {'baseline'};
+% extract analysis results
+for aa = 1:length(groups)
+    group = groups{1,aa};
+    animalIDs = fieldnames(Results_BaselineShift_2P.(group));
+    for bb = 1:length(animalIDs)
+        animalID = animalIDs{bb,1};
+        vIDs = fieldnames(Results_BaselineShift_2P.(group).(animalID));
+        for cc = 1:length(vIDs)
+            vID = vIDs{cc,1};
+            baselineDiameterData.(group).dummCheck = 1;
+            for dd = 1:length(variables)
+                if isfield(baselineDiameterData.(group),(variables{1,dd})) == false
+                    baselineDiameterData.(group).(variables{1,dd}) = [];
+                end
+            end
+            baselineDiameterData.(group).baseline = cat(1,baselineDiameterData.(group).baseline,Results_Baseline_2P.(group).(animalID).(vID).baseline);
+        end
+    end
+end
+% mean/std
+for ee = 1:length(groups)
+    group = groups{1,ee};
+    baselineDiameterData.(group).meanDiameter = mean(baselineDiameterData.(group).baseline,1);
+    baselineDiameterData.(group).stdDiameter = std(baselineDiameterData.(group).baseline,0,1);
+    baselineDiameterData.(group).meanBaseline = mean(baselineDiameterData.(group).baseline,1);
+    baselineDiameterData.(group).stdBaseline = std(baselineDiameterData.(group).baseline,0,1);
+end
+[TwoPBaseDiameterStats.h,TwoPBaseDiameterStats.p] = ttest2(baselineDiameterData.Blank_SAP.baseline,baselineDiameterData.SSP_SAP.baseline);
+
 %% Figure 7
 Fig7 = figure('Name','Fig. 7');
 
@@ -750,13 +787,19 @@ if saveState == true
     disp(restDiameterVarStats.Stats)
     disp(['*p < ' num2str(alphaA) ' **p < ' num2str(alphaB) ' ***p < ' num2str(alphaC)]);
 
-        % isoflurane shift 2P diameter
+    % isoflurane shift 2P diameter
     disp('======================================================================================================================')
-    disp('isoflurane diameter shift, n = 9 mice per group, mean +/- StD'); disp(' ')
+    disp('isoflurane diameter shift, n = 9 mice (Blank) 7 (SP), mean +/- StD'); disp(' ')
     disp(['Blank-SAP Rest: ' num2str(diameterShiftData.Blank_SAP.meanDiameter) ' +/- ' num2str(diameterShiftData.Blank_SAP.stdDiameter) ' baseline diameter: ' num2str(diameterShiftData.Blank_SAP.meanBaseline) '+/-' num2str(diameterShiftData.Blank_SAP.stdBaseline) ' \muM']); disp(' ')
     disp(['SSP-SAP Rest: ' num2str(diameterShiftData.SSP_SAP.meanDiameter) ' +/- ' num2str(diameterShiftData.SSP_SAP.stdDiameter) ' baseline diameter: ' num2str(diameterShiftData.SSP_SAP.meanBaseline) '+/-' num2str(diameterShiftData.SSP_SAP.stdBaseline) ' /muM']); disp(' ')
     disp(['Blank vs. SAP Rest ttest p = ' num2str(TwoPIsoStats.p)]); disp(' ')
 
+     % isoflurane shift 2P diameter
+    disp('======================================================================================================================')
+    disp('Baseline diameter size, n = 9 mice (Blank) 7 (SP), mean +/- StD'); disp(' ')
+    disp(['Blank-SAP baseline: ' num2str(baselineDiameterData.Blank_SAP.meanDiameter) ' +/- ' num2str(baselineDiameterData.Blank_SAP.stdDiameter) ' baseline diameter: ' num2str(baselineDiameterData.Blank_SAP.meanBaseline) '+/-' num2str(baselineDiameterData.Blank_SAP.stdBaseline) ' \muM']); disp(' ')
+    disp(['SSP-SAP baseline: ' num2str(baselineDiameterData.SSP_SAP.meanDiameter) ' +/- ' num2str(baselineDiameterData.SSP_SAP.stdDiameter) ' baseline diameter: ' num2str(baselineDiameterData.SSP_SAP.meanBaseline) '+/-' num2str(baselineDiameterData.SSP_SAP.stdBaseline) ' /muM']); disp(' ')
+    disp(['Blank vs. SAP Rest ttest p = ' num2str(TwoPBaseDiameterStats.p)]); disp(' ')
 
     diary off
 end
