@@ -15,7 +15,6 @@ load(baselineDataFileID)
 mergedDirectory = dir('*_MergedData.mat');
 mergedDataFiles = {mergedDirectory.name}';
 mergedDataFileIDs = char(mergedDataFiles);
-samplingRate = 5;
 for aa = 1:size(mergedDataFileIDs,1)
     mergedDataFileID = mergedDataFileIDs(aa,:);
     load(mergedDataFileID)
@@ -27,24 +26,7 @@ for aa = 1:size(mergedDataFileIDs,1)
     for bb = 1:length(fields)
         diameters(bb,1) = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(fields{bb,1});
     end
-    Results_Baseline_2P.(group).(animalID).(vID).all.baseline = mean(diameters);
-end
-% cd to data location
-dataLocation = [rootFolder delim 'Data' delim group delim set delim animalID delim 'Imaging/Isoflurane Trials'];
-cd(dataLocation)
-% character list of all MergedData files
-mergedDirectory = dir('*_MergedData.mat');
-mergedDataFiles = {mergedDirectory.name}';
-mergedDataFileIDs = char(mergedDataFiles);
-samplingRate = 5;
-for aa = 1:size(mergedDataFileIDs,1)
-    mergedDataFileID = mergedDataFileIDs(aa,:);
-    load(mergedDataFileID)
-    [~,~,fileDate,~,~,vID] = GetFileInfo2_2P_eLife2025(mergedDataFileID);
-    strDay = ConvertDate_2P_eLife2025(fileDate);
-    % save results
-    Results_Baseline_2P.(group).(animalID).(vID).iso.diameter = mean(MergedData.data.vesselDiameter.data(1:30*samplingRate));
-    Results_Baseline_2P.(group).(animalID).(vID).iso.baseline = RestingBaselines.manualSelection.vesselDiameter.data.(vID).(strDay);
+    Results_Baseline_2P.(group).(animalID).(vID).baseline = mean(diameters);
 end
 % save data
 cd([rootFolder delim 'Results_Turner'])

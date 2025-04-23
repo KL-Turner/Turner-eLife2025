@@ -528,7 +528,7 @@ end
 
 %% two photon isoflurane shift
 cd([rootFolder delim 'Results_Turner'])
-resultsStruct = 'Results_Baseline_2P';
+resultsStruct = 'Results_BaselineShift_2P';
 load(resultsStruct);
 cd(rootFolder)
 % loop parameters
@@ -537,10 +537,10 @@ variables = {'diameter','baseline'};
 % extract analysis results
 for aa = 1:length(groups)
     group = groups{1,aa};
-    animalIDs = fieldnames(Results_Baseline_2P.(group));
+    animalIDs = fieldnames(Results_BaselineShift_2P.(group));
     for bb = 1:length(animalIDs)
         animalID = animalIDs{bb,1};
-        vIDs = fieldnames(Results_Baseline_2P.(group).(animalID));
+        vIDs = fieldnames(Results_BaselineShift_2P.(group).(animalID));
         for cc = 1:length(vIDs)
             vID = vIDs{cc,1};
             diameterShiftData.(group).dummCheck = 1;
@@ -549,8 +549,8 @@ for aa = 1:length(groups)
                     diameterShiftData.(group).(variables{1,dd}) = [];
                 end
             end
-            diameterShiftData.(group).diameter = cat(1,diameterShiftData.(group).diameter,((Results_Baseline_2P.(group).(animalID).(vID).diameter - Results_Baseline_2P.(group).(animalID).(vID).baseline)/Results_Baseline_2P.(group).(animalID).(vID).baseline)*100);
-            diameterShiftData.(group).baseline = cat(1,diameterShiftData.(group).baseline,Results_Baseline_2P.(group).(animalID).(vID).baseline);
+            diameterShiftData.(group).diameter = cat(1,diameterShiftData.(group).diameter,((Results_BaselineShift_2P.(group).(animalID).(vID).diameter - Results_BaselineShift_2P.(group).(animalID).(vID).baseline)/Results_BaselineShift_2P.(group).(animalID).(vID).baseline)*100);
+            diameterShiftData.(group).baseline = cat(1,diameterShiftData.(group).baseline,Results_BaselineShift_2P.(group).(animalID).(vID).baseline);
         end
     end
 end
