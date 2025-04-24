@@ -26,7 +26,7 @@ disp('Loading analysis results and generating figures...'); disp(' ')
 
 % % main figure panels
 % Fig1_eLife2025(rootFolder,saveState,delim)
-% Fig2_eLife2025(rootFolder,saveState,delim)
+Fig2_eLife2025(rootFolder,saveState,delim)
 % Fig3_eLife2025(rootFolder,saveState,delim)
 % Fig4_eLife2025(rootFolder,saveState,delim)
 % Fig5_eLife2025(rootFolder,saveState,delim)

@@ -51,7 +51,7 @@ binWhiskers_AsleepEphys = ProcData.data.binWhiskerAngle;
 HbT_AsleepEphys = filtfilt(sos_AsleepEphys,g_AsleepEphys,ProcData.data.HbT.RH);
 % RH gamma baseline for T151 Jan 18
 gammaBaseline_AsleepEphys = 3.513854434241187e-10;
-gamma_AsleepEphys = filtfilt(sos_AsleepEphys,gammaBaseline_AsleepEphys,((ProcData.data.cortical_RH.gammaBandPower - gammaBaseline_AsleepEphys)./gammaBaseline_AsleepEphys)*100);
+gamma_AsleepEphys = filtfilt(sos_AsleepEphys,g_AsleepEphys,((ProcData.data.cortical_RH.gammaBandPower - gammaBaseline_AsleepEphys)./gammaBaseline_AsleepEphys)*100);
 % cortical and hippocampal spectrograms
 hipNormS_AsleepEphys = SpecData.hippocampus.normS.*100;
 T_AsleepEphys = SpecData.cortical_LH.T;
