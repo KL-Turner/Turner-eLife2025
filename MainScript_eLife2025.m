@@ -26,7 +26,7 @@ disp('Loading analysis results and generating figures...'); disp(' ')
 
 % % main figure panels
 % Fig1_eLife2025(rootFolder,saveState,delim)
-Fig2_eLife2025(rootFolder,saveState,delim)
+% Fig2_eLife2025(rootFolder,saveState,delim)
 % Fig3_eLife2025(rootFolder,saveState,delim)
 % Fig4_eLife2025(rootFolder,saveState,delim)
 % Fig5_eLife2025(rootFolder,saveState,delim)
@@ -46,7 +46,7 @@ Fig2_eLife2025(rootFolder,saveState,delim)
 cd(currentFolder)
 
 function [] = RunAnalysis_eLife2025(rootFolder,delim)
-evoked responses
+% evoked responses
 AnalyzeEvokedResponses_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeEvokedResponses_GCaMP_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeEvokedResponses_2P_Handler_eLife2025(rootFolder,delim,false)

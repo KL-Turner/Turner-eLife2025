@@ -132,13 +132,15 @@ load(exampleSpecFile_AwakeTwoP)
 [sos_AwakeTwoP,g_AwakeTwoP] = zp2sos(z_AwakeTwoP,p_AwakeTwoP,k_AwakeTwoP);
 binWhiskers_AwakeTwoP = ProcData.data.binWhiskerAngle;
 % data
-diameter_AwakeTwoP = filtfilt(sos_AwakeTwoP,g_AwakeTwoP,ProcData.data.HbT.RH);
+diameterBaseline = 12.842941886544230;
+diameterAwakeTwoP = ((MergedData.data.vesselDiameter.data - diameterBaseline)./diameterBaseline).*100;
+diameter_AwakeTwoP = filtfilt(sos_AwakeTwoP,g_AwakeTwoP,diameterAwakeTwoP);
 % cortical spectrogram
 cortNormS_AwakeTwoP = SpecData.corticalNeural.fiveSec.normS.*100;
 T_AwakeTwoP = SpecData.corticalNeural.fiveSec.T;
 F_AwakeTwoP = SpecData.corticalNeural.fiveSec.F;
 % Yvals for behavior Indices
-whisking_Yvals_AwakeTwoP = 155*ones(size(binWhiskers_AwakeTwoP));
+whisking_Yvals_AwakeTwoP = 40*ones(size(binWhiskers_AwakeTwoP));
 whiskInds_AwakeTwoP = binWhiskers_AwakeTwoP.*whisking_Yvals_AwakeTwoP;
 % set whisk indeces
 for x = 1:length(whiskInds_AwakeTwoP)
@@ -151,15 +153,15 @@ LPadSol_AwakeTwoP = MergedData.data.solenoids.LPadSol;
 RPadSol_AwakeTwoP = MergedData.data.solenoids.RPadSol;
 AudSol_AwakeTwoP = MergedData.data.solenoids.AudSol;
 % set solenoid indeces
-LPad_Yvals_AwakeTwoP = 1.30*max(diameter_AwakeTwoP)*ones(size(LPadSol_AwakeTwoP));
-RPad_Yvals_AwakeTwoP = 1.30*max(diameter_AwakeTwoP)*ones(size(RPadSol_AwakeTwoP));
-Aud_Yvals_AwakeTwoP = 1.30*max(diameter_AwakeTwoP)*ones(size(AudSol_AwakeTwoP));
+LPad_Yvals_AwakeTwoP = 42*ones(size(LPadSol_AwakeTwoP));
+RPad_Yvals_AwakeTwoP = 42*ones(size(RPadSol_AwakeTwoP));
+Aud_Yvals_AwakeTwoP = 42*ones(size(AudSol_AwakeTwoP));
 
 %% Figure 2
 Fig2 = figure('Name','Fig. 2');
 
 % Hemodynamic and behavioral indeces
-ax1 = subplot(4,3,1);
+ax1 = subplot(6,3,1);
 s1 = scatter((1:length(binWhiskers_AwakeEphys))/ProcData.notes.dsFs,whiskInds_AwakeEphys,'.','MarkerEdgeColor',colors('black'));
 hold on;
 p1 = plot((1:length(HbT_AwakeEphys))/Ephys_Fs,HbT_AwakeEphys,'color',colors('electric purple'),'LineWidth',1);
@@ -178,7 +180,7 @@ ax1.YAxis(1).Color = colors('black');
 ax1.YAxis(2).Color = colors('magenta');
 
 % Cortical electrode spectrogram
-ax2 = subplot(4,3,4);
+ax2 = subplot(6,3,4);
 Semilog_ImageSC(T_AwakeEphys,F_AwakeEphys,cortNormS_AwakeEphys,'y')
 c1 = colorbar;
 ylabel(c1,'\DeltaP/P (%)','rotation',-90,'VerticalAlignment','bottom')
@@ -197,7 +199,7 @@ ax2Pos(3) = ax1Pos(3);
 set(ax2,'position',ax2Pos);
 
 % Hemodynamic and behavioral indeces
-ax3 = subplot(4,3,[2,3]);
+ax3 = subplot(6,3,[2,3]);
 s1 = scatter((1:length(binWhiskers_AsleepEphys))/ProcData.notes.dsFs,whiskInds_AsleepEphys,'.','MarkerEdgeColor',colors('black'));
 hold on;
 p1 = plot((1:length(HbT_AsleepEphys))/Ephys_Fs,HbT_AsleepEphys,'color',colors('electric purple'),'LineWidth',1);
@@ -216,7 +218,7 @@ ax3.YAxis(1).Color = colors('black');
 ax3.YAxis(2).Color = colors('magenta');
 
 % Hippocampal electrode spectrogram
-ax4 = subplot(4,3,[5,6]);
+ax4 = subplot(6,3,[5,6]);
 Semilog_ImageSC(T_AsleepEphys,F_AsleepEphys,hipNormS_AsleepEphys,'y')
 c2 = colorbar;
 ylabel(c2,'\DeltaP/P (%)','rotation',-90,'VerticalAlignment','bottom')
@@ -235,7 +237,7 @@ ax4Pos(3) = ax3Pos(3);
 set(ax4,'position',ax4Pos);
 
 % Hemodynamic and behavioral indeces
-ax5 = subplot(4,3,7);
+ax5 = subplot(6,3,7);
 s1 = scatter((1:length(binWhiskers_AwakeGCaMP))/ProcData.notes.dsFs,whiskInds_AwakeGCaMP,'.','MarkerEdgeColor',colors('black'));
 hold on;
 p1 = plot((1:length(HbO_AwakeGCaMP))/GCaMP_Fs,HbO_AwakeGCaMP,'color',colors('deep carrot orange'),'LineWidth',1);
@@ -257,7 +259,7 @@ ax5.YAxis(1).Color = colors('black');
 ax5.YAxis(2).Color = colors('north texas green');
 
 % Cortical electrode spectrogram
-ax6 = subplot(4,3,10);
+ax6 = subplot(6,3,10);
 Semilog_ImageSC(T_AwakeGCaMP,F_AwakeGCaMP,cortNormS_AwakeGCaMP,'y')
 c1 = colorbar;
 ylabel(c1,'\DeltaP/P (%)','rotation',-90,'VerticalAlignment','bottom')
@@ -276,7 +278,7 @@ ax6Pos(3) = ax5Pos(3);
 set(ax6,'position',ax6Pos);
 
 % Hemodynamic and behavioral indeces
-ax7 = subplot(4,3,[8,9]);
+ax7 = subplot(6,3,[8,9]);
 s1 = scatter((1:length(binWhiskers_AsleepGCaMP))/ProcData.notes.dsFs,whiskInds_AsleepGCaMP,'.','MarkerEdgeColor',colors('black'));
 hold on;
 p1 = plot((1:length(HbO_AsleepGCaMP))/GCaMP_Fs,HbO_AsleepGCaMP,'color',colors('deep carrot orange'),'LineWidth',1);
@@ -298,7 +300,7 @@ ax7.YAxis(1).Color = colors('black');
 ax7.YAxis(2).Color = colors('north texas green');
 
 % Hippocampal electrode spectrogram
-ax8 = subplot(4,3,[11,12]);
+ax8 = subplot(6,3,[11,12]);
 Semilog_ImageSC(T_AsleepGCaMP,F_AsleepGCaMP,hipNormS_AsleepGCaMP,'y')
 c2 = colorbar;
 ylabel(c2,'\DeltaP/P (%)','rotation',-90,'VerticalAlignment','bottom')
@@ -316,58 +318,41 @@ ax8Pos = get(ax8,'position');
 ax8Pos(3) = ax7Pos(3);
 set(ax8,'position',ax8Pos);
 
+% Diameter and behavioral indeces
+ax9 = subplot(6,3,[14,15]);
+p1 = plot((1:length(diameter_AwakeTwoP))./TwoP_Fs,diameter_AwakeTwoP,'color',colors('deep carrot orange'),'LineWidth',1);
+hold on;
+s1 = scatter((1:length(binWhiskers_AwakeTwoP))/ProcData.notes.dsFs,whiskInds_AwakeTwoP,'.','MarkerEdgeColor',colors('black'));
+s2 = scatter(LPadSol_AwakeTwoP,LPad_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','c');
+s3 = scatter(RPadSol_AwakeTwoP,RPad_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','m');
+s4 = scatter(AudSol_AwakeTwoP,Aud_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','g');
+ylabel('\DeltaD/D (%)')
+ylim([-15,45])
+legend([s1,s2,s3,s4,p1],'diameter','whisking','LPadSol','RPadSol','AudSol')
+set(gca,'Xticklabel',[])
+set(gca,'box','off')
+xticks([390,450,510,570,630,690,750])
+title('Awake 2P')
+xlim([390,750])
 
-
-% % % % diameter and behavioral indeces
-% % % figure;
-% % % 
-% % % s1 = scatter((1:length(binWhiskers_AwakeTwoP))/ProcData.notes.dsFs,whiskInds_AwakeTwoP,'.','MarkerEdgeColor',colors('black'));
-% % % hold on;
-% % % s2 = scatter(LPadSol_AwakeTwoP,LPad_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','c');
-% % % s3 = scatter(RPadSol_AwakeTwoP,RPad_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','m');
-% % % s4 = scatter(AudSol_AwakeTwoP,Aud_Yvals_AwakeTwoP,'v','MarkerEdgeColor','k','MarkerFaceColor','g');p1 = plot((1:length(HbO_AwakeTwoP))/TwoP_Fs,HbO_AwakeTwoP,'color',colors('deep carrot orange'),'LineWidth',1);
-% % % p2 = plot((1:length(HbR_AwakeTwoP))/TwoP_Fs,HbR_AwakeTwoP,'color',colors('vegas gold'),'LineWidth',1);
-% % % p3 = plot((1:length(HbT_AwakeTwoP))/TwoP_Fs,HbT_AwakeTwoP,'color',colors('electric purple'),'LineWidth',1);
-% % % 
-% % % s3 = scatter(LPadSol,LPad_Yvals,'v','MarkerEdgeColor','k','MarkerFaceColor','c');
-% % % s4 = scatter(RPadSol,RPad_Yvals,'v','MarkerEdgeColor','k','MarkerFaceColor','m');
-% % % s5 = scatter(AudSol,Aud_Yvals,'v','MarkerEdgeColor','k','MarkerFaceColor','g');
-% % % 
-% % % ylabel('\Delta[Hb] (\muM)')
-% % % ylim([-50,160])
-% % % yyaxis right
-% % % p4 = plot((1:length(GCaMP_AwakeTwoP))/TwoP_Fs,(GCaMP_AwakeTwoP - 1)*100,'color',colors('north texas green'),'LineWidth',1);
-% % % ylabel('\DeltaF/F (%)','rotation',-90,'VerticalAlignment','bottom')
-% % % ylim([-7,20])
-% % % legend([p1,p2,p3,p4,s1],'HbO','HbR','HbT','GCaMP','whisking')
-% % % set(gca,'Xticklabel',[])
-% % % set(gca,'box','off')
-% % % xticks([215,275,335,395,455,515,575])
-% % % title('RH SIBF')
-% % % xlim([215,575])
-% % % ax7.YAxis(1).Color = colors('black');
-% % % ax7.YAxis(2).Color = colors('north texas green');
-% % % 
-% % % % Hippocampal electrode spectrogram
-% % % ax8 = subplot(4,3,[11,12]);
-% % % Semilog_ImageSC(T_AwakeTwoP,F_AwakeTwoP,hipNormS_AwakeTwoP,'y')
-% % % c2 = colorbar;
-% % % ylabel(c2,'\DeltaP/P (%)','rotation',-90,'VerticalAlignment','bottom')
-% % % clim([-100,100])
-% % % title('Hippocampal LFP')
-% % % xlabel('Time (min)')
-% % % ylabel('Frequency (Hz)')
-% % % xlim([215,575])
-% % % set(gca,'box','off')
-% % % xticks([215,275,335,395,455,515,575])
-% % % xticklabels({'0','1','2','3','4','5','6'})
-% % % % axis properties
-% % % ax7Pos = get(ax7,'position');
-% % % ax8Pos = get(ax8,'position');
-% % % ax8Pos(3) = ax7Pos(3);
-% % % set(ax8,'position',ax8Pos);
-
-
+% Cortical electrode spectrogram
+ax10 = subplot(6,3,[17,18]);
+Semilog_ImageSC(T_AwakeTwoP,F_AwakeTwoP,cortNormS_AwakeTwoP,'y')
+c2 = colorbar;
+ylabel(c2,'\DeltaP/P (%)','rotation',-90,'VerticalAlignment','bottom')
+clim([-100,100])
+title('Contra Cortical LFP')
+xlabel('Time (min)')
+ylabel('Frequency (Hz)')
+xlim([390,750])
+set(gca,'box','off')
+xticks([390,450,510,570,630,690,750])
+xticklabels({'0','1','2','3','4','5','6'})
+% axis properties
+ax9Pos = get(ax9,'position');
+ax10Pos = get(ax10,'position');
+ax10Pos(3) = ax9Pos(3);
+set(ax10,'position',ax10Pos);
 
 %% Save figure and stats
 if saveState == true

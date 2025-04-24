@@ -280,7 +280,6 @@ restDiameterVarStats.tableSize = cat(1,diameterData.Blank_SAP.vari,diameterData.
 restDiameterVarStats.Table = table('Size',[size(restDiameterVarStats.tableSize,1),3],'VariableTypes',{'string','string','double'},'VariableNames',{'Mouse','Group','Variance'});
 restDiameterVarStats.Table.Mouse = cat(1,diameterData.Blank_SAP.animalID,diameterData.SSP_SAP.animalID);
 restDiameterVarStats.Table.Group = cat(1,diameterData.Blank_SAP.group,diameterData.SSP_SAP.group);
-% restDiameterVarStats.Table.Variance = cat(1,diameterData.Blank_SAP.vari,diameterData.SSP_SAP.vari);
 restDiameterVarStats.Table.Variance = cat(1,diameterData.Blank_SAP.vari,sspDiameterVarData);
 restDiameterVarStats.FitFormula = 'Variance ~ 1 + Group + (1|Mouse)';
 restDiameterVarStats.Stats = fitglme(restDiameterVarStats.Table,restDiameterVarStats.FitFormula);
@@ -295,6 +294,9 @@ restGCaMPVarStats.Table.Group = cat(1,gcampSigdata.Blank_SAP.RH.GCaMP.Rest.group
 restGCaMPVarStats.Table.Variance = cat(1,gcampSigdata.Blank_SAP.RH.GCaMP.Rest.vari,gcampSigdata.SSP_SAP.RH.GCaMP.Rest.vari);
 restGCaMPVarStats.FitFormula = 'Variance ~ 1 + Group + (1|Mouse)';
 restGCaMPVarStats.Stats = fitglme(restGCaMPVarStats.Table,restGCaMPVarStats.FitFormula);
+
+%%
+
 
 %% arousal-state hemodnyamics [Ephys]
 cd([rootFolder delim 'Results_Turner'])
