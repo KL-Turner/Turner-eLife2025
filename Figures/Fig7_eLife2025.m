@@ -295,8 +295,103 @@ restGCaMPVarStats.Table.Variance = cat(1,gcampSigdata.Blank_SAP.RH.GCaMP.Rest.va
 restGCaMPVarStats.FitFormula = 'Variance ~ 1 + Group + (1|Mouse)';
 restGCaMPVarStats.Stats = fitglme(restGCaMPVarStats.Table,restGCaMPVarStats.FitFormula);
 
-%%
+%% IOS variance power spectra
+iosPowerSpectra.Blank_SAP.psd = [];
+iosPowerSpectra.SSP_SAP.psd = [];
+freqRes = 0.01;
+commonFreqs = 0:freqRes:5; % Limit to lowest Nyquist (10 Hz group)
+fs = 30;
+for aa = 1:length(groups)
+    group = groups{1,aa};
+    animalIDs = fieldnames(Results_IntSig_Ephys.(group));
+    for bb = 1:length(animalIDs)
+        animalID = animalIDs{bb,1};
+        dataCellArray = Results_IntSig_Ephys.(group).(animalID).RH.Rest.indHbT;
+        nTrials = length(dataCellArray);
+        psdMatrix = zeros(length(commonFreqs), nTrials);
+        for ii = 1:nTrials
+            data = detrend(dataCellArray{ii},'constant');
+            [pxx,f] = pwelch(data, [],[],[],fs);
+            psdMatrix(:,ii) = interp1(f,pxx,commonFreqs,'linear',0);
+        end
+        meanPSD = mean(psdMatrix, 2);
+        iosPowerSpectra.(group).psd = cat(2, iosPowerSpectra.(group).psd, meanPSD);
+    end
+end
 
+% extract analysis results
+for aa = 1:length(groups)
+    group = groups{1,aa};
+    animalIDs = fieldnames(Results_IntSig_Pulse.(group));
+    for bb = 1:length(animalIDs)
+        animalID = animalIDs{bb,1};
+        if isempty(Results_IntSig_Pulse.(group).(animalID).Rest.indHbT) == false
+            dataCellArray = Results_IntSig_Pulse.(group).(animalID).Rest.indHbT;
+            nTrials = length(dataCellArray);
+            psdMatrix = zeros(length(commonFreqs), nTrials);
+            for ii = 1:nTrials
+                data = detrend(dataCellArray{ii},'constant');
+                [pxx,f] = pwelch(data, [],[],[],fs);
+                psdMatrix(:,ii) = interp1(f,pxx,commonFreqs,'linear',0);
+            end
+            meanPSD = mean(psdMatrix, 2);
+            iosPowerSpectra.(group).psd = cat(2, iosPowerSpectra.(group).psd, meanPSD);
+        end
+    end
+end
+
+fs = 10;
+% extract analysis results
+for aa = 1:length(groups)
+    group = groups{1,aa};
+    animalIDs = fieldnames(Results_IntSig_GCaMP.(group));
+    for bb = 1:length(animalIDs)
+        animalID = animalIDs{bb,1};
+        dataCellArray = Results_IntSig_GCaMP.(group).(animalID).RH.HbT.Rest.indData;
+        nTrials = length(dataCellArray);
+        psdMatrix = zeros(length(commonFreqs), nTrials);
+        for ii = 1:nTrials
+            data = detrend(dataCellArray{ii},'constant');
+            [pxx,f] = pwelch(data, [],[],[],fs);
+            psdMatrix(:,ii) = interp1(f,pxx,commonFreqs,'linear',0);
+        end
+        meanPSD = mean(psdMatrix, 2);
+        iosPowerSpectra.(group).psd = cat(2, iosPowerSpectra.(group).psd, meanPSD);
+    end
+end
+iosBlankPSD = mean(iosPowerSpectra.Blank_SAP.psd,2);
+iosSPPSD = mean(iosPowerSpectra.SSP_SAP.psd,2);
+
+%% 2P variance power spectra
+diameterPowerSpectra.Blank_SAP.psd = [];
+diameterPowerSpectra.SSP_SAP.psd = [];
+diameterCommonFreqs = 0:freqRes:2.5; % Limit to lowest Nyquist (10 Hz group)
+fs = 5;
+for aa = 1:length(groups)
+    group = groups{1,aa};
+    animalIDs = fieldnames(Results_Diameter_2P.(group));
+    for bb = 1:length(animalIDs)
+        animalID = animalIDs{bb,1};
+        vesselIDs = fieldnames(Results_Diameter_2P.(group).(animalID));
+        for cc = 1:length(vesselIDs)
+            vesselID = vesselIDs{cc,1};
+            if isfield(Results_Diameter_2P.(group).(animalID).(vesselID),'Rest') == true
+                dataCellArray = Results_Diameter_2P.(group).(animalID).(vesselID).Rest.indEvents;
+                nTrials = length(dataCellArray);
+                psdMatrix = zeros(length(diameterCommonFreqs),nTrials);
+                for ii = 1:nTrials
+                    data = detrend(dataCellArray{ii},'constant');
+                    [pxx,f] = pwelch(data,[],[],[],fs);
+                    psdMatrix(:,ii) = interp1(f,pxx,diameterCommonFreqs,'linear',0);
+                end
+                meanPSD = mean(psdMatrix,2);
+                diameterPowerSpectra.(group).psd = cat(2,diameterPowerSpectra.(group).psd,meanPSD);
+            end
+        end
+    end
+end
+diameterBlankPSD = mean(diameterPowerSpectra.Blank_SAP.psd,2);
+diameterSPPSD = mean(diameterPowerSpectra.SSP_SAP.psd,2);
 
 %% arousal-state hemodnyamics [Ephys]
 cd([rootFolder delim 'Results_Turner'])
@@ -607,7 +702,7 @@ end
 Fig7 = figure('Name','Fig. 7');
 
 % HbT rest variance
-subplot(2,2,1)
+subplot(2,3,1)
 xInds = ones(1,length(blankHbTVarData));
 scatter(xInds*1,blankHbTVarData,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('black'),'jitter','off','jitterAmount',0.25);
 hold on
@@ -629,8 +724,20 @@ axis tight
 xlim([0,3]);
 ylim([0,90])
 
+% HbT power spectra
+subplot(2,3,2)
+semilogy(commonFreqs,iosBlankPSD,'color',colors('black'),'LineWidth',2);
+hold on;
+semilogy(commonFreqs,iosSPPSD,'color',colors('electric purple'),'LineWidth',2);
+xlabel('Frequency (Hz)');
+ylabel('Power Spectral Density');
+set(gca,'box','off')
+axis square
+grid on
+xlim([0.1,2.4])
+
 % Diameter rest variance
-subplot(2,2,2)
+subplot(2,3,3)
 xInds = ones(1,length(blankDiameterVarData));
 scatter(xInds*1,blankDiameterVarData,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('black'),'jitter','off','jitterAmount',0.25);
 hold on
@@ -652,8 +759,20 @@ axis tight
 xlim([0,3]);
 ylim([-5,60])
 
+% Diameter power spectra
+subplot(2,3,4)
+semilogy(diameterCommonFreqs,diameterBlankPSD,'color',colors('black'),'LineWidth',2);
+hold on;
+semilogy(diameterCommonFreqs,diameterSPPSD,'color',colors('dark candy apple red'),'LineWidth',2);
+xlabel('Frequency (Hz)');
+ylabel('Power Spectral Density');
+set(gca,'box','off')
+axis square
+grid on
+xlim([0.1,2.4])
 
-subplot(2,2,3);
+% HbT state data
+subplot(2,3,5);
 hold on
 xInds = ones(1,length(ephysData.Blank_SAP.RH.HbT.Rest.avg));
 s2 = scatter(xInds*1,ephysData.Blank_SAP.RH.HbT.Rest.avg,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('black'),'jitter','off','jitterAmount',0.25);
@@ -712,7 +831,8 @@ set(gca,'box','off')
 set(gca,'xtick',[])
 axis square
 
-subplot(2,2,4)
+% diameter state data
+subplot(2,3,6)
 xInds = ones(1,length(diameterShiftData.Blank_SAP.diameter));
 scatter(xInds*1,diameterShiftData.Blank_SAP.diameter,75,'MarkerEdgeColor','k','MarkerFaceColor',colors('black'),'jitter','on','jitterAmount',0.25);
 hold on
@@ -764,7 +884,7 @@ if saveState == true
     disp(restHbTVarStats.Stats)
     disp(['*p < ' num2str(alphaA) ' **p < ' num2str(alphaB) ' ***p < ' num2str(alphaC)]);
 
-     % [HbT] during each arousal-state
+    % [HbT] during each arousal-state
     disp('======================================================================================================================')
     disp('[HbT] during each arousal-state (ephys), n = 9 mice per group, mean +/- StD'); disp(' ')
     disp(['Blank-SAP Rest: ' num2str(ephysData.Blank_SAP.RH.HbT.Rest.mean_avg) ' +/- ' num2str(ephysData.Blank_SAP.RH.HbT.Rest.std_avg)]); disp(' ')
@@ -796,7 +916,7 @@ if saveState == true
     disp(['SSP-SAP Rest: ' num2str(diameterShiftData.SSP_SAP.meanDiameter) ' +/- ' num2str(diameterShiftData.SSP_SAP.stdDiameter) ' baseline diameter: ' num2str(diameterShiftData.SSP_SAP.meanBaseline) '+/-' num2str(diameterShiftData.SSP_SAP.stdBaseline) ' /muM']); disp(' ')
     disp(['Blank vs. SAP Rest ttest p = ' num2str(TwoPIsoStats.p)]); disp(' ')
 
-     % isoflurane shift 2P diameter
+    % isoflurane shift 2P diameter
     disp('======================================================================================================================')
     disp('Baseline diameter size, n = 9 mice (Blank) 7 (SP), mean +/- StD'); disp(' ')
     disp(['Blank-SAP baseline: ' num2str(baselineDiameterData.Blank_SAP.meanDiameter) ' +/- ' num2str(baselineDiameterData.Blank_SAP.stdDiameter) ' baseline diameter: ' num2str(baselineDiameterData.Blank_SAP.meanBaseline) '+/-' num2str(baselineDiameterData.Blank_SAP.stdBaseline) ' \muM']); disp(' ')
