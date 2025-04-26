@@ -116,7 +116,7 @@ for a0 = 1:numel(fields)
     expCondition = fields{a0};
     for a1 = 1:numel(experiment.(expCondition))
         animalID = experiment.(expCondition){a1};
-        searchfolder = fullfile(path,'Results',animalID);
+        searchfolder = fullfile(path,animalID);
         ind_targetFile = getfilenames(searchfolder, [expCondition,'-SAP', '*.mat']);
         if ~isempty(ind_targetFile)
             out.(animalID) = genFigure_individual_SAP(ind_targetFile);

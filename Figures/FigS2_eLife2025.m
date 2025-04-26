@@ -127,37 +127,12 @@ for aa = 1:length(groups)
     ephysStateData.(group).meanPercs = cat(1,ephysStateData.(group).mean_awakePercent,ephysStateData.(group).mean_nremPercent,ephysStateData.(group).mean_remPercent);
 end
 % statistics - unpaired ttest
-% [awakeStats1.h,awakeStats1.p] = vartest(ephysStateData.Naive.awakePercent,ephysStateData.Blank_SAP.awakePercent);
-% [awakeStats2.h,awakeStats2.p] = vartest(ephysStateData.Blank_SAP.awakePercent,ephysStateData.SSP_SAP.awakePercent);
-% [nremStats1.h,nremStats1.p] = vartest(ephysStateData.Naive.nremPercent,ephysStateData.Blank_SAP.nremPercent);
-% [nremStats2.h,nremStats2.p] = vartest(ephysStateData.Blank_SAP.nremPercent,ephysStateData.SSP_SAP.nremPercent);
-% [remStats1.h,remStats1.p] = vartest(ephysStateData.Naive.remPercent,ephysStateData.Blank_SAP.remPercent);
-% [remStats2.h,remStats2.p] = vartest(ephysStateData.Blank_SAP.remPercent,ephysStateData.SSP_SAP.remPercent);
-% 
-% statistics - unpaired ttest
 [awakeStats1.h,awakeStats1.p] = ttest2(ephysStateData.Naive.awakePercent,ephysStateData.Blank_SAP.awakePercent);
 [awakeStats2.h,awakeStats2.p] = ttest2(ephysStateData.Blank_SAP.awakePercent,ephysStateData.SSP_SAP.awakePercent);
 [nremStats1.h,nremStats1.p] = ttest2(ephysStateData.Naive.nremPercent,ephysStateData.Blank_SAP.nremPercent);
 [nremStats2.h,nremStats2.p] = ttest2(ephysStateData.Blank_SAP.nremPercent,ephysStateData.SSP_SAP.nremPercent);
 [remStats1.h,remStats1.p] = ttest2(ephysStateData.Naive.remPercent,ephysStateData.Blank_SAP.remPercent);
 [remStats2.h,remStats2.p] = ttest2(ephysStateData.Blank_SAP.remPercent,ephysStateData.SSP_SAP.remPercent);
-
-% Blank.Awake = ephysStateData.Blank_SAP.awakePercent;
-% Blank.NREM = ephysStateData.Blank_SAP.nremPercent;
-% Blank.REM = ephysStateData.Blank_SAP.remPercent;
-% 
-% SP.Awake = ephysStateData.SSP_SAP.awakePercent;
-% SP.NREM = ephysStateData.SSP_SAP.nremPercent;
-% SP.REM = ephysStateData.SSP_SAP.remPercent;
-% 
-% Uninj.Awake = ephysStateData.Naive.awakePercent;
-% Uninj.NREM = ephysStateData.Naive.nremPercent;
-% Uninj.REM = ephysStateData.Naive.remPercent;
-% 
-% statePercentages = table(Blank.Awake,SP.Awake,Uninj.Awake);
-% 
-% [p,h,stats] = ttest2(ephysStateData.Blank_SAP.awakePercent,ephysStateData.SSP_SAP.awakePercent)
-% [p,h,stats] = ranksum(ephysStateData.Blank_SAP.awakePercent,ephysStateData.SSP_SAP.awakePercent)
 
 %% whisking behavior
 cd([rootFolder delim 'Results_Turner'])
