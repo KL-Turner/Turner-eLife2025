@@ -10,95 +10,88 @@ The code in this repository generates all main figures, supplemental information
 Begin by downloading the code repository by clicking the green **Code** button at the top of the page and selecting **Download ZIP**. 
 * Code repository location: https://github.com/KL-Turner/Turner-eLife2025
 
-![](https://private-user-images.githubusercontent.com/30758521/437243955-d1bc8eb4-60c5-4db9-a08e-3e473504e80e.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU1NDAyNDksIm5iZiI6MTc0NTUzOTk0OSwicGF0aCI6Ii8zMDc1ODUyMS80MzcyNDM5NTUtZDFiYzhlYjQtNjBjNS00ZGI5LWEwOGUtM2U0NzM1MDRlODBlLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDI1VDAwMTIyOVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWQ4OGEzODFiNWMyMzJhMTE5MmY2Y2IxYjY2YmZjYmZhMzYyMWU3YmU5ZTYzY2U4NDQ2ZjVjMzdhODIxNTllOGYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.XHN6xsouhaH43EB6i-fwLzzWghQTZ5J9tl4E6PDh6Mw)
+![](https://raw.githubusercontent.com/KL-Turner/Turner-eLife2025/refs/heads/master/Utility%20functions/Images/Image1.png)
 
 Next, the data (~8 GB) can be downloaded from the following location: https://doi.org/10.5061/dryad.tb2rbp0bq
 
-![](https://private-user-images.githubusercontent.com/30758521/437244656-6544bbcf-6631-42a0-9380-fc69af9e0e74.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU1NDA1MzgsIm5iZiI6MTc0NTU0MDIzOCwicGF0aCI6Ii8zMDc1ODUyMS80MzcyNDQ2NTYtNjU0NGJiY2YtNjYzMS00MmEwLTkzODAtZmM2OWFmOWUwZTc0LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDI1VDAwMTcxOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTE1YjkzMTA5MGY4MTQxMmY2MDdlZDBjNWRjNzIyMjM4ZjVmZTc5ZThjZmQyMTY4MTU4ODBiMzMzN2RiNzliNDAmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.n78OWnmj9iSagTyX9h07qZYpONHMHyTW2vM7M4K5gr8)
+![](https://raw.githubusercontent.com/KL-Turner/Turner-eLife2025/refs/heads/master/Utility%20functions/Images/Image2.png)
 
 After downloading both the code and data, unzip both folders by right clicking and selecting *Extract all* or double clicking each folder. The unzipped folders should look something like this.
 
-![](https://private-user-images.githubusercontent.com/30758521/437248046-0e733d7a-10d7-4372-b861-b4ddca99c5ad.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU1NDE3NDgsIm5iZiI6MTc0NTU0MTQ0OCwicGF0aCI6Ii8zMDc1ODUyMS80MzcyNDgwNDYtMGU3MzNkN2EtMTBkNy00MzcyLWI4NjEtYjRkZGNhOTljNWFkLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDI1VDAwMzcyOFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWVlZGQ0M2I5OGJjZjY1YTIxYjFlNzVhMDM5MDBkM2Y1NTI1OTk2Mjg5ZjNhY2IxOWQ1YTkzZTc0ZGU5YjA2MTYmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.9ZYoweCJ6KdfMv3eUteT4XpR6gtNRnUvZmHZ44R57yE)
+![](https://raw.githubusercontent.com/KL-Turner/Turner-eLife2025/refs/heads/master/Utility%20functions/Images/Image3.png)
 
 The Dryad link contains several pre-analyzed structures that can be used to immediately generate the figures without re-analyzing any data. To generate the figures, begin by moving all of the files from the unzipped Dryad folder (the **Results_** folders) into the code repository. It should look something like this:
 
-![](https://private-user-images.githubusercontent.com/30758521/437248578-c5cdcec0-7358-425c-ba28-79595cdac095.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3NDU1NDE5NjAsIm5iZiI6MTc0NTU0MTY2MCwicGF0aCI6Ii8zMDc1ODUyMS80MzcyNDg1NzgtYzVjZGNlYzAtNzM1OC00MjVjLWJhMjgtNzk1OTVjZGFjMDk1LnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNTA0MjUlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjUwNDI1VDAwNDEwMFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPWMwMzViODhjMGRjZGRlZGRiOWIxY2M5YmUzOTk4ZGIxMWYzMDY0ZDI5NDkzNWZiNGJhZmFkYzE5MjI3Y2ZmY2MmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0In0.opxtFi7wCxzoyYcbdtdQZZEFzyzjNvXAWsheH0Q6hak)
+![](https://raw.githubusercontent.com/KL-Turner/Turner-eLife2025/refs/heads/master/Utility%20functions/Images/Image4.png)
 
 ## Results_Turner (.mat - MATLAB2024b; .xlsx - MS Excel)
-The repository includes pre-analyzed structures for each analysis performed in the paper, each of these has the prefix "Results_" followed by the analysis performed.
-* Results_ArousalStateProb_Ephys.mat
-* Results_ArousalStateProb_GCaMP.mat
-* Results_Baseline_2P.mat
-* Results_BaselineShift_2P.mat
-* Results_BilatCoher_Ephys.mat
-* Results_BilatCoher_GCaMP.mat
-* Results_CrossCorr_EGFP.mat
-* Results_CrossCorr_Ephys.mat
-* Results_CrossCorr_GCaMP.mat
-* Results_Derivative_Ephys.mat
-* Results_Diameter_2P.mat
-* Results_Evoked_2P.mat
-* Results_Evoked_Ephys.mat
-* Results_Evoked_GCaMP.mat
-* Results_Evoked_Pulse.mat
-* Results_GFP.mat
-* Results_HbTCrossCorr_Ephys.mat
-* Results_HRF_Ephys.mat
-* Results_IntSig_Ephys.mat
-* Results_IntSig_GCaMP.mat
-* Results_IntSig_Pulse.mat
-* Results_ModelAccuracy_Ephys.mat
-* Results_ModelAccuracy_GCaMP.mat
-* Results_NeuralHemoCoher_Ephys.mat
-* Results_NeuralHemoCoher_GCaMP.mat
-* Results_PearsonCorr_Ephys.mat
-* Results_PearsonCorr_GCaMP.mat
-* Results_PowerSpec_2P.mat
-* Results_PowerSpec_Ephys.mat
-* Results_PowerSpec_GCaMP.mat
-* Results_PowerSpec_LFP.mat
-* Results_PreWhitenedPowerSpec_2P.mat
-* Results_PreWhitenedPowerSpec_Ephys.mat
-* Results_PreWhitenedPowerSpec_GCaMP.mat
-* Results_PupilArea_Ephys.mat
-* Results_PupilBlinkInterval_Ephys.mat
-* Results_PupilCoher_Ephys.mat
-* Results_PupilCrossCorr_Ephys.mat
-* Results_PupilEvoked_Ephys.mat
-* Results_Transitions_Ephys.mat
-* Results_Transitions_GCaMP.mat
-* Results_WhiskBehav_Ephys.mat
-* Results_WhiskBehav_GCaMP.mat
+The repository includes pre-analyzed structures for each analysis performed in the paper, each of these has the prefix "Results_" followed by the analysis performed. Descriptions of each analysis can be found in the manuscript, and units are consistent with the figures used by each analysis. If short, a description of the data and units is as-follows:
+
+* Results_ArousalStateProb_Ephys.mat - probability (%) of each animal being in a given classification state, Fig. S2  
+* Results_ArousalStateProb_GCaMP.mat - probability (%) of each animal being in a given classification state, Fig. S2
+* Results_Baseline_2P.mat - baseline diameter (μm) of each arteriole, Fig. 7
+* Results_BaselineShift_2P.mat - diameter shift (μm) during isoflurane of each arteriole, Fig. 7
+* Results_BilatCoher_Ephys.mat - coherence (unitless) between bilateral gamma power (a.u.) or HbT (μM), Fig. 6
+* Results_BilatCoher_GCaMP.mat - coherence (unitless) between bilateral GCaMP (ΔF/F) or hemodynamics HbT (μM), Fig. 6
+* Results_CrossCorr_Ephys.mat - cross correlation (unitless) between hemodynamic HbT (μM) and/or gamma power (a.u.), Fig. 5
+* Results_CrossCorr_GCaMP.mat - cross correlation (unitless) between HbT (μM) and/or GCaMP (ΔF/F), Fig. 5
+* Results_Diameter_2P.mat - arteriole diameter (ΔD/D) during different arousal states
+* Results_Evoked_2P.mat - arteriole diameter (ΔD/D) following vibrissae stimulation, Fig. 3
+* Results_Evoked_Ephys.mat - HbT (μM)and gamma power (a.u.) following vibrissae stimulation, Fig. 3
+* Results_Evoked_GCaMP.mat - HbT (μM) and GCaMP (dF/F) following vibrissae stimulation, Fig. 3
+* Results_Evoked_Pulse.mat - HbT (μM) following vibrissae stimulation, Fig. 3
+* Results_HbTCrossCorr_Ephys.mat 
+* Results_HRF_Ephys.mat - hemodynamic response functions (unitless) between [HbT](μM)and gamma power (a.u.), Fig. S5
+* Results_IntSig_Ephys.mat Fig. 7, S7
+* Results_IntSig_GCaMP.mat Fig 7, S7
+* Results_IntSig_Pulse.mat - Fig. S6
+* Results_ModelAccuracy_Ephys.mat Fig. S3
+* Results_ModelAccuracy_GCaMP.mat Fig. S3
+* Results_NeuralHemoCoher_Ephys.mat - coherence (unitless) single hemisphere gamma power (a.u.) and HbT (μM), Fig. 5
+* Results_NeuralHemoCoher_GCaMP.mat - coherence (unitless) single hemisphere GCaMP (dF/F) and hemodynamics [HbT], Fig. 5
+* Results_PearsonCorr_Ephys.mat Fig. S6
+* Results_PearsonCorr_GCaMP.mat Fig. S6
+* Results_PowerSpec_2P.mat - Fig. S4
+* Results_PowerSpec_Ephys.mat - Fig. S4
+* Results_PowerSpec_GCaMP.mat Fig. S4
+* Results_PowerSpec_LFP.mat - power spectrum of local field potentials (power, a.u.); Fig. 4
+* Results_PupilArea_Ephys.mat Fig. S2
+* Results_PupilBlinkInterval_Ephys.mat Fig. S2
+* Results_PupilEvoked_Ephys.mat Fig. S2
+* Results_Transitions_Ephys.mat Fig. S7
+* Results_Transitions_GCaMP.mat Fig. S7
+* Results_WhiskBehav_Ephys.mat Fig.S2
+* Results_WhiskBehav_GCaMP.mat Fig. S2
 
 Data sets used for representative examples (Fig. 2)
-* T165_210222_12_45_38_ProcData.mat
-* T165_210222_12_45_38_SpecDataA.mat
-* T165_210223_12_37_03_ProcData.mat
-* T165_210223_12_37_03_SpecDataA.mat
-* T192_RH_210518_11_41_23_005_A08_MergedData.mat
-* T192_RH_210518_11_41_23_005_A08_SpecData.mat
-* T233_220206_13_07_08_ProcData.mat
-* T233_220206_13_07_08_SpecDataA.mat
-* T233_220206_14_10_44_ProcData.mat
-* T233_220206_14_10_44_SpecDataA.mat
+* T165_210222_12_45_38_ProcData.mat - hemodynamics, behavior, vibrissae tracking, vibrissae stimulation
+* T165_210222_12_45_38_SpecDataA.mat - Spectrograms of neural and hippocampal power
+* T165_210223_12_37_03_ProcData.mat - hemodynamics, behavior, vibrissae tracking, vibrissae stimulation
+* T165_210223_12_37_03_SpecDataA.mat - Spectrograms of neural and hippocampal power
+* T192_RH_210518_11_41_23_005_A08_MergedData.mat - hemodynamics, behavior, vibrissae tracking, vibrissae stimulation
+* T192_RH_210518_11_41_23_005_A08_SpecData.mat - Spectrograms of neural and hippocampal power
+* T233_220206_13_07_08_ProcData.mat - hemodynamics, behavior, vibrissae tracking, vibrissae stimulation
+* T233_220206_13_07_08_SpecDataA.mat - Spectrograms of neural and hippocampal power
+* T233_220206_14_10_44_ProcData.mat - hemodynamics, behavior, vibrissae tracking, vibrissae stimulation 
+* T233_220206_14_10_44_SpecDataA.mat - Spectrograms of neural and hippocampal power
 
-Immunohistochemistry and Histological characterization data
-* DAPI_Counts.xlsx
-* DAPI_Fluorescence.xlsx
-* Diaphorase_Counts.xlsx
-* GFAP_Fluorescence.xlsx
-* IBA1_Counts.xlsx
-* MasterMouseList.xlsx
-* NeuN_Fluorescence.xlsx
-* nNOS_Counts.xlsx
+Immunohistochemistry and Histological characterization data (Fig. 1, S1)
+* DAPI_Counts.xlsx (DAPI IHC cell counts)
+* DAPI_Fluorescence.xlsx (DAPI IHC fluorescence, a.u.)
+* Diaphorase_Counts.xlsx (NADPH Diaphorase cell counts)
+* GFAP_Fluorescence.xlsx (GFAP IHC fluorescence, a.u.)
+* IBA1_Counts.xlsx (IBA1 IHC cell counts)
+* MasterMouseList.xlsx (Notes)
+* NeuN_Fluorescence.xlsx (NeuN IHC fluorescence, a.u.)
+* nNOS_Counts.xlsx (nNOS IHC cell counts)
 
 ## Results_Zhang (.mat - MATLAB 2024b)
-14 Folders corresponding to experimental IDs: T192, T200, T205, T206, T208, T209, T211, T212, T213, T216, T217, T218, T219, T225. Each folder contains the analyzed data from three runs (all .mat structures with name, condition, file date) for spectroscopy experiments during locomotion.
+14 Folders corresponding to experimental IDs: T192, T200, T205, T206, T208, T209, T211, T212, T213, T216, T217, T218, T219, T225. Each folder contains the analyzed data from three runs (all .mat structures with name, condition, file date) for spectroscopy experiments during locomotion. Fig 3 Text.
 
 ## Results Hossain (.mat - MATLAB 2024b; .png - ImageJ/FIJI; .xlsx - MS Excel;)
 * 55 data sets (AnimalID_Run1.mat or AnimalID_Run1.png) of open-field, exploratory * behavior.
 * ExperimentalRecords_Keys.xlsx - summary of animal information
-* OFTTable.mat - Analysis of open field exploratory behavior
+* OFTTable.mat - Analysis of open field exploratory behavior - Fig S2.
 
 From here, open MATLAB and nativate to the code's folder. Open the function **MainScript_eLife2025.m**. Click the green **Run** button and the figures will then take a few minutes to generate.
 
