@@ -56,8 +56,8 @@ AnalyzeEvokedResponses_Pulse_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeIntrinsicSignals_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeIntrinsicSignals_GCaMP_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeIntrinsicSignals_Pulse_Handler_eLife2025(rootFolder,delim,false)
-AnalyzeHemoGFPRelationship_EGFP_Handler_eLife2025(rootFolder,delim,false)
-AnalyzeArousalDerivative_Ephys_Handler_eLife2025(rootFolder,delim,false)
+% AnalyzeHemoGFPRelationship_EGFP_Handler_eLife2025(rootFolder,delim,false)
+% AnalyzeArousalDerivative_Ephys_Handler_eLife2025(rootFolder,delim,false)
 
 % arteriole diameter and baseline shift
 AnalyzeArterioleBaseline_2P_Handler_eLife2025(rootFolder,delim,false)
