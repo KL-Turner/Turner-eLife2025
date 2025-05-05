@@ -56,8 +56,6 @@ AnalyzeEvokedResponses_Pulse_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeIntrinsicSignals_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeIntrinsicSignals_GCaMP_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeIntrinsicSignals_Pulse_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzeHemoGFPRelationship_EGFP_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzeArousalDerivative_Ephys_Handler_eLife2025(rootFolder,delim,false)
 
 % arteriole diameter and baseline shift
 AnalyzeArterioleBaseline_2P_Handler_eLife2025(rootFolder,delim,false)
@@ -69,11 +67,6 @@ AnalyzePowerSpectrum_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzePowerSpectrum_GCaMP_Handler_eLife2025(rootFolder,delim,false)
 AnalyzePowerSpectrum_LFP_Handler_eLife2025(rootFolder,delim,false)
 AnalyzePowerSpectrum_2P_Handler_eLife2025(rootFolder,delim,false)
-
-% pre-whitened power spectral density
-% AnalyzePreWhitenedPowerSpectrum_Ephys_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzePreWhitenedPowerSpectrum_GCaMP_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzePreWhitenedPowerSpectrum_2P_Handler_eLife2025(rootFolder,delim,false)
 
 % coherence between hemipheres
 AnalyzeBilateralCoherence_Ephys_Handler_eLife2025(rootFolder,delim,false)
@@ -89,15 +82,11 @@ AnalyzePearsonCorrelation_GCaMP_Handler_eLife2025(rootFolder,delim,false)
 
 % cross correlation between neural-hemo
 AnalyzeCrossCorrelation_Ephys_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzeHbTCrossCorrelation_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzeCrossCorrelation_GCaMP_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzeCrossCorrelation_EGFP_Handler_eLife2025(rootFolder,delim,false)
 
 % pupil analysis
 AnalyzePupilArea_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzePupilEvokedResponses_Ephys_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzePupilCoherence_Ephys_Handler_eLife2025(rootFolder,delim,false)
-% AnalyzePupilCrossCorrelation_Ephys_Handler_eLife2025(rootFolder,delim,false)
 AnalyzePupilInterBlinkInterval_Ephys_Handler_eLife2025(rootFolder,delim,false)
 
 % state probability
