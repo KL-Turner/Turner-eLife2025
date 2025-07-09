@@ -48,9 +48,9 @@ for aa = 1:length(groups)
                             freqIdx = find(freqBand == frequencyList(1,qq));
                             ephysPowerData.(group).(hemisphere).(dataType).(behavior).binS = cat(1,ephysPowerData.(group).(hemisphere).(dataType).(behavior).binS,mean(Results_PowerSpec_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).S(freqIdx)));
                             ephysPowerData.(group).(hemisphere).(dataType).(behavior).binf = cat(1,ephysPowerData.(group).(hemisphere).(dataType).(behavior).binf,num2str(mean(freqBand(freqIdx))));
-                            ephysPowerData.(group).(hemisphere).(dataType).(behavior).group = cat(1,ephysPowerData.(group).(hemisphere).(dataType).(behavior).group,group);
-                            ephysPowerData.(group).(hemisphere).(dataType).(behavior).animalID = cat(1,ephysPowerData.(group).(hemisphere).(dataType).(behavior).animalID,animalID);
                         end
+                         ephysPowerData.(group).(hemisphere).(dataType).(behavior).group = cat(1,ephysPowerData.(group).(hemisphere).(dataType).(behavior).group,group);
+                         ephysPowerData.(group).(hemisphere).(dataType).(behavior).animalID = cat(1,ephysPowerData.(group).(hemisphere).(dataType).(behavior).animalID,animalID);
                     end
                 end
             end
@@ -81,6 +81,7 @@ for aa = 1:length(groups)
                 behavior = behaviors{1,dd};
                 for ee = 1:size(ephysPowerData.(group).(hemisphere).(dataType).(behavior).S,1)
                     ephysPowerData.(group).(hemisphere).(dataType).(behavior).normS(ee,:) = (ephysPowerData.(group).(hemisphere).(dataType).(behavior).S(ee,:))*(1/(ephysPowerData.(group).(hemisphere).(dataType).baseline(ee,1)));
+                    ephysPowerData.(group).(hemisphere).(dataType).(behavior).normSmean(ee,1) = mean(ephysPowerData.(group).(hemisphere).(dataType).(behavior).S(ee,:))*(1/(ephysPowerData.(group).(hemisphere).(dataType).baseline(ee,1)));
                 end
             end
         end
@@ -113,13 +114,12 @@ for cc = 1:length(hemispheres)
         dataType = dataTypes{1,aa};
         for bb = 1:length(behaviors)
             behavior = behaviors{1,bb};
-            EphysPowerStats.(hemisphere).(dataType).(behavior).tableSize = cat(1,ephysPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).binS,ephysPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).binS);
+            EphysPowerStats.(hemisphere).(dataType).(behavior).tableSize = cat(1,ephysPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).normSmean,ephysPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).normSmean);
             EphysPowerStats.(hemisphere).(dataType).(behavior).Table = table('Size',[size(EphysPowerStats.(hemisphere).(dataType).(behavior).tableSize,1),4],'VariableTypes',{'string','string','string','double'},'VariableNames',{'AnimalID','Treatment','Frequency','Power'});
             EphysPowerStats.(hemisphere).(dataType).(behavior).Table.AnimalID = cat(1,ephysPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).animalID,ephysPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).animalID);
             EphysPowerStats.(hemisphere).(dataType).(behavior).Table.Treatment = cat(1,ephysPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).group,ephysPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).group);
-            EphysPowerStats.(hemisphere).(dataType).(behavior).Table.Frequency = cat(1,ephysPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).binf,ephysPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).binf);
-            EphysPowerStats.(hemisphere).(dataType).(behavior).Table.Power = cat(1,ephysPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).binS,ephysPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).binS);
-            EphysPowerStats.(hemisphere).(dataType).(behavior).FitFormula = 'Power ~ 1 + Treatment + (1|Frequency) + (1|AnimalID)';
+            EphysPowerStats.(hemisphere).(dataType).(behavior).Table.Power = cat(1,ephysPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).normSmean,ephysPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).normSmean);
+            EphysPowerStats.(hemisphere).(dataType).(behavior).FitFormula = 'Power ~ 1 + Treatment + (1|AnimalID)';
             EphysPowerStats.(hemisphere).(dataType).(behavior).Stats = fitglme(EphysPowerStats.(hemisphere).(dataType).(behavior).Table,EphysPowerStats.(hemisphere).(dataType).(behavior).FitFormula);
         end
     end
@@ -168,9 +168,9 @@ for aa = 1:length(groups)
                             freqIdx = find(freqBand == frequencyList(1,qq));
                             gcampPowerData.(group).(hemisphere).(dataType).(behavior).binS = cat(1,gcampPowerData.(group).(hemisphere).(dataType).(behavior).binS,mean(Results_PowerSpec_GCaMP.(group).(animalID).(hemisphere).(dataType).(behavior).S(freqIdx)));
                             gcampPowerData.(group).(hemisphere).(dataType).(behavior).binf = cat(1,gcampPowerData.(group).(hemisphere).(dataType).(behavior).binf,num2str(mean(freqBand(freqIdx))));
-                            gcampPowerData.(group).(hemisphere).(dataType).(behavior).group = cat(1,gcampPowerData.(group).(hemisphere).(dataType).(behavior).group,group);
-                            gcampPowerData.(group).(hemisphere).(dataType).(behavior).animalID = cat(1,gcampPowerData.(group).(hemisphere).(dataType).(behavior).animalID,animalID);
                         end
+                         gcampPowerData.(group).(hemisphere).(dataType).(behavior).group = cat(1,gcampPowerData.(group).(hemisphere).(dataType).(behavior).group,group);
+                         gcampPowerData.(group).(hemisphere).(dataType).(behavior).animalID = cat(1,gcampPowerData.(group).(hemisphere).(dataType).(behavior).animalID,animalID);
                     end
                 end
             end
@@ -201,6 +201,7 @@ for aa = 1:length(groups)
                 behavior = behaviors{1,dd};
                 for ee = 1:size(gcampPowerData.(group).(hemisphere).(dataType).(behavior).S,1)
                     gcampPowerData.(group).(hemisphere).(dataType).(behavior).normS(ee,:) = (gcampPowerData.(group).(hemisphere).(dataType).(behavior).S(ee,:))*(1/(gcampPowerData.(group).(hemisphere).(dataType).baseline(ee,1)));
+                    gcampPowerData.(group).(hemisphere).(dataType).(behavior).normSmean(ee,1) = mean(gcampPowerData.(group).(hemisphere).(dataType).(behavior).S(ee,:))*(1/(gcampPowerData.(group).(hemisphere).(dataType).baseline(ee,1)));
                 end
             end
         end
@@ -233,13 +234,12 @@ for cc = 1:length(hemispheres)
         dataType = dataTypes{1,aa};
         for bb = 1:length(behaviors)
             behavior = behaviors{1,bb};
-            GCaMPPowerStats.(hemisphere).(dataType).(behavior).tableSize = cat(1,gcampPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).binS,gcampPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).binS);
+            GCaMPPowerStats.(hemisphere).(dataType).(behavior).tableSize = cat(1,gcampPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).normSmean,gcampPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).normSmean);
             GCaMPPowerStats.(hemisphere).(dataType).(behavior).Table = table('Size',[size(GCaMPPowerStats.(hemisphere).(dataType).(behavior).tableSize,1),4],'VariableTypes',{'string','string','string','double'},'VariableNames',{'AnimalID','Treatment','Frequency','Power'});
             GCaMPPowerStats.(hemisphere).(dataType).(behavior).Table.AnimalID = cat(1,gcampPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).animalID,gcampPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).animalID);
             GCaMPPowerStats.(hemisphere).(dataType).(behavior).Table.Treatment = cat(1,gcampPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).group,gcampPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).group);
-            GCaMPPowerStats.(hemisphere).(dataType).(behavior).Table.Frequency = cat(1,gcampPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).binf,gcampPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).binf);
-            GCaMPPowerStats.(hemisphere).(dataType).(behavior).Table.Power = cat(1,gcampPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).binS,gcampPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).binS);
-            GCaMPPowerStats.(hemisphere).(dataType).(behavior).FitFormula = 'Power ~ 1 + Treatment + (1|Frequency) + (1|AnimalID)';
+            GCaMPPowerStats.(hemisphere).(dataType).(behavior).Table.Power = cat(1,gcampPowerData.Blank_SAP.(hemisphere).(dataType).(behavior).normSmean,gcampPowerData.SSP_SAP.(hemisphere).(dataType).(behavior).normSmean);
+            GCaMPPowerStats.(hemisphere).(dataType).(behavior).FitFormula = 'Power ~ 1 + Treatment + (1|AnimalID)';
             GCaMPPowerStats.(hemisphere).(dataType).(behavior).Stats = fitglme(GCaMPPowerStats.(hemisphere).(dataType).(behavior).Table,GCaMPPowerStats.(hemisphere).(dataType).(behavior).FitFormula);
         end
     end
