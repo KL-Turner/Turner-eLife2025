@@ -41,6 +41,7 @@ FigS4_eLife2025(rootFolder,saveState,delim)
 FigS5_eLife2025(rootFolder,saveState,delim)
 FigS6_eLife2025(rootFolder,saveState,delim)
 FigS7_eLife2025(rootFolder,saveState,delim)
+FigS8_eLife2025(rootFolder,saveState,delim)
 
 % go back to original directory
 cd(currentFolder)

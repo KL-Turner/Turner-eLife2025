@@ -5,107 +5,6 @@ function [] = FigS4_eLife2025(rootFolder,saveFigs,delim)
 % https://github.com/KL-Turner
 %----------------------------------------------------------------------------------------------------------
 
-%% hemodynamic response function
-cd([rootFolder delim 'Results_Turner'])
-resultsStruct = 'Results_HRF_Ephys';
-load(resultsStruct);
-cd(rootFolder)
-% loop parameters
-groups = {'Blank_SAP','SSP_SAP'};
-hemispheres = {'LH','RH'};
-dataTypes = {'gammaBandPower'};
-behaviors = {'Contra','Whisk','Rest','NREM','REM','Alert','Asleep','All'};
-variables = {'IR_function_long','IR_timeVec_long','IR_function_short','IR_timeVec_short','IR_gammaFunction','IR_gammaTimeVec','IR_R','IR_R2','group','animalID'};
-% extract the analysis results
-for aa = 1:length(groups)
-    group = groups{1,aa};
-    animalIDs = fieldnames(Results_HRF_Ephys.(group));
-    for bb = 1:length(animalIDs)
-        animalID = animalIDs{bb,1};
-        % if any(strcmp(animalID,{'T180','T182'})) == false
-        for cc = 1:length(hemispheres)
-            hemisphere = hemispheres{1,cc};
-            for dd = 1:length(dataTypes)
-                dataType = dataTypes{1,dd};
-                for ee = 1:length(behaviors)
-                    behavior = behaviors{1,ee};
-                    ephysHRFData.(group).(hemisphere).(dataType).dummyCheck = 1;
-                    if isfield(ephysHRFData.(group).(hemisphere).(dataType),(behavior)) == false
-                        for ff = 1:length(variables)
-                            variable = variables{1,ff};
-                            if any(strcmp(variable,{'group','animalID'})) == true
-                                ephysHRFData.(group).(hemisphere).(dataType).(behavior).(variable) = {};
-                            else
-                                ephysHRFData.(group).(hemisphere).(dataType).(behavior).(variable) = [];
-                            end
-                        end
-                    end
-                    if isempty(Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_R) == false
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_function_long = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_function_long,rescale(Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_function_long));
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_timeVec_long = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_timeVec_long,Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_timeVec_long);
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_function_short = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_function_short,rescale(Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_function_short));
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_timeVec_short = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_timeVec_short,Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_timeVec_short);
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_gammaFunction = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_gammaFunction,Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_gammaFunction);
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_gammaTimeVec = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_gammaTimeVec,Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_gammaTimeVec);
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_R = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_R,median(Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_R,'omitnan'));
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_R2 = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).IR_R2,median(Results_HRF_Ephys.(group).(animalID).(hemisphere).(dataType).(behavior).IR_R2,'omitnan'));
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).group = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).group,group);
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).animalID = cat(1,ephysHRFData.(group).(hemisphere).(dataType).(behavior).animalID,animalID);
-                    end
-                end
-                % end
-            end
-        end
-    end
-end
-% mean/std
-for aa = 1:length(groups)
-    group = groups{1,aa};
-    for bb = 1:length(hemispheres)
-        hemisphere = hemispheres{1,bb};
-        for cc = 1:length(dataTypes)
-            dataType = dataTypes{1,cc};
-            for dd = 1:length(behaviors)
-                behavior = behaviors{1,dd};
-                for ee = 1:length(variables)
-                    variable = variables{1,ee};
-                    if any(strcmp(variable,{'group','animalID'})) == false
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).(['mean_' variable]) = mean(ephysHRFData.(group).(hemisphere).(dataType).(behavior).(variable),1);
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).(['std_' variable]) = std(ephysHRFData.(group).(hemisphere).(dataType).(behavior).(variable),0,1);
-                    end
-                    samplingRate = 30;
-                    if strcmp(variable,{'IR_function_short'}) == true
-                        [peak,peakIndex] = max(ephysHRFData.(group).(hemisphere).(dataType).(behavior).mean_IR_function_short);
-                        peakTime = peakIndex/samplingRate;
-                        threeQuarterMax = max(ephysHRFData.(group).(hemisphere).(dataType).(behavior).mean_IR_function_short)/(4/3);
-                        index1 = find(ephysHRFData.(group).(hemisphere).(dataType).(behavior).mean_IR_function_short >= threeQuarterMax,1,'first');
-                        % find where the data.Kernel last rises above half the max.
-                        index2 = find(ephysHRFData.(group).(hemisphere).(dataType).(behavior).mean_IR_function_short >= threeQuarterMax,1,'last');
-                        threeQuarterWidth = (index2 - index1 + 1)/samplingRate; % FWHM in indexes.
-                        initVals = [peak,peakTime,threeQuarterWidth];
-                        % create gamma function based on impulse values
-                        t = 0:1/samplingRate:5;
-                        IR_a = ((initVals(2)/initVals(3))^2*8*log10(2));
-                        IR_beta = ((initVals(3)^2)/initVals(2)/8/log10(2));
-                        ephysHRFData.(group).(hemisphere).(dataType).(behavior).repFunc = initVals(1)*(t/initVals(2)).^IR_a.*exp((t - initVals(2))/(-1*IR_beta));
-                    end
-                end
-            end
-        end
-    end
-end
-% statistics - unpaired ttest
-for aa = 1:length(hemispheres)
-    hemisphere = hemispheres{1,aa};
-    for bb = 1:length(dataTypes)
-        dataType = dataTypes{1,bb};
-        for cc = 1:length(behaviors)
-            behavior = behaviors{1,cc};
-            [HRFStats.(hemisphere).(dataType).(behavior).h,HRFStats.(hemisphere).(dataType).(behavior).p] = ttest2(ephysHRFData.Blank_SAP.(hemisphere).(dataType).(behavior).IR_R2,ephysHRFData.SSP_SAP.(hemisphere).(dataType).(behavior).IR_R2);
-        end
-    end
-end
-
 %% ephys power spectra
 cd([rootFolder delim 'Results_Turner'])
 resultsStruct = 'Results_PowerSpec_Ephys';
@@ -350,7 +249,7 @@ end
 FigS4 = figure('Name','Fig. S4');
 
 % HbT power ('All')
-subplot(2,3,1)
+subplot(2,6,1)
 loglog(ephysPowerData.Blank_SAP.RH.HbT.All.mean_f,ephysPowerData.Blank_SAP.RH.HbT.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
 hold on
 loglog(ephysPowerData.Blank_SAP.RH.HbT.All.mean_f,ephysPowerData.Blank_SAP.RH.HbT.All.mean_normS + ephysPowerData.Blank_SAP.RH.HbT.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
@@ -358,7 +257,7 @@ loglog(ephysPowerData.Blank_SAP.RH.HbT.All.mean_f,ephysPowerData.Blank_SAP.RH.Hb
 loglog(ephysPowerData.SSP_SAP.RH.HbT.All.mean_f,ephysPowerData.SSP_SAP.RH.HbT.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
 loglog(ephysPowerData.SSP_SAP.RH.HbT.All.mean_f,ephysPowerData.SSP_SAP.RH.HbT.All.mean_normS + ephysPowerData.SSP_SAP.RH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
 loglog(ephysPowerData.SSP_SAP.RH.HbT.All.mean_f,ephysPowerData.SSP_SAP.RH.HbT.All.mean_normS - ephysPowerData.SSP_SAP.RH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
-title('HbT Power')
+title('Ipsi HbT Power')
 ylabel('Power (a.u.)')
 xlabel('Freq (Hz)')
 xlim([0.01,0.5])
@@ -366,7 +265,7 @@ set(gca,'box','off')
 axis square
 
 % Gamma power ('All')
-subplot(2,3,2)
+subplot(2,6,2)
 loglog(ephysPowerData.Blank_SAP.RH.gammaBandPower.All.mean_f,ephysPowerData.Blank_SAP.RH.gammaBandPower.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
 hold on
 loglog(ephysPowerData.Blank_SAP.RH.gammaBandPower.All.mean_f,ephysPowerData.Blank_SAP.RH.gammaBandPower.All.mean_normS + ephysPowerData.Blank_SAP.RH.gammaBandPower.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
@@ -374,7 +273,7 @@ loglog(ephysPowerData.Blank_SAP.RH.gammaBandPower.All.mean_f,ephysPowerData.Blan
 loglog(ephysPowerData.SSP_SAP.RH.gammaBandPower.All.mean_f,ephysPowerData.SSP_SAP.RH.gammaBandPower.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
 loglog(ephysPowerData.SSP_SAP.RH.gammaBandPower.All.mean_f,ephysPowerData.SSP_SAP.RH.gammaBandPower.All.mean_normS + ephysPowerData.SSP_SAP.RH.gammaBandPower.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
 loglog(ephysPowerData.SSP_SAP.RH.gammaBandPower.All.mean_f,ephysPowerData.SSP_SAP.RH.gammaBandPower.All.mean_normS - ephysPowerData.SSP_SAP.RH.gammaBandPower.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
-title('Gamma Power')
+title('Ipsi Gamma Power')
 ylabel('Power (a.u.)')
 xlabel('Freq (Hz)')
 xlim([0.01,0.5])
@@ -382,7 +281,7 @@ set(gca,'box','off')
 axis square
 
 % HbT power ('All')
-subplot(2,3,3)
+subplot(2,6,3)
 loglog(gcampPowerData.Blank_SAP.RH.HbT.All.mean_f,gcampPowerData.Blank_SAP.RH.HbT.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
 hold on
 loglog(gcampPowerData.Blank_SAP.RH.HbT.All.mean_f,gcampPowerData.Blank_SAP.RH.HbT.All.mean_normS + gcampPowerData.Blank_SAP.RH.HbT.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
@@ -390,7 +289,7 @@ loglog(gcampPowerData.Blank_SAP.RH.HbT.All.mean_f,gcampPowerData.Blank_SAP.RH.Hb
 loglog(gcampPowerData.SSP_SAP.RH.HbT.All.mean_f,gcampPowerData.SSP_SAP.RH.HbT.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
 loglog(gcampPowerData.SSP_SAP.RH.HbT.All.mean_f,gcampPowerData.SSP_SAP.RH.HbT.All.mean_normS + gcampPowerData.SSP_SAP.RH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
 loglog(gcampPowerData.SSP_SAP.RH.HbT.All.mean_f,gcampPowerData.SSP_SAP.RH.HbT.All.mean_normS - gcampPowerData.SSP_SAP.RH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
-title('HbT Power')
+title('Ipsi HbT Power')
 ylabel('Power (a.u.)')
 xlabel('Freq (Hz)')
 xlim([0.01,0.5])
@@ -398,7 +297,7 @@ set(gca,'box','off')
 axis square
 
 % HbO power ('All')
-subplot(2,3,4)
+subplot(2,6,4)
 loglog(gcampPowerData.Blank_SAP.RH.HbO.All.mean_f,gcampPowerData.Blank_SAP.RH.HbO.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
 hold on
 loglog(gcampPowerData.Blank_SAP.RH.HbO.All.mean_f,gcampPowerData.Blank_SAP.RH.HbO.All.mean_normS + gcampPowerData.Blank_SAP.RH.HbO.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
@@ -406,7 +305,7 @@ loglog(gcampPowerData.Blank_SAP.RH.HbO.All.mean_f,gcampPowerData.Blank_SAP.RH.Hb
 loglog(gcampPowerData.SSP_SAP.RH.HbO.All.mean_f,gcampPowerData.SSP_SAP.RH.HbO.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
 loglog(gcampPowerData.SSP_SAP.RH.HbO.All.mean_f,gcampPowerData.SSP_SAP.RH.HbO.All.mean_normS + gcampPowerData.SSP_SAP.RH.HbO.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
 loglog(gcampPowerData.SSP_SAP.RH.HbO.All.mean_f,gcampPowerData.SSP_SAP.RH.HbO.All.mean_normS - gcampPowerData.SSP_SAP.RH.HbO.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
-title('HbO Power')
+title('Ipsi HbO Power')
 ylabel('Power (a.u.)')
 xlabel('Freq (Hz)')
 xlim([0.01,0.5])
@@ -414,7 +313,7 @@ set(gca,'box','off')
 axis square
 
 % HbR power ('All')
-subplot(2,3,5)
+subplot(2,6,5)
 loglog(gcampPowerData.Blank_SAP.RH.HbR.All.mean_f,gcampPowerData.Blank_SAP.RH.HbR.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
 hold on
 loglog(gcampPowerData.Blank_SAP.RH.HbR.All.mean_f,gcampPowerData.Blank_SAP.RH.HbR.All.mean_normS + gcampPowerData.Blank_SAP.RH.HbR.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
@@ -422,7 +321,7 @@ loglog(gcampPowerData.Blank_SAP.RH.HbR.All.mean_f,gcampPowerData.Blank_SAP.RH.Hb
 loglog(gcampPowerData.SSP_SAP.RH.HbR.All.mean_f,gcampPowerData.SSP_SAP.RH.HbR.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
 loglog(gcampPowerData.SSP_SAP.RH.HbR.All.mean_f,gcampPowerData.SSP_SAP.RH.HbR.All.mean_normS + gcampPowerData.SSP_SAP.RH.HbR.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
 loglog(gcampPowerData.SSP_SAP.RH.HbR.All.mean_f,gcampPowerData.SSP_SAP.RH.HbR.All.mean_normS - gcampPowerData.SSP_SAP.RH.HbR.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
-title('HbR Power')
+title('Ipsi HbR Power')
 ylabel('Power (a.u.)')
 xlabel('Freq (Hz)')
 xlim([0.01,0.5])
@@ -430,7 +329,7 @@ set(gca,'box','off')
 axis square
 
 % GCaMP power ('All')
-subplot(2,3,6)
+subplot(2,6,6)
 loglog(gcampPowerData.Blank_SAP.RH.GCaMP.All.mean_f,gcampPowerData.Blank_SAP.RH.GCaMP.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
 hold on
 loglog(gcampPowerData.Blank_SAP.RH.GCaMP.All.mean_f,gcampPowerData.Blank_SAP.RH.GCaMP.All.mean_normS + gcampPowerData.Blank_SAP.RH.GCaMP.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
@@ -438,7 +337,103 @@ loglog(gcampPowerData.Blank_SAP.RH.GCaMP.All.mean_f,gcampPowerData.Blank_SAP.RH.
 loglog(gcampPowerData.SSP_SAP.RH.GCaMP.All.mean_f,gcampPowerData.SSP_SAP.RH.GCaMP.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
 loglog(gcampPowerData.SSP_SAP.RH.GCaMP.All.mean_f,gcampPowerData.SSP_SAP.RH.GCaMP.All.mean_normS + gcampPowerData.SSP_SAP.RH.GCaMP.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
 loglog(gcampPowerData.SSP_SAP.RH.GCaMP.All.mean_f,gcampPowerData.SSP_SAP.RH.GCaMP.All.mean_normS - gcampPowerData.SSP_SAP.RH.GCaMP.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
-title('GCaMP Power')
+title('Ipsi GCaMP Power')
+ylabel('Power (a.u.)')
+xlabel('Freq (Hz)')
+xlim([0.01,0.5])
+set(gca,'box','off')
+axis square
+
+% HbT power ('All')
+subplot(2,6,7)
+loglog(ephysPowerData.Blank_SAP.LH.HbT.All.mean_f,ephysPowerData.Blank_SAP.LH.HbT.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
+hold on
+loglog(ephysPowerData.Blank_SAP.LH.HbT.All.mean_f,ephysPowerData.Blank_SAP.LH.HbT.All.mean_normS + ephysPowerData.Blank_SAP.LH.HbT.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(ephysPowerData.Blank_SAP.LH.HbT.All.mean_f,ephysPowerData.Blank_SAP.LH.HbT.All.mean_normS - ephysPowerData.Blank_SAP.LH.HbT.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(ephysPowerData.SSP_SAP.LH.HbT.All.mean_f,ephysPowerData.SSP_SAP.LH.HbT.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
+loglog(ephysPowerData.SSP_SAP.LH.HbT.All.mean_f,ephysPowerData.SSP_SAP.LH.HbT.All.mean_normS + ephysPowerData.SSP_SAP.LH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+loglog(ephysPowerData.SSP_SAP.LH.HbT.All.mean_f,ephysPowerData.SSP_SAP.LH.HbT.All.mean_normS - ephysPowerData.SSP_SAP.LH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+title('Contra HbT Power')
+ylabel('Power (a.u.)')
+xlabel('Freq (Hz)')
+xlim([0.01,0.5])
+set(gca,'box','off')
+axis square
+
+% Gamma power ('All')
+subplot(2,6,8)
+loglog(ephysPowerData.Blank_SAP.LH.gammaBandPower.All.mean_f,ephysPowerData.Blank_SAP.LH.gammaBandPower.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
+hold on
+loglog(ephysPowerData.Blank_SAP.LH.gammaBandPower.All.mean_f,ephysPowerData.Blank_SAP.LH.gammaBandPower.All.mean_normS + ephysPowerData.Blank_SAP.LH.gammaBandPower.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(ephysPowerData.Blank_SAP.LH.gammaBandPower.All.mean_f,ephysPowerData.Blank_SAP.LH.gammaBandPower.All.mean_normS - ephysPowerData.Blank_SAP.LH.gammaBandPower.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(ephysPowerData.SSP_SAP.LH.gammaBandPower.All.mean_f,ephysPowerData.SSP_SAP.LH.gammaBandPower.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
+loglog(ephysPowerData.SSP_SAP.LH.gammaBandPower.All.mean_f,ephysPowerData.SSP_SAP.LH.gammaBandPower.All.mean_normS + ephysPowerData.SSP_SAP.LH.gammaBandPower.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+loglog(ephysPowerData.SSP_SAP.LH.gammaBandPower.All.mean_f,ephysPowerData.SSP_SAP.LH.gammaBandPower.All.mean_normS - ephysPowerData.SSP_SAP.LH.gammaBandPower.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+title('Contra Gamma Power')
+ylabel('Power (a.u.)')
+xlabel('Freq (Hz)')
+xlim([0.01,0.5])
+set(gca,'box','off')
+axis square
+
+% HbT power ('All')
+subplot(2,6,9)
+loglog(gcampPowerData.Blank_SAP.LH.HbT.All.mean_f,gcampPowerData.Blank_SAP.LH.HbT.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
+hold on
+loglog(gcampPowerData.Blank_SAP.LH.HbT.All.mean_f,gcampPowerData.Blank_SAP.LH.HbT.All.mean_normS + gcampPowerData.Blank_SAP.LH.HbT.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.Blank_SAP.LH.HbT.All.mean_f,gcampPowerData.Blank_SAP.LH.HbT.All.mean_normS - gcampPowerData.Blank_SAP.LH.HbT.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.HbT.All.mean_f,gcampPowerData.SSP_SAP.LH.HbT.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
+loglog(gcampPowerData.SSP_SAP.LH.HbT.All.mean_f,gcampPowerData.SSP_SAP.LH.HbT.All.mean_normS + gcampPowerData.SSP_SAP.LH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.HbT.All.mean_f,gcampPowerData.SSP_SAP.LH.HbT.All.mean_normS - gcampPowerData.SSP_SAP.LH.HbT.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+title('Contra HbT Power')
+ylabel('Power (a.u.)')
+xlabel('Freq (Hz)')
+xlim([0.01,0.5])
+set(gca,'box','off')
+axis square
+
+% HbO power ('All')
+subplot(2,6,10)
+loglog(gcampPowerData.Blank_SAP.LH.HbO.All.mean_f,gcampPowerData.Blank_SAP.LH.HbO.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
+hold on
+loglog(gcampPowerData.Blank_SAP.LH.HbO.All.mean_f,gcampPowerData.Blank_SAP.LH.HbO.All.mean_normS + gcampPowerData.Blank_SAP.LH.HbO.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.Blank_SAP.LH.HbO.All.mean_f,gcampPowerData.Blank_SAP.LH.HbO.All.mean_normS - gcampPowerData.Blank_SAP.LH.HbO.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.HbO.All.mean_f,gcampPowerData.SSP_SAP.LH.HbO.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
+loglog(gcampPowerData.SSP_SAP.LH.HbO.All.mean_f,gcampPowerData.SSP_SAP.LH.HbO.All.mean_normS + gcampPowerData.SSP_SAP.LH.HbO.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.HbO.All.mean_f,gcampPowerData.SSP_SAP.LH.HbO.All.mean_normS - gcampPowerData.SSP_SAP.LH.HbO.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+title('Contra HbO Power')
+ylabel('Power (a.u.)')
+xlabel('Freq (Hz)')
+xlim([0.01,0.5])
+set(gca,'box','off')
+axis square
+
+% HbR power ('All')
+subplot(2,6,11)
+loglog(gcampPowerData.Blank_SAP.LH.HbR.All.mean_f,gcampPowerData.Blank_SAP.LH.HbR.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
+hold on
+loglog(gcampPowerData.Blank_SAP.LH.HbR.All.mean_f,gcampPowerData.Blank_SAP.LH.HbR.All.mean_normS + gcampPowerData.Blank_SAP.LH.HbR.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.Blank_SAP.LH.HbR.All.mean_f,gcampPowerData.Blank_SAP.LH.HbR.All.mean_normS - gcampPowerData.Blank_SAP.LH.HbR.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.HbR.All.mean_f,gcampPowerData.SSP_SAP.LH.HbR.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
+loglog(gcampPowerData.SSP_SAP.LH.HbR.All.mean_f,gcampPowerData.SSP_SAP.LH.HbR.All.mean_normS + gcampPowerData.SSP_SAP.LH.HbR.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.HbR.All.mean_f,gcampPowerData.SSP_SAP.LH.HbR.All.mean_normS - gcampPowerData.SSP_SAP.LH.HbR.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+title('Contra HbR Power')
+ylabel('Power (a.u.)')
+xlabel('Freq (Hz)')
+xlim([0.01,0.5])
+set(gca,'box','off')
+axis square
+
+% GCaMP power ('All')
+subplot(2,6,12)
+loglog(gcampPowerData.Blank_SAP.LH.GCaMP.All.mean_f,gcampPowerData.Blank_SAP.LH.GCaMP.All.mean_normS,'color',colors('north texas green'),'LineWidth',2);
+hold on
+loglog(gcampPowerData.Blank_SAP.LH.GCaMP.All.mean_f,gcampPowerData.Blank_SAP.LH.GCaMP.All.mean_normS + gcampPowerData.Blank_SAP.LH.GCaMP.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.Blank_SAP.LH.GCaMP.All.mean_f,gcampPowerData.Blank_SAP.LH.GCaMP.All.mean_normS - gcampPowerData.Blank_SAP.LH.GCaMP.All.stdErr_normS,'color',colors('north texas green'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.GCaMP.All.mean_f,gcampPowerData.SSP_SAP.LH.GCaMP.All.mean_normS,'color',colors('electric purple'),'LineWidth',2);
+loglog(gcampPowerData.SSP_SAP.LH.GCaMP.All.mean_f,gcampPowerData.SSP_SAP.LH.GCaMP.All.mean_normS + gcampPowerData.SSP_SAP.LH.GCaMP.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+loglog(gcampPowerData.SSP_SAP.LH.GCaMP.All.mean_f,gcampPowerData.SSP_SAP.LH.GCaMP.All.mean_normS - gcampPowerData.SSP_SAP.LH.GCaMP.All.stdErr_normS,'color',colors('electric purple'),'LineWidth',0.25);
+title('Contra GCaMP Power')
 ylabel('Power (a.u.)')
 xlabel('Freq (Hz)')
 xlim([0.01,0.5])
@@ -460,49 +455,65 @@ if saveFigs == true
     diary(diaryFile)
     diary on
 
-    % stimulus-evoked HRF R2
+    % Ipsi HbT power spectra (ephys)
     disp('======================================================================================================================')
-    disp('stimulus-evoked HRF R2, n = 9 mice per group, mean +/- StD'); disp(' ')
-    disp(['Blank-SAP: ' num2str(ephysHRFData.Blank_SAP.RH.gammaBandPower.Contra.mean_IR_R2) ' +/- ' num2str(ephysHRFData.Blank_SAP.RH.gammaBandPower.Contra.std_IR_R2)]); disp(' ')
-    disp(['SSP-SAP: ' num2str(ephysHRFData.SSP_SAP.RH.gammaBandPower.Contra.mean_IR_R2) ' +/- ' num2str(ephysHRFData.SSP_SAP.RH.gammaBandPower.Contra.std_IR_R2)]); disp(' ')
-    disp(['Blank vs. SAP ttest p = ' num2str(HRFStats.RH.gammaBandPower.Contra.p)]); disp(' ')
-
-    % resting-state HRF R2
-    disp('======================================================================================================================')
-    disp('resting-state HRF R2, n = 9 mice per group, mean +/- StD'); disp(' ')
-    disp(['Blank-SAP: ' num2str(ephysHRFData.Blank_SAP.RH.gammaBandPower.Rest.mean_IR_R2) ' +/- ' num2str(ephysHRFData.Blank_SAP.RH.gammaBandPower.Rest.std_IR_R2)]); disp(' ')
-    disp(['SSP-SAP: ' num2str(ephysHRFData.SSP_SAP.RH.gammaBandPower.Rest.mean_IR_R2) ' +/- ' num2str(ephysHRFData.SSP_SAP.RH.gammaBandPower.Rest.std_IR_R2)]); disp(' ')
-    disp(['Blank vs. SAP GLME p = ' num2str(HRFStats.RH.gammaBandPower.Rest.p)]); disp(' ')
-
-    % HbT power spectra (ephys)
-    disp('======================================================================================================================')
-    disp('HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp('Ipsi HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
     disp(EphysPowerStats.RH.HbT.All.Stats)
 
-    % gamma-band power spectra (ephys)
+    % Ipsi gamma-band power spectra (ephys)
     disp('======================================================================================================================')
-    disp('HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp('Ipsi HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
     disp(EphysPowerStats.RH.gammaBandPower.All.Stats)
 
-    % HbT power spectra (GCaMP)
+    % Ipsi HbT power spectra (GCaMP)
     disp('======================================================================================================================')
-    disp('HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp('Ipsi HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
     disp(GCaMPPowerStats.RH.HbT.All.Stats)
 
-    % HbO power spectra (GCaMP)
+    % Ipsi HbO power spectra (GCaMP)
     disp('======================================================================================================================')
-    disp('HbO power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp('Ipsi HbO power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
     disp(GCaMPPowerStats.RH.HbO.All.Stats)
 
-    % HbR power spectra (GCaMP)
+    % Ipsi HbR power spectra (GCaMP)
     disp('======================================================================================================================')
-    disp('HbR power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp('Ipsi HbR power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
     disp(GCaMPPowerStats.RH.HbR.All.Stats)
 
-    % GCaMP power spectra (GCaMP)
+    % Ipsi GCaMP power spectra (GCaMP)
     disp('======================================================================================================================')
-    disp('GCaMP power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp('Ipsi GCaMP power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
     disp(GCaMPPowerStats.RH.GCaMP.All.Stats)
+
+     % Contra HbT power spectra (ephys)
+    disp('======================================================================================================================')
+    disp('Contra HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp(EphysPowerStats.LH.HbT.All.Stats)
+
+    % Contra gamma-band power spectra (ephys)
+    disp('======================================================================================================================')
+    disp('Contra HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp(EphysPowerStats.LH.gammaBandPower.All.Stats)
+
+    % Contra HbT power spectra (GCaMP)
+    disp('======================================================================================================================')
+    disp('Contra HbT power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp(GCaMPPowerStats.LH.HbT.All.Stats)
+
+    % Contra HbO power spectra (GCaMP)
+    disp('======================================================================================================================')
+    disp('Contra HbO power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp(GCaMPPowerStats.LH.HbO.All.Stats)
+
+    % Contra HbR power spectra (GCaMP)
+    disp('======================================================================================================================')
+    disp('Contra HbR power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp(GCaMPPowerStats.LH.HbR.All.Stats)
+
+    % Contra GCaMP power spectra (GCaMP)
+    disp('======================================================================================================================')
+    disp('Contra GCaMP power spectra (ephys), n = 9 mice per group, mean +/- SEM'); disp(' ')
+    disp(GCaMPPowerStats.LH.GCaMP.All.Stats)
 
     diary off
 end
